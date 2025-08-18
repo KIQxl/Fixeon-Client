@@ -1,0 +1,40 @@
+.sidenav {
+  background-color: #ffffff;
+  width: 100%;
+  height: 100vh;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.sidenav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidenav li {
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.sidenav a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  display: block;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.sidenav a:hover,
+.sidenav a.active {
+  background-color: #2980b9;
+  color: #ffffff;
+}
+
+.sidenav a.active {
+  background-color: #2980b9;
+  color: #ffffff;
+}
+

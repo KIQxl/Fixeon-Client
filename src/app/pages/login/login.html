@@ -1,0 +1,52 @@
+<div class="container-screen">
+    <section class="container">
+    <div class="sides left">
+        <h1>Bem-Vindo!</h1>
+        <p>
+            Bem vindo a Fixeon, <br>
+            Estamos felizes em ter você conosco. <br><br>
+
+            Nos acompanhe em:
+        </p>
+
+        <div class="container-icons">
+            <a href="#">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#">
+                <i class="fa-brands fa-square-facebook"></i>
+            </a>
+            <a href="#">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="#">
+                <i class="fa-brands fa-linkedin"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="sides right">
+        <h1>
+            Acesse
+        </h1>
+        <div class="form">
+            <div class="form-label">
+            <label>Email</label>
+            <input type="text" name="email" [(ngModel)]="email" required>
+            </div>
+
+            <div class="form-label">
+                <label>Senha</label>
+                <input type="password" name="password" [(ngModel)]="password" required>
+            </div>
+
+            <div class="form-label">
+                <button class="btn" (click)="login()" type="submit">Entrar</button>
+                <a class="esqueci-a-senha" href="#">
+                <span>Esqueci minha senha</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

@@ -1,0 +1,132 @@
+<div class="detalhes-container">
+  <div style="display: flex; justify-content: space-between;">
+    <h2>Chamado #{{ ticket?.id }}</h2>
+
+    <div style="display: flex; gap:8px; align-items: center; width: 20%; justify-content: end;">
+      <div class="campo">
+        <label>Prioridade:</label>
+        <span [ngClass]="getPrioridadeClasse()">{{this.traduzirPrioridade()}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-ticket">
+    <section class="ticket-description-section">
+      <h3>Descrição do ticket</h3>
+      
+      <div>
+        <div class="mensagem descricao-principal">
+          <span>{{ticket?.description}}</span>
+        </div>
+
+        <div>
+          <button class="btn-anexos" (click)="abrirTodosAnexos(ticket?.attachments ?? null)">Visualizar Anexos</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container-info-chamado">
+      <h3>Descrição do ticket</h3>
+      <div class="container-ticket-actions">
+        <button class="btn-action selfAssign" *appHasRole="['Admin', 'Analyst']" (click)="SelfAssignTicket()">
+          <i class="fa-solid fa-hand"></i>
+          Assumir</button>
+        <button class="btn-action assignTo" *appHasRole="['Admin', 'Analyst']">
+          <i class="fa-solid fa-repeat"></i>
+          Transferir</button>
+        <button class="btn-action edit" *appHasRole="['Admin', 'Analyst']">
+          <i class="fa-solid fa-pencil"></i>
+          Editar Ticket</button>
+        <button class="btn-action resolved" *appHasRole="['Admin', 'Analyst']" (click)="ChangeTicketStatus(2)">
+          <i class="fa-solid fa-check"></i>
+          Fechar Ticket
+        </button>
+      </div>
+
+      <div class="campo">
+        <label>Aberto por:</label>
+        <span>{{ ticket?.createdBy }} - {{ ticket?.organizationName || 'Sem Organização' }}</span>
+      </div>
+
+      <div class="campo">
+        <label>Analista:</label>
+        <span>{{ ticket?.assignedTo || '-' }}</span>
+      </div>
+
+      <div class="campo">
+        <label>Data de criação:</label>
+        <span>{{ ticket?.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+      </div>
+
+      <div class="campo">
+        <label>Categoria:</label>
+        <span>{{ ticket?.category }}</span>
+      </div>
+
+      <div class="campo">
+        <label>Assunto:</label>
+        <span>{{ ticket?.title }}</span>
+      </div>
+
+      <div class="campo">
+        <label>Status:</label>
+        <span>{{ this.traduzirStatus() }}</span>
+      </div>
+    </section>
+  </div>
+
+  <section class="mensagens">
+    <h3>Respostas</h3>
+
+    <div *ngIf="ticket && ticket.interactions?.length; else semMensagens">
+      <div class="mensagem" *ngFor="let msg of ticket.interactions">
+        <div class="msg-header">
+          <strong>{{ msg.createdByUserName}}</strong>
+          <span>{{ msg.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="msg-conteudo">
+          {{ msg.message }}
+        </div>
+        <div>
+          <button class="btn-enviar" (click)="abrirTodosAnexos(msg.attachmentsUrls)">Visualizar Anexos</button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #semMensagens>
+      <p class="nenhuma-msg">Nenhuma mensagem registrada.</p>
+    </ng-template>
+  </section>
+
+  <section class="resposta">
+    <h3>Responder chamado</h3>
+    <div
+        class="drop-area"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)"
+      >
+    <textarea
+      [(ngModel)]="resposta"
+      placeholder="Escreva sua mensagem ou arraste arquivos aqui..."></textarea>
+    </div>
+
+    <div class="anexos">
+      <div class="anexo" *ngFor="let anexo of anexos; let i = index">
+        
+        <button type="button" class="remover" (click)="removerAnexo(i)">✖</button>
+        
+        <ng-container *ngIf="anexo.preview; else iconeGenerico">
+          <img [src]="anexo.preview" alt="Imagem Anexada" />
+        </ng-container>
+
+        <ng-template #iconeGenerico>
+          <div class="icone-arquivo">📄</div>
+        </ng-template>
+
+      </div>
+    </div>
+
+    <input type="file" multiple (change)="onFileSelected($event)" />
+    <button class="btn-enviar" (click)="enviarResposta()">Enviar</button>   
+  </section>
+</div>

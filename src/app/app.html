@@ -1,0 +1,17 @@
+@if(!isLoginRoute){
+    <app-header></app-header>
+
+  <div class="layout">
+    <app-sidenav></app-sidenav>
+
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+}
+
+@if(isLoginRoute){
+  <router-outlet></router-outlet>
+}

@@ -1,0 +1,18 @@
+.layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.page-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+}
+
+app-sidenav{
+  width: 10%;
+  height: 100vh;
+}

@@ -1,0 +1,83 @@
+<div class="form-container">
+  <h2>Abertura de Chamado</h2>
+
+  <form (ngSubmit)="abrirChamado()" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required />
+    </div>
+
+    <div class="flex-line">
+        <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
+                <option value="">Selecione</option>
+                <option value="Infraestrutura">Infraestrutura</option>
+                <option value="Software">Software</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Suporte">Suporte</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="prioridade">Prioridade</label>
+            <select id="prioridade" name="prioridade" [(ngModel)]="prioridade" required>
+                <option value="">Selecione</option>
+                <option value="1">Baixa</option>
+                <option value="2">Média</option>
+                <option value="3">Alta</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="departamento">Departamento</label>
+            <select id="departamento" name="departamento" [(ngModel)]="departamento" required>
+                <option value="">Selecione</option>
+                <option value="Comercial">Comercial</option>
+                <option value="Contábil">Contábil</option>
+                <option value="Financeiro">Financeiro</option>
+                <option value="Fiscal">Fiscal</option>
+                <option value="Logística">Logística</option>
+                <option value="Lojas">Lojas</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Operações">Operações</option>
+                <option value="Desenvolvimento">Desenvolvimento</option>
+                <option value="Recursos Humanos">Recursos Humanos (RH)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao" [(ngModel)]="descricao" required></textarea>
+    </div>
+
+    <div 
+      class="drop-area" 
+      (dragover)="onDragOver($event)" 
+      (drop)="onDrop($event)"
+    >
+      <p>Arraste arquivos aqui ou clique abaixo para anexar (máx: 3)</p>
+    </div>
+
+    <div class="anexos">
+      <div class="anexo" *ngFor="let anexo of anexos; let i = index">
+        <button type="button" class="remover" (click)="removerAnexo(i)">✖</button>
+
+        <ng-container *ngIf="anexo.preview; else arquivo">
+          <img [src]="anexo.preview" alt="Preview" />
+        </ng-container>
+
+        <ng-template #arquivo>
+          <div class="icone-arquivo">📄</div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button class="btn-enviar" type="submit">Abrir Chamado</button>
+    </div>
+
+  </form>
+</div>
