@@ -72,7 +72,7 @@ export interface ChangeTicketStatusRequest{
 
 
 
-export function traduzirPrioridade(priority: string | undefined): string{
+export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
       case "Low":
         return "Baixa";
@@ -88,7 +88,7 @@ export function traduzirPrioridade(priority: string | undefined): string{
     }
   }
 
-  export function traduzirStatus(priority: string | undefined): string{
+  export function TranslateStatus(priority: string | undefined): string{
     switch(priority){
       case "InProgress":
         return "Em progresso";

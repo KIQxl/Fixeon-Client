@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ChangeTicketStatusRequest, CreateAssignTicketRequest, CreateTicketInteractionDto, Ticket, traduzirPrioridade, traduzirStatus } from '../../models/Ticket';
+import { ChangeTicketStatusRequest, CreateAssignTicketRequest, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 import { Token } from '../../services/token';
@@ -23,25 +23,18 @@ export interface Anexo {
 export class DetalhesChamado {
   id!: string;
   ticket: Ticket | null = null;
-  resposta: string = '';
   anexos: Anexo[] = [];
-
-  createAssignTicketRequest: CreateAssignTicketRequest | null = null;
-  createTicketInteractionDto: CreateTicketInteractionDto | null = null;
-  
-  exibirSelectAnalistas: boolean = false;
-  analistas: { id: string; email: string }[] = [];
-  analistaSelecionado: string = '';
+  resposta: string = '';
 
   constructor(private route: ActivatedRoute, private service: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao) {
     this.id = String(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void{
-    this.CarregarTela();
+    this.LoadTickets();
   }
 
-  CarregarTela(){
+  LoadTickets(){
     this.service.GetTicketById(this.id)
       .subscribe({
         next: (data) => {
@@ -54,22 +47,9 @@ export class DetalhesChamado {
       })
   }
 
-  traduzirPrioridade(): string{
-    return traduzirPrioridade(this.ticket?.priority);
-  }
-
-  traduzirStatus(): string{
-    return traduzirStatus(this.ticket?.status);
-  }
-
-  getPrioridadeClasse(): string {
-    const prioridadeTraduzida = traduzirPrioridade(this.ticket?.priority).toLowerCase();
-    return `prioridade ${prioridadeTraduzida}`;
-  }
-
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];
-    this.adicionarArquivos(files);
+    this.AddAttachments(files);
   }
 
   onDragOver(event: DragEvent) {
@@ -82,11 +62,11 @@ export class DetalhesChamado {
     event.stopPropagation();
     if (event.dataTransfer?.files) {
       const files = Array.from(event.dataTransfer.files) as File[];
-      this.adicionarArquivos(files);
+      this.AddAttachments(files);
     }
   }
 
-  adicionarArquivos(files: File[]) {
+  AddAttachments(files: File[]) {
     for (let file of files) {
       if (this.anexos.length >= 3) break;
 
@@ -104,7 +84,7 @@ export class DetalhesChamado {
     }
   }
 
-  enviarResposta() {
+  newInteraction() {
     if (!this.ticket) return;
 
     const payload = this.tokenServices.GetPayload();
@@ -125,15 +105,15 @@ export class DetalhesChamado {
         this.notificacao.sucesso("Resposta enviada com sucesso!");
         this.resposta = '';
         this.anexos = [];
-        this.CarregarTela();
+        this.LoadTickets();
       } else {
-        this.notificacao.erro(response.errors);
+          this.notificacao.erro(response.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.errors || "Erro ao enviar resposta.");
       }
-    },
-    error: (err) => {
-      this.notificacao.erro(err?.error?.errors || "Erro ao enviar resposta.");
-    }
-  });
+    });
   }
 
   removerAnexo(index: number) {
@@ -146,17 +126,17 @@ export class DetalhesChamado {
     if(payload){
       const ticketId = String(this.route.snapshot.paramMap.get('id'));
 
-      this.createAssignTicketRequest = {
+      let request: CreateAssignTicketRequest = {
         TicketId: ticketId,
         AnalystId: payload?.id,
         AnalystEmail: payload?.email
       }
 
-      this.service.AssignTicket(this.createAssignTicketRequest).subscribe({
+      this.service.AssignTicket(request).subscribe({
         next: (response) => {
           if(response.success){
             this.notificacao.sucesso("Atribuição concluída.");
-            this.CarregarTela();
+            this.LoadTickets();
           }
 
           else{
@@ -171,7 +151,7 @@ export class DetalhesChamado {
     }
   }
 
-  abrirTodosAnexos(attachments: string[] | null) {
+  OpenAllAttachments(attachments: string[] | null) {
     if (attachments && attachments.length > 0) {
         attachments.forEach(url => {
         if (url) {
@@ -195,7 +175,7 @@ export class DetalhesChamado {
       next: (response) => {
         if(response.success){
           this.notificacao.sucesso("Ticket Finalizado!");
-          this.CarregarTela();
+          this.LoadTickets();
         }
 
         else{
@@ -207,5 +187,18 @@ export class DetalhesChamado {
         this.notificacao.erro(err?.error?.errors);
       }
     });
+  }
+
+  TranslatePriority(): string{
+    return TranslatePriority(this.ticket?.priority);
+  }
+
+  TranslateStatus(): string{
+    return TranslateStatus(this.ticket?.status);
+  }
+
+  getPriorityClass(): string {
+    const prioridadeTraduzida = TranslatePriority(this.ticket?.priority).toLowerCase();
+    return `prioridade ${prioridadeTraduzida}`;
   }
 }

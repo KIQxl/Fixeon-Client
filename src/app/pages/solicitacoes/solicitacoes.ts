@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Ticket, traduzirPrioridade, traduzirStatus } from '../../models/Ticket';
+import { Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 
@@ -28,17 +28,17 @@ export class Solicitacoes {
     })
   }
 
-  traduzirPrioridade(prioridade: string): string{
-    return traduzirPrioridade(prioridade);
+  TranslatePriority(prioridade: string): string{
+    return TranslatePriority(prioridade);
   }
   
-  getPrioridadeClasse(prioridade: string): string {
-    const prioridadeTraduzida = traduzirPrioridade(prioridade).toLowerCase();
+  GetPriorityClass(prioridade: string): string {
+    const prioridadeTraduzida = TranslatePriority(prioridade).toLowerCase();
     return `prioridade ${prioridadeTraduzida}`;
   }
 
-  traduzirStatus(status: string): string{
-      return traduzirStatus(status);
+  TranslateStatus(status: string): string{
+      return TranslateStatus(status);
     }
 }
 

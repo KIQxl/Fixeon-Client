@@ -20,6 +20,7 @@ export class Login {
   constructor(private authService: Auth_Services, private router: Router, private notificacao: Notificacao) { }
 
   login(){
+    // this.router.navigate(['/dashboard']);
     this.errorMessages = [];
 
     this.authService.login(this.email, this.password).subscribe({
@@ -36,7 +37,7 @@ export class Login {
         console.log(errors)
         this.notificacao.erro(errors);
         this.errorMessages = errors;
-    }
+      }
     });
   }
 }

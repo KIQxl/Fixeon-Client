@@ -5,7 +5,7 @@
     <div style="display: flex; gap:8px; align-items: center; width: 20%; justify-content: end;">
       <div class="campo">
         <label>Prioridade:</label>
-        <span [ngClass]="getPrioridadeClasse()">{{this.traduzirPrioridade()}}</span>
+        <span [ngClass]="getPriorityClass()">{{this.TranslatePriority()}}</span>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div>
-          <button class="btn-anexos" (click)="abrirTodosAnexos(ticket?.attachments ?? null)">Visualizar Anexos</button>
+          <button class="btn-anexos" (click)="OpenAllAttachments(ticket?.attachments ?? null)">Visualizar Anexos</button>
         </div>
       </div>
     </section>
@@ -70,7 +70,7 @@
 
       <div class="campo">
         <label>Status:</label>
-        <span>{{ this.traduzirStatus() }}</span>
+        <span>{{ this.TranslateStatus() }}</span>
       </div>
     </section>
   </div>
@@ -88,7 +88,7 @@
           {{ msg.message }}
         </div>
         <div>
-          <button class="btn-enviar" (click)="abrirTodosAnexos(msg.attachmentsUrls)">Visualizar Anexos</button>
+          <button class="btn-enviar" (click)="OpenAllAttachments(msg.attachmentsUrls)">Visualizar Anexos</button>
         </div>
       </div>
     </div>
@@ -127,6 +127,6 @@
     </div>
 
     <input type="file" multiple (change)="onFileSelected($event)" />
-    <button class="btn-enviar" (click)="enviarResposta()">Enviar</button>   
+    <button class="btn-enviar" (click)="newInteraction()">Enviar</button>   
   </section>
 </div>
