@@ -26,6 +26,7 @@ export class NovoChamado {
   prioridade: string = '';
   departamento: string = '';
   anexos: Anexo[] = [];
+  categories: string[] = [];
 
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];

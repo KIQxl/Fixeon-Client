@@ -1,6 +1,6 @@
 <div class="detalhes-container">
   <div style="display: flex; justify-content: space-between;">
-    <h2>Chamado #{{ ticket?.id }}</h2>
+    <h2>Chamado #{{ ticket?.protocol }}</h2>
 
     <div style="display: flex; gap:8px; align-items: center; width: 20%; justify-content: end;">
       <div class="campo">
@@ -56,6 +56,11 @@
       <div class="campo">
         <label>Data de criação:</label>
         <span>{{ ticket?.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+      </div>
+
+      <div class="campo">
+        <label>Ultima atualização:</label>
+        <span>{{ ticket?.modifiedAt != null ? (ticket?.modifiedAt | date: 'dd/MM/yyyy HH:mm') : "-" }}</span>
       </div>
 
       <div class="campo">

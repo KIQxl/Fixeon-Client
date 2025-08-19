@@ -12,11 +12,8 @@
         <div class="form-group">
             <label for="categoria">Categoria</label>
             <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
-                <option value="">Selecione</option>
-                <option value="Infraestrutura">Infraestrutura</option>
-                <option value="Software">Software</option>
-                <option value="Hardware">Hardware</option>
-                <option value="Suporte">Suporte</option>
+              <option value="">Selecione</option>
+              <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
             </select>
         </div>
 

@@ -35,16 +35,36 @@ export class DetalhesChamado {
   }
 
   LoadTickets(){
-    this.service.GetTicketById(this.id)
-      .subscribe({
-        next: (data) => {
-          this.ticket = data;
-          console.log(data)
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
+    // this.service.GetTicketById(this.id)
+    //   .subscribe({
+    //     next: (data) => {
+    //       this.ticket = data;
+    //       console.log(data)
+    //     },
+    //     error: (err) => {
+    //       console.log(err)
+    //     }
+    //   })
+
+    this.ticket = {
+        id: "XXXABC", 
+        protocol: "XXX",
+        title: "Titulo mockado",
+        description: "Descrição mockada",
+        createdAt: new Date(),
+        modifiedAt: null,
+        resolvedAt: null,
+        createdBy: "string",
+        assignedTo: "string",
+        category: "string",
+        priority: "string",
+        status: "string",
+        interactions: null,
+        durationFormat: "string",
+        duration: null,
+        attachments: [],
+        organizationName: "string"
+    }
   }
 
   onFileSelected(event: any) {
