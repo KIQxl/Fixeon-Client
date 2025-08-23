@@ -36,11 +36,6 @@ export interface Attachment{
     interactionId: string | null;
 }
 
-export interface InteractionUser{
-    userId: string;
-    userName: string;
-}
-
 export interface CreateTicketDto{
     title: string;
     description: string;
@@ -70,7 +65,9 @@ export interface ChangeTicketStatusRequest{
     Status: number;
 }
 
-
+export interface Category{
+  Name: string;
+}
 
 export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
@@ -86,6 +83,37 @@ export function TranslatePriority(priority: string | undefined): string{
         default:
           return "-";
     }
+  }
+
+  export interface TicketAnalysisResponse{
+    pending: number;
+    inProgress: number;
+    resolved: number;
+    canceled: number;
+    reOpened: number;
+    total: number;
+    averageResolutionTimeInHours: number;
+  }
+
+  export interface AnalystTicketsAnalysis{
+    analystName: string;
+    analystId: string;
+    pendingTickets: number;
+    resolvedTickets: number;
+    ticketsTotal: number;
+    averageResolutionTimeInHours: string;
+  }
+
+  export interface TopAnalystResponse{
+    analystName: string;
+    ticketsLast30Days: number;
+    averageTime: string;
+  }
+
+  export interface TicketDashboardResponse{
+    ticketAnalysisResponse: TicketAnalysisResponse;
+    analystTicketsAnalyses: AnalystTicketsAnalysis [];
+    topAnalystResponse: TopAnalystResponse [];
   }
 
   export function TranslateStatus(priority: string | undefined): string{

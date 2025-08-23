@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ChangeTicketStatusRequest, CreateAssignTicketRequest, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
@@ -7,6 +7,8 @@ import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 import { Token } from '../../services/token';
 import { Notificacao } from '../../services/notificacao';
+import { ApplicationUser } from '../../models/AuthModels';
+import { Auth_Services } from '../../services/auth-services';
 
 export interface Anexo {
   file: File;
@@ -25,46 +27,80 @@ export class DetalhesChamado {
   ticket: Ticket | null = null;
   anexos: Anexo[] = [];
   resposta: string = '';
+  selectedAnalystId: string | null = null;
 
-  constructor(private route: ActivatedRoute, private service: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao) {
+  analysts: ApplicationUser [] = [];
+  @ViewChild('analystDialog') analystDialog!: ElementRef<HTMLDialogElement>;
+  isDialogOpen: boolean = false;
+
+  constructor(private route: ActivatedRoute, private ticketService: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao, private authService: Auth_Services) {
     this.id = String(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void{
     this.LoadTickets();
+    document.addEventListener('click', this.onDialogClick.bind(this));
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('click', this.onDialogClick.bind(this));
   }
 
   LoadTickets(){
-    // this.service.GetTicketById(this.id)
-    //   .subscribe({
-    //     next: (data) => {
-    //       this.ticket = data;
-    //       console.log(data)
-    //     },
-    //     error: (err) => {
-    //       console.log(err)
-    //     }
-    //   })
+    this.ticketService.GetTicketById(this.id)
+      .subscribe({
+        next: (data) => {
+          this.ticket = data;
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
 
-    this.ticket = {
-        id: "XXXABC", 
-        protocol: "XXX",
-        title: "Titulo mockado",
-        description: "Descrição mockada",
-        createdAt: new Date(),
-        modifiedAt: null,
-        resolvedAt: null,
-        createdBy: "string",
-        assignedTo: "string",
-        category: "string",
-        priority: "string",
-        status: "string",
-        interactions: null,
-        durationFormat: "string",
-        duration: null,
-        attachments: [],
-        organizationName: "string"
-    }
+  }
+
+  LoadAnalysts(){
+    this.authService.GetAnalysts()
+      .subscribe({
+        next: (data) => {
+          this.analysts = data.data;
+          this.analystDialog.nativeElement.showModal()
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      });
+
+    // console.log("Passou aqui")
+    // this.analysts = [ {id: "484329048239", email: "curto@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
+    //                   {id: "484329048239", email: "nomesupergrandeeenorme@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
+    //                   {id: "484329048239", email: "nomemediano@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
+    //                   {id: "484329048239", email: "hipersupermeganomeenormemente@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]}
+    //                 ];
+
+    // setTimeout(() => {
+    //   this.analystDialog.nativeElement.showModal();
+    // });
+  }
+
+  closeDialog() {
+    this.analystDialog.nativeElement.close();
+  }
+
+  onDialogClick(event: MouseEvent) {
+    const dialog = this.analystDialog?.nativeElement;
+  if (!dialog || !dialog.open) return;
+
+  const rect = dialog.getBoundingClientRect();
+  const clickedInDialog =
+    rect.top <= event.clientY &&
+    event.clientY <= rect.bottom &&
+    rect.left <= event.clientX &&
+    event.clientX <= rect.right;
+
+  if (!clickedInDialog) {
+    this.closeDialog();
+  }
   }
 
   onFileSelected(event: any) {
@@ -119,7 +155,7 @@ export class DetalhesChamado {
       formData.append("Files", anexo.file);
     }
 
-    this.service.CreateTicketInteraction(formData).subscribe({
+    this.ticketService.CreateTicketInteraction(formData).subscribe({
     next: (response) => {
       if (response.success) {
         this.notificacao.sucesso("Resposta enviada com sucesso!");
@@ -152,7 +188,7 @@ export class DetalhesChamado {
         AnalystEmail: payload?.email
       }
 
-      this.service.AssignTicket(request).subscribe({
+      this.ticketService.AssignTicket(request).subscribe({
         next: (response) => {
           if(response.success){
             this.notificacao.sucesso("Atribuição concluída.");
@@ -191,7 +227,7 @@ export class DetalhesChamado {
       Status: status
     };
 
-    this.service.ChangeTicketStatus(request).subscribe({
+    this.ticketService.ChangeTicketStatus(request).subscribe({
       next: (response) => {
         if(response.success){
           this.notificacao.sucesso("Ticket Finalizado!");
@@ -220,5 +256,49 @@ export class DetalhesChamado {
   getPriorityClass(): string {
     const prioridadeTraduzida = TranslatePriority(this.ticket?.priority).toLowerCase();
     return `prioridade ${prioridadeTraduzida}`;
+  }
+
+  selectRadio(radio: HTMLInputElement) {
+    radio.checked = true;
+  }
+
+  AssginAnalist(){
+    const dialog = this.analystDialog.nativeElement;
+    const selectedRadio = dialog.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+
+    if (!selectedRadio) {
+      console.log('Nenhum analista selecionado');
+      return;
+    }
+
+    const li = selectedRadio.closest('li');
+    const label = li?.querySelector('label');
+    const email = label?.textContent?.trim() || '';
+
+    const ticketId = String(this.route.snapshot.paramMap.get('id'));
+
+      let request: CreateAssignTicketRequest = {
+        TicketId: ticketId,
+        AnalystId: selectedRadio.value,
+        AnalystEmail: email
+      }
+
+    this.ticketService.AssignTicket(request).subscribe({
+        next: (response) => {
+          if(response.success){
+            this.notificacao.sucesso("Atribuição concluída.");
+            this.LoadTickets();
+            this.closeDialog();
+          }
+
+          else{
+            console.log(response.errors)
+            this.notificacao.erro(response.errors);
+          }
+        },
+        error: (err) => {
+          this.notificacao.erro(err?.error?.errors);
+        }
+      });
   }
 }

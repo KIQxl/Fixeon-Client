@@ -1,0 +1,93 @@
+<div>
+    <h3>
+        Gerenciamento de usuários
+    </h3>
+
+    <table >
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Organization</th>
+                <th>Roles</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.organization ? user.organization : '-' }}</td>
+                <td>
+                    <span *ngFor="let role of user.roles; let last = last">
+                    {{ role }}<span *ngIf="!last">, </span>
+                    </span>
+                </td>
+                <td>
+                   <div class="table-buttons">
+                        <button (click)="openDialog(dialogEditUser, user)">Editar</button>
+                        <button (click)="openDialog(dialogEditRoles, user)">Gerenciar Perfis</button>
+                        <button (click)="remover(user)">Remover</button>
+                   </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <dialog #dialogEditUser class="dialog-edit-user">
+        <div>
+            <h3>Editar Usuário</h3>
+
+        <div class="dialog-edit-user-container">
+            <div class="label-input">
+                <label>Usuário</label>
+                <input type="text" [(ngModel)]="selectedUser.username" name="username">
+            </div>
+
+            <div class="label-input">
+                <label>Email</label>
+                <input type="text" [(ngModel)]="selectedUser.email" name="email">
+            </div>
+
+            <div class="label-input">
+                <label>Organização</label>
+                <select [(ngModel)]="selectedUser.organizationId" name="organization">
+                    <option *ngIf="!selectedUser.organization" [ngValue]="null">
+                        Selecione a organização
+                    </option>
+
+                    <option *ngIf="selectedUser.organization" [ngValue]="null">
+                        {{ selectedUser.organization }}
+                    </option>
+
+                    <option *ngFor="let organization of orgs" [ngValue]="organization.id">
+                        {{ organization.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="dialog-buttons-container">
+                <button type="button" class="btn-edit-salvar" (click)="EditUser()">Salvar</button>
+                <button type="button" class="btn-edit-cancelar" (click)="closeDialog(dialogEditUser)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+
+  <dialog #dialogEditRoles class="dialog-edit-user">
+        <div>
+            <h3>Gerenciar Perfis</h3>
+
+        <div class="dialog-edit-user-container">
+            <div *ngFor="let role of roles">
+                <label>{{role}}</label>
+                <input type="checkbox" [value]="role">
+            </div>
+            <div class="dialog-buttons-container">
+                <button type="button" class="btn-edit-salvar" (click)="EditRoles()">Salvar</button>
+                <button type="button" class="btn-edit-cancelar" (click)="closeDialog(dialogEditRoles)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+</div>

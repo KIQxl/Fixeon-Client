@@ -249,6 +249,38 @@ input[type="file"] {
   line-height: 14px;
 }
 
+dialog:not([open]) {
+  display: none !important;
+}
+
+.analyst-dialog-container{
+  margin: auto;
+  width: 27%;
+  border: none;
+  max-height: 50vh;
+  min-height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1%;
+}
+
+.select-analyst-list{
+  width: 100%;
+}
+
+.select-analyst-list :hover{
+  background-color: #f1f7ff;
+}
+
+.select-analyst-row{
+  list-style: none; 
+  display: flex; 
+  transition: 0.3s;
+  padding: 2%;
+  justify-content: space-between;
+}
+
 @media (max-width: 600px) {
   .msg-header {
     flex-direction: column;

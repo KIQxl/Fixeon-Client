@@ -1,19 +1,44 @@
 <div class="dashboard">
-  <h2>Bem-vindo, {{username}} 👋</h2>
+  <h2>Bem-vindo, {{email}} 👋</h2>
   <p class="subtitle">Aqui está um resumo das atividades recentes</p>
 
   <div class="cards">
     <div class="card">
       <h3>Solicitações Pendentes</h3>
-      <p class="value">12</p>
+      <p class="value">{{TicketDashboardResponse?.ticketAnalysisResponse?.pending}}</p>
+    </div>
+    <div class="card">
+      <h3>Solicitações em Andamento</h3>
+      <p class="value">{{TicketDashboardResponse?.ticketAnalysisResponse?.inProgress}}</p>
     </div>
     <div class="card">
       <h3>Solicitações Resolvidas</h3>
-      <p class="value">8</p>
+      <p class="value">{{TicketDashboardResponse?.ticketAnalysisResponse?.resolved}}</p>
     </div>
     <div class="card">
       <h3>Total de Solicitações</h3>
-      <p class="value">27</p>
+      <p class="value">{{TicketDashboardResponse?.ticketAnalysisResponse?.total}}</p>
+    </div>
+  </div>
+
+  <div>
+    <h2>Top 3 Analistas</h2>
+
+    <div class="analysts-ranking-container">
+      <div *ngFor="let analyst of TicketDashboardResponse?.topAnalystResponse" class="analyst-ranking-card">
+        <div>
+          <label>Analista: </label>
+          <span>{{analyst.analystName}}</span>
+        </div>
+        <div>
+          <label>Total de tickets: </label>
+          <span>{{analyst.ticketsLast30Days}}</span>
+        </div>
+        <div>
+          <label>Tempo médio: </label>
+          <span>{{analyst.averageTime}}</span>
+        </div>
+      </div>
     </div>
   </div>
 

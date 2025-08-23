@@ -28,6 +28,10 @@ export class NovoChamado {
   anexos: Anexo[] = [];
   categories: string[] = [];
 
+  ngOnInit(): void{
+    this.GetCategories();
+  }
+
   onFileSelected(event: any) {
     const files = Array.from(event.target.files) as File[];
     this.adicionarArquivos(files);
@@ -101,6 +105,18 @@ export class NovoChamado {
       },
       error: (err) => {
         this.notificacao.erro(err?.error?.errors);
+      }
+    });
+  }
+
+  GetCategories(){
+    this.ticketService.GetCategories()
+    .subscribe({
+      next:(response) => {
+        this.categories = response.data
+      },
+      error:(err) => {
+        this.notificacao.erro("Erro ao buscar categorias." + err);
       }
     });
   }

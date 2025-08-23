@@ -7,7 +7,7 @@ import { Notificacao } from './services/notificacao';
 
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(Auth_Services);
-  const notification = inject(Notificacao)
+  const notification = inject(Notificacao);
 
   const token = auth.GetStorageItem("token");
   const authReq = token ? req.clone({ setHeaders: { Authorization : `Bearer ${token}`}}) : req;

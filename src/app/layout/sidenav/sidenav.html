@@ -1,9 +1,9 @@
 <nav class="sidenav">
   <ul>
-    <li *appHasRole="['Admin']"><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-    <li *appHasRole="['Admin','Analist']"><a routerLink="/solicitacoes" routerLinkActive="active">Solicitações</a></li>
-    <li *appHasRole="['Admin', 'Analist']"><a routerLink="#" routerLinkActive="active">Análise</a></li>
-    <li *appHasRole="['Admin', 'Analist']"><a routerLink="#" routerLinkActive="active">Configurações</a></li>
-    <li *appHasRole="['Admin', 'Analist']"><a routerLink="#" routerLinkActive="active">Gerenciamento</a></li>
+    <li *appHasRole="['Admin', 'Analyst']"><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+    <li *appHasRole="['Admin','Analyst']"><a routerLink="/solicitacoes" routerLinkActive="active">Solicitações</a></li>
+    <li *appHasRole="['Admin', 'Analyst']"><a routerLink="#" routerLinkActive="active">Análise</a></li>
+    <li *appHasRole="['Admin', 'Analyst']"><a routerLink="#" routerLinkActive="active">Configurações</a></li>
+    <li *appHasRole="['Admin', 'Analyst']"><a routerLink="/gerenciamento" routerLinkActive="active">Gerenciamento</a></li>
   </ul>
 </nav>

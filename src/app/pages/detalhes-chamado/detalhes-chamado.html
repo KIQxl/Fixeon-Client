@@ -31,7 +31,7 @@
         <button class="btn-action selfAssign" *appHasRole="['Admin', 'Analyst']" (click)="SelfAssignTicket()">
           <i class="fa-solid fa-hand"></i>
           Assumir</button>
-        <button class="btn-action assignTo" *appHasRole="['Admin', 'Analyst']">
+        <button class="btn-action assignTo" *appHasRole="['Admin', 'Analyst']" (click)="LoadAnalysts()">
           <i class="fa-solid fa-repeat"></i>
           Transferir</button>
         <button class="btn-action edit" *appHasRole="['Admin', 'Analyst']">
@@ -132,6 +132,17 @@
     </div>
 
     <input type="file" multiple (change)="onFileSelected($event)" />
-    <button class="btn-enviar" (click)="newInteraction()">Enviar</button>   
+    <button class="btn-enviar" (click)="newInteraction()">Enviar</button>  
   </section>
+
+  <dialog #analystDialog class="analyst-dialog-container">
+    <ul class="select-analyst-list">
+      <li class="select-analyst-row" *ngFor="let analyst of this.analysts" (click)="selectRadio(radio)">
+        <label>{{analyst.email}}</label>
+        <input type="radio" name="selectedAnalyst" [value]="analyst.id" #radio>
+      </li>
+    </ul>
+
+    <button type="button" class="btn-enviar" (click)="AssginAnalist()">Vincular/Transferir</button>
+  </dialog>
 </div>

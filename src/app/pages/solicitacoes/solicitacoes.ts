@@ -3,11 +3,10 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
-import { HasRole } from '../../directives/has-role';
 
 @Component({
   selector: 'app-solicitacoes',
-  imports: [CommonModule, RouterModule, HasRole],
+  imports: [CommonModule, RouterModule],
   templateUrl: './solicitacoes.html',
   styleUrl: './solicitacoes.css'
 })

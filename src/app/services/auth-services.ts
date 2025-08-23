@@ -6,6 +6,7 @@ import { LoginResponse } from '../models/LoginResponse';
 import { ApiResponse, TokenPayload } from '../models/Response';
 import { jwtDecode } from 'jwt-decode';
 import { API_CONFIG } from '../core/API_CONFIG';
+import { ApplicationUser, Organization, UpdateApplicationUser } from '../models/AuthModels';
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +62,25 @@ export class Auth_Services {
 
     const decoded = jwtDecode<TokenPayload>(token);
     return roles.some(x => decoded.roles.includes(x));
+  }
+
+  GetAnalysts(): Observable<ApiResponse<ApplicationUser []>>{
+    return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/analysts`);
+  }
+
+  GetAllUsers(): Observable<ApiResponse<ApplicationUser []>>{
+    return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-all-users`);
+  }
+
+  GetAllOrganizations(): Observable<ApiResponse<Organization []>>{
+    return this.http.get<ApiResponse<Organization []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-organizations`);
+  }
+
+  GetAllRoles(): Observable<ApiResponse<string []>>{
+    return this.http.get<ApiResponse<string []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-all-roles`);
+  }
+
+  UpdateApplicationUser(request: UpdateApplicationUser): Observable<ApiResponse<ApplicationUser>>{
+    return this.http.put<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/update-account`, request);
   }
 }
