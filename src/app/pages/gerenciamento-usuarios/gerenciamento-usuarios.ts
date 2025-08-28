@@ -1,12 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Auth_Services } from '../../services/auth-services';
 import { Notificacao } from '../../services/notificacao';
-import { ApplicationUser, Organization, UpdateApplicationUser } from '../../models/AuthModels';
+import { ApplicationUser, AssociateRoleRequest, Organization, UpdateApplicationUser } from '../../models/AuthModels';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-gerenciamento-usuarios',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './gerenciamento-usuarios.html',
   styleUrl: './gerenciamento-usuarios.css'
 })
@@ -16,8 +17,8 @@ export class GerenciamentoUsuarios {
   orgs: Organization [] = [];
   roles: string [] = [];
   orgId: string = "";
-  @ViewChild('dialogEditUser') dialogEditUser!: HTMLDialogElement;
-  @ViewChild('dialogEditRoles') dialogEditRoles!: HTMLDialogElement;
+  @ViewChild('dialogEditUser') dialogUser!: ElementRef<HTMLDialogElement>;
+  @ViewChild('dialogEditRoles') dialogRoles!: ElementRef<HTMLDialogElement>;
   constructor(private auth_services: Auth_Services, private notification: Notificacao){
 
   }
@@ -40,18 +41,14 @@ export class GerenciamentoUsuarios {
     })
   }
 
-  openDialog(dialog: HTMLDialogElement, user: ApplicationUser){
+  openDialog(dialog: ElementRef<HTMLDialogElement>, user: ApplicationUser){
     this.selectedUser = { ...user, roles: [...user.roles] };
 
-    if (!this.selectedUser.organization) {
-      this.selectedUser.organization = null;
-    }
-
-    dialog.showModal();
+    dialog.nativeElement.showModal();
   }
 
-  closeDialog(dialog: HTMLDialogElement) {
-    dialog.close();
+  closeDialog(dialog: ElementRef<HTMLDialogElement>) {
+    dialog.nativeElement.close();
   }
 
   EditUser() {
@@ -63,13 +60,13 @@ export class GerenciamentoUsuarios {
       organizationId: this.selectedUser.organizationId ?? null
     }
 
-    console.log(request)
-
     this.auth_services.UpdateApplicationUser(request)
     .subscribe({
       next: (response) => {
         this.notification.sucesso("Alterações confirmadas.");
         this.GetAllUsers();
+
+        this.closeDialog(this.dialogUser);
       },
       error: (err) => {
         this.notification.erro(err);
@@ -78,8 +75,36 @@ export class GerenciamentoUsuarios {
     });
   }
 
-  EditRoles(){
+  onRoleChange(event: Event, role: string) {
+  const input = event.target as HTMLInputElement;
+  if (input.checked) {
+    if (!this.selectedUser.roles.includes(role)) {
+      this.selectedUser.roles.push(role);
+    }
+  } else {
+    this.selectedUser.roles = this.selectedUser.roles.filter(r => r !== role);
+  }
+}
 
+  EditRoles(){
+    let request: AssociateRoleRequest = {
+      userId: this.selectedUser.id,
+      roles: this.selectedUser.roles
+    }
+
+    this.auth_services.AssociateRoles(request)
+    .subscribe({
+      next: (response) => {
+        this.notification.sucesso("Perfis alterados.");
+        this.GetAllUsers();
+
+        this.closeDialog(this.dialogRoles);
+      },
+      error: (err) => {
+        this.notification.erro(err);
+        console.log(err)
+      }
+    });
   }
 
   remover(user: ApplicationUser) {

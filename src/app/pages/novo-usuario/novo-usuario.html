@@ -1,0 +1,67 @@
+<div>
+    <div class="container-titulo">
+        <h3 style="margin-bottom: 20px;">Cadastro de usuário</h3>
+        <h5>Insira corretamente as informações do usuário.</h5>
+    </div>
+
+    <div class="container-cadastro">
+        <div class="sub-container-cadastro">
+            <div class="label-input">
+                <label>
+                    Nome do usuário
+                </label>
+                <input type="text" [(ngModel)]="novoUsuario.username">
+            </div>
+
+            <div class="label-input">
+                <label>
+                    Email
+                </label>
+                <input type="text" [(ngModel)]="novoUsuario.email">
+            </div>
+
+        </div>
+
+        <div class="sub-container-cadastro">
+            <div class="label-input">
+                <label>Organização</label>
+                <select [(ngModel)]="novoUsuario.organizationId" name="organization">
+                    <option [ngValue]="null" disabled selected>Selecione uma organização</option>
+                    <option *ngFor="let organization of orgs" [ngValue]="organization.id">
+                        {{ organization.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="label-input">
+                <label>Perfis</label>
+                <div style="display: flex; gap: 3%; padding: 0.7%;">
+                    <div *ngFor="let role of roles" style="display: flex; flex: 1; gap: 5%; border-right: solid 1px #e0e0e0; justify-content: center;">
+                        <label>{{role}}</label>
+                        <input type="checkbox" [value]="role" [checked]="novoUsuario.roles.includes(role)" (change)="onRoleChange($event, role)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-container-cadastro" style="margin-bottom: 20px;">
+            <div class="label-input">
+                <label>
+                    Senha
+                </label>
+                <input type="password" [(ngModel)]="novoUsuario.password">
+            </div>
+
+            <div class="label-input">
+                <label>
+                    Confirme a senha
+                </label>
+                <input type="password" [(ngModel)]="novoUsuario.passwordConfirm">
+            </div>
+        </div>
+
+        <button class="btn-save" (click)="CadastrarUsuario()">
+            Cadastrar
+        </button>
+    </div>
+</div>

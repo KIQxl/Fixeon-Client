@@ -7,6 +7,7 @@ import { NovoChamado } from './pages/novo-chamado/novo-chamado';
 import { DashboardGerenciamento } from './pages/dashboard-gerenciamento/dashboard-gerenciamento';
 import { GerenciamentoUsuarios } from './pages/gerenciamento-usuarios/gerenciamento-usuarios';
 import { GerenciamentoConta } from './pages/gerenciamento-conta/gerenciamento-conta';
+import { NovoUsuario } from './pages/novo-usuario/novo-usuario';
 
 export const routes: Routes = [
     {
@@ -36,10 +37,13 @@ export const routes: Routes = [
     {
       path: 'usuarios',
       component: GerenciamentoUsuarios
-    }
-    ,
+    },
     {
       path: 'conta',
       component: GerenciamentoConta
+    },
+    {
+      path: 'novo-usuario',
+      component: NovoUsuario
     }
 ];

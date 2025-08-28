@@ -6,7 +6,7 @@ import { LoginResponse } from '../models/LoginResponse';
 import { ApiResponse, TokenPayload } from '../models/Response';
 import { jwtDecode } from 'jwt-decode';
 import { API_CONFIG } from '../core/API_CONFIG';
-import { ApplicationUser, Organization, UpdateApplicationUser } from '../models/AuthModels';
+import { ApplicationUser, AssociateRoleRequest, CreateAccountRequest, Organization, UpdateApplicationUser } from '../models/AuthModels';
 
 @Injectable({
   providedIn: 'root'
@@ -82,5 +82,13 @@ export class Auth_Services {
 
   UpdateApplicationUser(request: UpdateApplicationUser): Observable<ApiResponse<ApplicationUser>>{
     return this.http.put<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/update-account`, request);
+  }
+
+  AssociateRoles(request: AssociateRoleRequest): Observable<ApiResponse<ApplicationUser>>{
+    return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/associate-role`, request);
+  }
+
+  CreeateAccount(request: CreateAccountRequest): Observable<ApiResponse<ApplicationUser>>{
+    return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/create-account`, request);
   }
 }

@@ -70,17 +70,6 @@ export class DetalhesChamado {
           console.log(err)
         }
       });
-
-    // console.log("Passou aqui")
-    // this.analysts = [ {id: "484329048239", email: "curto@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
-    //                   {id: "484329048239", email: "nomesupergrandeeenorme@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
-    //                   {id: "484329048239", email: "nomemediano@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]},
-    //                   {id: "484329048239", email: "hipersupermeganomeenormemente@outlook.com", username:"testeuser", organization: "org teste", roles: ["analyst"]}
-    //                 ];
-
-    // setTimeout(() => {
-    //   this.analystDialog.nativeElement.showModal();
-    // });
   }
 
   closeDialog() {

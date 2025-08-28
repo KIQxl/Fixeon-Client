@@ -1,15 +1,22 @@
 <div>
-    <h3>
-        Gerenciamento de usuários
-    </h3>
+    <div style="width: 100%; display: flex; justify-content: space-between; margin-bottom: 2%;">
+        <h3>
+            Gerenciamento de usuários
+        </h3>
+
+        <button class="fake-button" [routerLink]="['/novo-usuario']">
+            <i class="fa-solid fa-user-plus"></i>
+            Novo usuário
+        </button>
+    </div>
 
     <table >
         <thead>
             <tr>
-                <th>Username</th>
+                <th>Nome de usuário</th>
                 <th>Email</th>
-                <th>Organization</th>
-                <th>Roles</th>
+                <th>Organização</th>
+                <th>Perfis</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -25,8 +32,8 @@
                 </td>
                 <td>
                    <div class="table-buttons">
-                        <button (click)="openDialog(dialogEditUser, user)">Editar</button>
-                        <button (click)="openDialog(dialogEditRoles, user)">Gerenciar Perfis</button>
+                        <button (click)="openDialog(dialogUser, user)">Editar</button>
+                        <button (click)="openDialog(dialogRoles, user)">Gerenciar Perfis</button>
                         <button (click)="remover(user)">Remover</button>
                    </div>
                 </td>
@@ -67,8 +74,8 @@
             </div>
 
             <div class="dialog-buttons-container">
-                <button type="button" class="btn-edit-salvar" (click)="EditUser()">Salvar</button>
-                <button type="button" class="btn-edit-cancelar" (click)="closeDialog(dialogEditUser)">Cancelar</button>
+                <button type="button" (click)="EditUser()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogUser)">Cancelar</button>
             </div>
         </div>
     </div>
@@ -79,13 +86,13 @@
             <h3>Gerenciar Perfis</h3>
 
         <div class="dialog-edit-user-container">
-            <div *ngFor="let role of roles">
+            <div class="role-cbx-container" *ngFor="let role of roles">
                 <label>{{role}}</label>
-                <input type="checkbox" [value]="role">
+                <input type="checkbox" [value]="role" [checked]="selectedUser.roles.includes(role)" (change)="onRoleChange($event, role)">
             </div>
-            <div class="dialog-buttons-container">
-                <button type="button" class="btn-edit-salvar" (click)="EditRoles()">Salvar</button>
-                <button type="button" class="btn-edit-cancelar" (click)="closeDialog(dialogEditRoles)">Cancelar</button>
+            <div class="dialog-buttons-container" style="margin-top: 8%;">
+                <button type="button" (click)="EditRoles()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogRoles)">Cancelar</button>
             </div>
         </div>
     </div>
