@@ -22,7 +22,10 @@
   </div>
 
   <div>
-    <h2>Top 3 Analistas</h2>
+    <div style="display: flex; align-items: baseline; gap: 8px;">
+      <h2>Top 3 Analistas</h2>
+      <h5>(atuações nos últimos 30 dias)</h5>
+    </div>
 
     <div class="analysts-ranking-container">
       <div *ngFor="let analyst of TicketDashboardResponse?.topAnalystResponse" class="analyst-ranking-card">

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Notificacao } from '../../services/notificacao';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { TokenPayload } from '../../models/Response';
 
 @Component({
   selector: 'app-login',
@@ -24,12 +26,21 @@ export class Login {
 
     this.authService.login(this.email, this.password).subscribe({
       next: (user) => {
-        this.authService.AddStorage("token", user.token);
-        this.authService.AddStorage("id", user.id);
-        this.authService.AddStorage("email", user.email);
+        // this.notificacao.sucesso(`Bem vindo, ${user.username}`);
+        // this.router.navigate(['/dashboard']);
 
-        this.notificacao.sucesso(`Bem vindo, ${user.username}`);
-        this.router.navigate(['/dashboard']);
+        const token = user.token;
+        const decoded: TokenPayload = jwtDecode(token);
+
+        if (decoded.roles && decoded.roles.includes("MasterAdmin")) {
+          this.notificacao.sucesso(`Bem vindo Admin, ${decoded.username}`);
+          this.router.navigate(['/master-dashboard']);
+        } 
+        else 
+        {
+          this.notificacao.sucesso(`Bem vindo, ${decoded.username}`);
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (errors: string[]) => {
         this.notificacao.erro(errors);

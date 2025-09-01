@@ -22,6 +22,9 @@ export class Auth_Services {
     }).pipe(
       map(response => {
         if (response.success) {
+          this.AddStorage("token", response.data.token);
+          this.AddStorage("id", response.data.id);
+          this.AddStorage("email", response.data.email);
           return response.data;
         } else {
           throw response.errors.join(', ');
@@ -59,7 +62,6 @@ export class Auth_Services {
     const token = sessionStorage.getItem('token');
     if(!token) return false
 
-
     const decoded = jwtDecode<TokenPayload>(token);
     return roles.some(x => decoded.roles.includes(x));
   }
@@ -90,5 +92,9 @@ export class Auth_Services {
 
   CreeateAccount(request: CreateAccountRequest): Observable<ApiResponse<ApplicationUser>>{
     return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/create-account`, request);
+  }
+
+  GetUserById(id: string): Observable<ApiResponse<ApplicationUser>>{
+    return this.http.get<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-user-by-id/${id}`);
   }
 }

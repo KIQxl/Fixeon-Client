@@ -28,16 +28,16 @@
     <section class="container-info-chamado">
       <h3>Descrição do ticket</h3>
       <div class="container-ticket-actions">
-        <button class="btn-action selfAssign" *appHasRole="['Admin', 'Analyst']" (click)="SelfAssignTicket()">
+        <button class="btn-action selfAssign" *appHasRole="'AnalistaPolicy'" (click)="SelfAssignTicket()">
           <i class="fa-solid fa-hand"></i>
           Assumir</button>
-        <button class="btn-action assignTo" *appHasRole="['Admin', 'Analyst']" (click)="LoadAnalysts()">
+        <button class="btn-action assignTo" *appHasRole="'AnalistaPolicy'" (click)="LoadAnalysts()">
           <i class="fa-solid fa-repeat"></i>
           Transferir</button>
-        <button class="btn-action edit" *appHasRole="['Admin', 'Analyst']">
+        <button class="btn-action edit" *appHasRole="'AnalistaPolicy'">
           <i class="fa-solid fa-pencil"></i>
           Editar Ticket</button>
-        <button class="btn-action resolved" *appHasRole="['Admin', 'Analyst']" (click)="ChangeTicketStatus(2)">
+        <button class="btn-action resolved" *appHasRole="'AnalistaPolicy'" (click)="ChangeTicketStatus(2)">
           <i class="fa-solid fa-check"></i>
           Fechar Ticket
         </button>
