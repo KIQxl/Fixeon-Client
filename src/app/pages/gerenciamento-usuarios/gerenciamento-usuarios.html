@@ -24,7 +24,7 @@
             <tr *ngFor="let user of users">
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.organization ? user.organization : '-' }}</td>
+                <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
                 <td>
                     <span *ngFor="let role of user.roles; let last = last">
                     {{ role }}<span *ngIf="!last">, </span>
@@ -58,7 +58,7 @@
 
             <div class="label-input">
                 <label>Organização</label>
-                <select [(ngModel)]="selectedUser.organizationId" name="organization">
+                <select [(ngModel)]="selectedUser.organization.organizationId" name="organization">
                     <option *ngIf="!selectedUser.organization" [ngValue]="null">
                         Selecione a organização
                     </option>

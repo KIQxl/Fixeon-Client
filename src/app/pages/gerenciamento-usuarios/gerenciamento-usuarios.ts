@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 })
 export class GerenciamentoUsuarios {
   users: ApplicationUser [] = [];
-  selectedUser: ApplicationUser = { id: '', username: '', email: '', organization: null, organizationId: null, roles: [] };
+  selectedUser: ApplicationUser = { id: '', username: '', email: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
   orgs: Organization [] = [];
   roles: string [] = [];
   orgId: string = "";
@@ -57,7 +57,7 @@ export class GerenciamentoUsuarios {
       id: this.selectedUser.id,
       username: this.selectedUser.username,
       email: this.selectedUser.email,
-      organizationId: this.selectedUser.organizationId ?? null
+      organizationId: this.selectedUser.organization?.organizationId ?? null
     }
 
     this.auth_services.UpdateApplicationUser(request)

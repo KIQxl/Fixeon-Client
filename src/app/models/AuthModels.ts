@@ -2,8 +2,7 @@ export interface ApplicationUser{
     id: string;
     username: string;
     email: string;
-    organization: string | null;
-    organizationId: string | null;
+    organization: UserOrganization
     roles: string [];
 }
 
@@ -12,6 +11,12 @@ export interface Organization{
     name: string;
     companyId: string;
 }
+
+export interface UserOrganization{
+    organizationId: string | null;
+    organizationName: string | null;
+}
+
 
 export interface UpdateApplicationUser{
     id: string | null;
