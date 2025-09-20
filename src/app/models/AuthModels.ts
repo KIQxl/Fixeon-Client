@@ -10,13 +10,20 @@ export interface Organization{
     id: string;
     name: string;
     companyId: string;
+    organizationSLAs: OrganizationSLA[]
+}
+
+export interface OrganizationSLA{
+    organizationId: string;
+    sLAInMinutes: number;
+    sLAPriority: string;
+    type: number;
 }
 
 export interface UserOrganization{
     organizationId: string | null;
     organizationName: string | null;
 }
-
 
 export interface UpdateApplicationUser{
     id: string | null;

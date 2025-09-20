@@ -75,7 +75,7 @@ export class Auth_Services {
   }
 
   GetAllOrganizations(): Observable<ApiResponse<Organization []>>{
-    return this.http.get<ApiResponse<Organization []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-organizations`);
+    return this.http.get<ApiResponse<Organization []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}`);
   }
 
   GetAllRoles(): Observable<ApiResponse<string []>>{

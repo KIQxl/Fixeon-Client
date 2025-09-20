@@ -63,7 +63,7 @@
                         Selecione a organização
                     </option>
 
-                    <option *ngIf="selectedUser.organization" [ngValue]="null">
+                    <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
                         {{ selectedUser.organization }}
                     </option>
 

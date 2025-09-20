@@ -42,7 +42,11 @@ export class GerenciamentoUsuarios {
   }
 
   openDialog(dialog: ElementRef<HTMLDialogElement>, user: ApplicationUser){
-    this.selectedUser = { ...user, roles: [...user.roles] };
+    this.selectedUser = {
+        ...user,
+        roles: [...user.roles],
+        organization: user.organization ?? { organizationId: '', organizationName: '' }
+    };
 
     dialog.nativeElement.showModal();
   }
