@@ -6,16 +6,29 @@ export interface Ticket{
     createdAt: Date;
     modifiedAt: Date | null;
     resolvedAt: Date | null;
-    createdBy: string;
-    assignedTo: string | null;
+    customer: Customer;
+    analyst: Analyst;
     category: string;
     priority: string;
     status: string;
+    departament: string;
     interactions: Interaction[] | null;
     durationFormat: string;
     duration: string | null;
     attachments: string[];
-    organizationName: string
+    closedBy: Analyst
+  }
+
+export interface Customer{
+    userId: string;
+    userEmail: string;
+    organizationName: string | null;
+    organizationId: string | null;
+}
+
+export interface Analyst{
+    analystId: string;
+    analystEmail: string;
 }
 
 export interface Interaction{

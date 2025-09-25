@@ -45,12 +45,12 @@
 
       <div class="campo">
         <label>Aberto por:</label>
-        <span>{{ ticket?.createdBy }} - {{ ticket?.organizationName || 'Sem Organização' }}</span>
+        <span>{{ ticket?.customer?.userEmail }} - {{ ticket?.customer?.organizationName }}</span>
       </div>
 
       <div class="campo">
         <label>Analista:</label>
-        <span>{{ ticket?.assignedTo || '-' }}</span>
+        <span>{{ ticket?.analyst?.analystEmail }}</span>
       </div>
 
       <div class="campo">

@@ -16,10 +16,10 @@
 
       <p><strong>Assunto:</strong> {{ ticket.title }}</p>
       <p><strong>Categoria:</strong> {{ ticket.category }}</p>
-      <p><strong>Organização:</strong> {{ ticket.organizationName || '-' }}</p>
-      <p><strong>Aberto por:</strong> {{ ticket.createdBy }}</p>
-      <p><strong>Data:</strong> {{ ticket.createdAt }}</p>
-      <p><strong>Analista:</strong> {{ ticket.assignedTo || '-' }}</p>
+      <p><strong>Organização:</strong> {{ ticket.customer.organizationName }}</p>
+      <p><strong>Aberto por:</strong> {{ ticket.customer.userEmail }}</p>
+      <p><strong>Data:</strong> {{ ticket.createdAt | date: 'HH:mm - dd/MM/yyyy'}}</p>
+      <p><strong>Analista:</strong> {{ ticket.analyst.analystEmail || '-' }}</p>
       <p><strong>Status:</strong> {{ TranslateStatus(ticket.status) }}</p>
     </a>
   </div>
