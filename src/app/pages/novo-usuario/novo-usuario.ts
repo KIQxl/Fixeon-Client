@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Auth_Services } from '../../services/auth-services';
 import { Notificacao } from '../../services/notificacao';
 import { Router } from '@angular/router';
+import { Organization_services } from '../../services/organizations_services';
 
 @Component({
   selector: 'app-novo-usuario',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 
 export class NovoUsuario {
 
-  constructor(private auth_services: Auth_Services, private notification: Notificacao, private router: Router){
+  constructor(private auth_services: Auth_Services, private organization_services: Organization_services, private notification: Notificacao, private router: Router){
 
   }
 
@@ -29,7 +30,7 @@ export class NovoUsuario {
   roles: string[] = [];
 
   GetOrganizations(){
-    this.auth_services.GetAllOrganizations()
+    this.organization_services.GetAllOrganizations()
     .subscribe({
       next: (response) => {
         this.orgs = response.data

@@ -82,6 +82,10 @@ export interface Category{
   Name: string;
 }
 
+export interface Departament{
+  Name: string;
+}
+
 export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
       case "Low":

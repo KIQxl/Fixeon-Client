@@ -5,6 +5,7 @@ import { ApplicationUser, AssociateRoleRequest, Organization, UpdateApplicationU
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Organization_services } from '../../services/organizations_services';
 @Component({
   selector: 'app-gerenciamento-usuarios',
   imports: [CommonModule, FormsModule, RouterModule],
@@ -19,7 +20,7 @@ export class GerenciamentoUsuarios {
   orgId: string = "";
   @ViewChild('dialogEditUser') dialogUser!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogEditRoles') dialogRoles!: ElementRef<HTMLDialogElement>;
-  constructor(private auth_services: Auth_Services, private notification: Notificacao){
+  constructor(private auth_services: Auth_Services, private organization_services: Organization_services, private notification: Notificacao){
 
   }
 
@@ -30,7 +31,7 @@ export class GerenciamentoUsuarios {
   }
 
   GetAllUsers(){
-    this.auth_services.GetAllUsers()
+    this.auth_services.GetAllUsers(null, null, null, null)
     .subscribe({
       next: (response) => {
         this.users = response.data;
@@ -116,7 +117,7 @@ export class GerenciamentoUsuarios {
   }
 
   GetOrganizations(){
-    this.auth_services.GetAllOrganizations()
+    this.organization_services.GetAllOrganizations()
     .subscribe({
       next: (response) => {
         this.orgs = response.data

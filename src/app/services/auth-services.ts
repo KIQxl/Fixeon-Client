@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
@@ -70,12 +70,16 @@ export class Auth_Services {
     return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/analysts`);
   }
 
-  GetAllUsers(): Observable<ApiResponse<ApplicationUser []>>{
-    return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-all-users`);
-  }
+  GetAllUsers(id: string | null, email: string | null, organizationId: string | null, username: string | null): Observable<ApiResponse<ApplicationUser []>>{
 
-  GetAllOrganizations(): Observable<ApiResponse<Organization []>>{
-    return this.http.get<ApiResponse<Organization []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}`);
+    var params = new HttpParams();
+
+    if (id) params = params.set('id', id);
+    if (email) params = params.set('email', email);
+    if (organizationId) params = params.set('organizationId', organizationId);
+    if (username) params = params.set('username', username);
+
+    return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-all-users`, { params });
   }
 
   GetAllRoles(): Observable<ApiResponse<string []>>{

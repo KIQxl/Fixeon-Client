@@ -1,3 +1,5 @@
+import { Category, Departament } from "./Ticket";
+
 export interface ApplicationUser{
     id: string;
     username: string;
@@ -9,8 +11,13 @@ export interface ApplicationUser{
 export interface Organization{
     id: string;
     name: string;
+    cnpj: string;
+    email: string;
+    createdAt: Date;
     companyId: string;
-    organizationSLAs: OrganizationSLA[]
+    organizationSLAs: OrganizationSLA[];
+    categories: Category[];
+    departaments: Departament[]
 }
 
 export interface OrganizationSLA{

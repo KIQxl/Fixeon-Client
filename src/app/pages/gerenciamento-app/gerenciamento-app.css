@@ -1,0 +1,537 @@
+h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+
+div {
+  font-family: Arial, sans-serif;
+}
+
+.fake-button{
+  border-radius: 8px;
+  padding: 1%;
+  border: none;
+  background-color: #1e3447;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.fake-button:hover{
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+  background-color: #121F2A;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+thead th {
+  background-color: #f4f4f4;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
+  font-weight: bold;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-buttons {
+  display: flex;
+  gap: 2%;
+  align-items: stretch;
+}
+
+.table-buttons button {
+  flex: 1;
+  padding: 1% 2%;
+  border: none;
+  border-radius: 4px;
+  background-color: #1e3447;
+  color: #fff;
+  transition: 0.3s ease;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.table-buttons button:hover {
+  background-color: #121F2A;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f7ff;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 70%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+.modal-header button {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.dialog-edit-user{
+  width: 18%;
+  margin: auto;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1%;
+  background-color: #f8f8f8;
+}
+
+.dialog-edit-user-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-edit-user-container h3{
+  text-align: center;
+}
+
+.label-input{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 7%;
+}
+
+.label-input input, select{
+  margin-top: 2%;
+  padding: 2%;
+  border: solid 1px #e0e0e0;
+}
+
+.dialog-buttons-container{
+  display: flex;
+  margin: auto;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.dialog-buttons-container button{
+  padding: 3% 2%;
+  width: 48%;
+  border: none;
+  transition: 0.4s ease;
+  border-radius: 5px;
+  background-color: #1e3447;
+  color: #f8f8f8;
+  transition: 0.4s ease;
+}
+
+.dialog-buttons-container button:hover{
+  background-color: #121F2A;
+}
+
+.role-cbx-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 2%;
+  transition: 0.3s ease;
+  border-radius: 5px;
+}
+
+.role-cbx-container:hover{
+  background-color: #D1DFF6;
+}
+
+.container-categories-departaments-sla{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.sub-container-categories-departaments-sla{
+  width: 30%;
+  border: 1px solid black;
+}
+
+.sub-container-categories-departaments-sla > h5{
+  text-align: center;
+}
+
+/* TESTES DE CSS */
+
+/* .modal-container-teste {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+.modal-header-teste {
+  color: #fff;
+  padding: 16px 24px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.modal-body-teste {
+  padding: 24px;
+}
+
+.container-categories-departaments-sla {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.sub-container-categories-departaments-sla {
+  flex: 1;
+  min-width: 200px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.sub-container-categories-departaments-sla h5 {
+  font-size: 1rem;
+  color: #1e3447;
+  margin-bottom: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 6px;
+}
+
+.sub-container-categories-departaments-sla ul {
+  padding-left: 0;
+  margin: 0;
+}
+
+.sub-container-categories-departaments-sla li {
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background: #fff;
+  font-size: 0.9rem;
+  color: #333;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
+}
+
+.sub-container-categories-departaments-sla li:hover {
+  background: #f1f7ff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+} */
+
+
+
+
+/* TESTES DE CSS */
+
+.modal-container-configs {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+
+  
+  width: 90%;
+  max-width: 700px; 
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.modal-header-teste {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header-teste h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #343a40;
+  font-weight: 600;
+}
+
+.modal-body-teste {
+  padding: 24px;
+}
+
+.container-categories-departaments-sla {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sub-container-categories-departaments-sla {
+  flex: 1;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.sub-container-categories-departaments-sla h5 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #495057;
+  font-weight: 500;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 8px;
+}
+
+.sub-container-categories-departaments-sla ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sub-container-categories-departaments-sla li {
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* ======================================================================== */
+/* ESTILOS ADICIONAIS PARA OS BOTÕES DE ADICIONAR                       */
+/* ======================================================================== */
+
+/* Novo container para o cabeçalho de cada coluna (título + botão) */
+.sub-container-header {
+  display: flex;
+  justify-content: space-between; /* Alinha o título à esquerda e o botão à direita */
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 8px;
+}
+
+/* Removemos as bordas e margens do h5 que agora estão no .sub-container-header */
+.sub-container-categories-departaments-sla h5 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 1rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Estilo do botão "Adicionar" minimalista */
+.btn-add-minimalist {
+  background-color: #e9ecef; /* Cor de fundo sutil */
+  color: #495057; /* Cor do ícone '+' */
+  border: none;
+  border-radius: 50%; /* Deixa o botão perfeitamente redondo */
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 24px; /* Centraliza o '+' verticalmente */
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; /* Animação suave para hover */
+}
+
+/* Efeito ao passar o mouse por cima */
+.btn-add-minimalist:hover {
+  background-color: #007bff; /* Cor de destaque (azul padrão) */
+  color: #ffffff; /* Cor do ícone fica branca */
+  transform: scale(1.1); /* Aumenta levemente o tamanho */
+}
+
+
+
+/* ======================================================================== */
+/* ESTILOS PARA O MODAL DE FORMULÁRIO (Adicionar Categoria)             */
+/* ======================================================================== */
+
+/* Container principal do modal de formulário */
+.modal-container-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  
+  width: 90%;
+  max-width: 500px; /* Um pouco menor, ideal para formulários simples */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Cabeçalho do modal de formulário */
+.modal-header-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header-form h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #343a40;
+  font-weight: 600;
+}
+
+/* Botão 'X' para fechar o modal */
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  color: #343a40;
+}
+
+/* Corpo do modal de formulário */
+.modal-body-form {
+  padding: 24px;
+}
+
+/* Agrupamento de label e input */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #495057;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.form-group input[type="text"]::placeholder {
+  color: #adb5bd;
+}
+
+/* Container para os botões de ação (Cancelar, Salvar) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* Alinha os botões à direita */
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Estilo base para os botões do formulário */
+.btn {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Botão secundário (Cancelar) */
+.btn-secondary {
+  background-color: #f8f9fa;
+  color: #343a40;
+  border: 1px solid #dee2e6;
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+}
+
+/* Botão primário (Salvar) */
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}

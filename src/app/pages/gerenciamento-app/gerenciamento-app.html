@@ -1,5 +1,297 @@
 <div>
-    <div class="container-organizations">
-        
+    <div style="width: 100%; display: flex; justify-content: space-between; margin-bottom: 2%;">
+        <h3>
+            Gerenciamento de Clientes
+        </h3>
+
+        <button class="fake-button">
+            <i class="fa-solid fa-user-plus"></i>
+            Cadastrar Cliente
+        </button>
     </div>
+
+    <table >
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Email</th>
+                <th>Criado em</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let org of current_orgs">
+                <td>{{ org.name }}</td>
+                <td>{{ org.cnpj }}</td>
+                <td>{{ org.email }}</td>
+                <td>{{ org.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td class="table-buttons">
+                  <button (click)="openModal(org)">Gerenciar Usuários</button>
+                  <button (click)="openModalConfigs(org)">Gerenciar Cliente</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModalUsuarios" (click)="closeModal()"></div>
+
+<div class="modal-container" *ngIf="showModalUsuarios">
+  <div class="modal-header">
+    <h3>{{ selectedOrg?.name }}</h3>
+  </div>
+  <div class="modal-body">
+    <table >
+        <thead>
+            <tr>
+                <th>Nome de usuário</th>
+                <th>Email</th>
+                <th>Organização</th>
+                <th>Perfis</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of usersByOrg">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
+                <td>
+                    <span *ngFor="let role of user.roles; let last = last">
+                    {{ role }}<span *ngIf="!last">, </span>
+                    </span>
+                </td>
+                <td>
+                   <div class="table-buttons">
+                        <button (click)="openDialog(dialogUser, user)">Editar</button>
+                        <button (click)="openDialog(dialogRoles, user)">Gerenciar Perfis</button>
+                   </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModalConfigs" (click)="closeModalConfigs()"></div>
+
+<!-- <div class="modal-container-teste" *ngIf="showModalConfigs">
+  <div class="modal-header-teste">
+    <h3>{{ selectedOrg?.name }}</h3>
+  </div>
+  <div class="modal-body-teste">
+    <div class="container-categories-departaments-sla">
+      <div class="sub-container-categories-departaments-sla">
+        <h5>Categorias</h5>
+
+        <ul style="list-style: none; text-decoration: none;">
+          <li *ngFor="let category of selectedOrg?.categories">
+            {{ category }}
+          </li>
+        </ul>
+      </div>
+      <div class="sub-container-categories-departaments-sla">
+        <h5>Departamentos</h5>
+
+        <ul style="list-style: none; text-decoration: none;">
+          <li *ngFor="let departament of selectedOrg?.departaments">
+            {{ departament }}
+          </li>
+        </ul>
+      </div>
+      <div class="sub-container-categories-departaments-sla">
+        <h5>SLA's</h5>
+
+        <ul style="list-style: none; text-decoration: none;">
+          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
+            {{ sla }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal-container-configs" *ngIf="showModalConfigs">
+  <div class="modal-header-teste">
+    <h3>{{ selectedOrg?.name }}</h3>
+  </div>
+  <div class="modal-body-teste">
+    <div class="container-categories-departaments-sla">
+      <div class="sub-container-categories-departaments-sla">
+        <h5>Categorias</h5>
+        <ul>
+          <li *ngFor="let category of selectedOrg?.categories">
+            {{ category }}
+          </li>
+        </ul>
+      </div>
+      <div class="sub-container-categories-departaments-sla">
+        <h5>Departamentos</h5>
+        <ul>
+          <li *ngFor="let departament of selectedOrg?.departaments">
+            {{ departament }}
+          </li>
+        </ul>
+      </div>
+      <div class="sub-container-categories-departaments-sla">
+        <h5>SLA's</h5>
+        <ul>
+          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
+            {{ sla }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Conteúdo do modal, agora separado do fundo -->
+<div class="modal-container-configs" *ngIf="showModalConfigs">
+  <div class="modal-header-teste">
+    <h3>{{ selectedOrg?.name }}</h3>
+  </div>
+  <div class="modal-body-teste">
+    <div class="container-categories-departaments-sla">
+      
+      <!-- Coluna de Categorias -->
+      <div class="sub-container-categories-departaments-sla">
+        <div class="sub-container-header">
+          <h5>Categorias</h5>
+          <button class="btn-add-minimalist" title="Adicionar nova categoria" (click)="openAddCategoriaModal()">+</button>
+        </div>
+        <ul>
+          <li *ngFor="let category of selectedOrg?.categories">
+            {{ category }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Coluna de Departamentos -->
+      <div class="sub-container-categories-departaments-sla">
+        <div class="sub-container-header">
+          <h5>Departamentos</h5>
+          <button class="btn-add-minimalist" title="Adicionar novo departamento">+</button>
+        </div>
+        <ul>
+          <li *ngFor="let departament of selectedOrg?.departaments">
+            {{ departament }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Coluna de SLAs -->
+      <div class="sub-container-categories-departaments-sla">
+        <div class="sub-container-header">
+          <h5>SLA's</h5>
+          <button class="btn-add-minimalist" title="Adicionar novo SLA">+</button>
+        </div>
+        <ul>
+          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
+            {{ sla }}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<dialog #dialogEditUser class="dialog-edit-user">
+        <div>
+            <h3>Editar Usuário</h3>
+
+        <div class="dialog-edit-user-container">
+            <div class="label-input">
+                <label>Usuário</label>
+                <input type="text" [(ngModel)]="selectedUser.username" name="username">
+            </div>
+
+            <div class="label-input">
+                <label>Email</label>
+                <input type="text" [(ngModel)]="selectedUser.email" name="email">
+            </div>
+
+            <div class="label-input">
+                <label>Organização</label>
+                <select [(ngModel)]="selectedUser.organization.organizationId" name="organization">
+                    <option *ngIf="!selectedUser.organization" [ngValue]="null">
+                        Selecione a organização
+                    </option>
+
+                    <!-- <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
+                        {{ selectedUser.organization.organizationId }}
+                    </option> -->
+
+                    <option *ngFor="let organization of current_orgs" [ngValue]="organization.id">
+                        {{ organization.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="dialog-buttons-container">
+                <button type="button" (click)="EditUser()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogUser)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+
+  <dialog #dialogEditRoles class="dialog-edit-user">
+        <div>
+            <h3>Gerenciar Perfis</h3>
+
+        <div class="dialog-edit-user-container">
+            <div class="role-cbx-container" *ngFor="let role of roles">
+                <label>{{role}}</label>
+                <input type="checkbox" [value]="role" [checked]="selectedUser.roles.includes(role)" (change)="onRoleChange($event, role)">
+            </div>
+            <div class="dialog-buttons-container" style="margin-top: 8%;">
+                <button type="button" (click)="EditRoles()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogRoles)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+
+
+
+
+
+  <!-- ================================================== -->
+<!-- MODAL PARA ADICIONAR NOVA CATEGORIA                -->
+<!-- ================================================== -->
+
+<!-- Fundo (reutiliza a mesma classe .modal-backdrop) -->
+<div class="modal-backdrop" *ngIf="showModalAddCategoria" (click)="closeAddCategoriaModal()"></div>
+
+<!-- Container do modal de Adicionar Categoria -->
+<div class="modal-container-form" *ngIf="showModalAddCategoria">
+  
+  <!-- Cabeçalho do modal -->
+  <div class="modal-header-form">
+    <h3>Adicionar Nova Categoria</h3>
+    <button class="btn-close-modal" (click)="closeAddCategoriaModal()" title="Fechar">×</button>
+  </div>
+
+  <!-- Corpo do modal com o formulário -->
+  <div class="modal-body-form">
+    <form (ngSubmit)="onSaveCategory()">
+      
+      <div class="form-group">
+        <label for="categoryName">Nome da Categoria</label>
+        <input type="text" id="categoryName" name="categoryName" placeholder="Ex: Suporte Técnico Nível 1" required>
+      </div>
+
+      <!-- Botões de ação do formulário -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeAddCategoriaModal()">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+      </div>
+
+    </form>
+  </div>
 </div>
