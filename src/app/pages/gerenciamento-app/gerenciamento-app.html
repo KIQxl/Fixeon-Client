@@ -76,78 +76,6 @@
 
 <div class="modal-backdrop" *ngIf="showModalConfigs" (click)="closeModalConfigs()"></div>
 
-<!-- <div class="modal-container-teste" *ngIf="showModalConfigs">
-  <div class="modal-header-teste">
-    <h3>{{ selectedOrg?.name }}</h3>
-  </div>
-  <div class="modal-body-teste">
-    <div class="container-categories-departaments-sla">
-      <div class="sub-container-categories-departaments-sla">
-        <h5>Categorias</h5>
-
-        <ul style="list-style: none; text-decoration: none;">
-          <li *ngFor="let category of selectedOrg?.categories">
-            {{ category }}
-          </li>
-        </ul>
-      </div>
-      <div class="sub-container-categories-departaments-sla">
-        <h5>Departamentos</h5>
-
-        <ul style="list-style: none; text-decoration: none;">
-          <li *ngFor="let departament of selectedOrg?.departaments">
-            {{ departament }}
-          </li>
-        </ul>
-      </div>
-      <div class="sub-container-categories-departaments-sla">
-        <h5>SLA's</h5>
-
-        <ul style="list-style: none; text-decoration: none;">
-          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
-            {{ sla }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="modal-container-configs" *ngIf="showModalConfigs">
-  <div class="modal-header-teste">
-    <h3>{{ selectedOrg?.name }}</h3>
-  </div>
-  <div class="modal-body-teste">
-    <div class="container-categories-departaments-sla">
-      <div class="sub-container-categories-departaments-sla">
-        <h5>Categorias</h5>
-        <ul>
-          <li *ngFor="let category of selectedOrg?.categories">
-            {{ category }}
-          </li>
-        </ul>
-      </div>
-      <div class="sub-container-categories-departaments-sla">
-        <h5>Departamentos</h5>
-        <ul>
-          <li *ngFor="let departament of selectedOrg?.departaments">
-            {{ departament }}
-          </li>
-        </ul>
-      </div>
-      <div class="sub-container-categories-departaments-sla">
-        <h5>SLA's</h5>
-        <ul>
-          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
-            {{ sla }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- Conteúdo do modal, agora separado do fundo -->
 <div class="modal-container-configs" *ngIf="showModalConfigs">
   <div class="modal-header-teste">
     <h3>{{ selectedOrg?.name }}</h3>
@@ -155,33 +83,30 @@
   <div class="modal-body-teste">
     <div class="container-categories-departaments-sla">
       
-      <!-- Coluna de Categorias -->
       <div class="sub-container-categories-departaments-sla">
         <div class="sub-container-header">
           <h5>Categorias</h5>
           <button class="btn-add-minimalist" title="Adicionar nova categoria" (click)="openAddCategoriaModal()">+</button>
         </div>
         <ul>
-          <li *ngFor="let category of selectedOrg?.categories">
+          <li *ngFor="let category of selectedOrg?.categories?.sort()">
             {{ category }}
           </li>
         </ul>
       </div>
 
-      <!-- Coluna de Departamentos -->
       <div class="sub-container-categories-departaments-sla">
         <div class="sub-container-header">
           <h5>Departamentos</h5>
-          <button class="btn-add-minimalist" title="Adicionar novo departamento">+</button>
+          <button class="btn-add-minimalist" title="Adicionar novo departamento" (click)="openAddDepartamentModal()">+</button>
         </div>
         <ul>
-          <li *ngFor="let departament of selectedOrg?.departaments">
+          <li *ngFor="let departament of selectedOrg?.departaments?.sort()">
             {{ departament }}
           </li>
         </ul>
       </div>
 
-      <!-- Coluna de SLAs -->
       <div class="sub-container-categories-departaments-sla">
         <div class="sub-container-header">
           <h5>SLA's</h5>
@@ -197,8 +122,6 @@
     </div>
   </div>
 </div>
-
-
 
 <dialog #dialogEditUser class="dialog-edit-user">
         <div>
@@ -221,10 +144,6 @@
                     <option *ngIf="!selectedUser.organization" [ngValue]="null">
                         Selecione a organização
                     </option>
-
-                    <!-- <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
-                        {{ selectedUser.organization.organizationId }}
-                    </option> -->
 
                     <option *ngFor="let organization of current_orgs" [ngValue]="organization.id">
                         {{ organization.name }}
@@ -258,38 +177,52 @@
   </dialog>
 
 
-
-
-
-  <!-- ================================================== -->
-<!-- MODAL PARA ADICIONAR NOVA CATEGORIA                -->
-<!-- ================================================== -->
-
-<!-- Fundo (reutiliza a mesma classe .modal-backdrop) -->
 <div class="modal-backdrop" *ngIf="showModalAddCategoria" (click)="closeAddCategoriaModal()"></div>
 
-<!-- Container do modal de Adicionar Categoria -->
 <div class="modal-container-form" *ngIf="showModalAddCategoria">
   
-  <!-- Cabeçalho do modal -->
   <div class="modal-header-form">
     <h3>Adicionar Nova Categoria</h3>
     <button class="btn-close-modal" (click)="closeAddCategoriaModal()" title="Fechar">×</button>
   </div>
 
-  <!-- Corpo do modal com o formulário -->
   <div class="modal-body-form">
-    <form (ngSubmit)="onSaveCategory()">
+    <form (ngSubmit)="onSaveCategory(selectedOrg!.id)">
       
       <div class="form-group">
         <label for="categoryName">Nome da Categoria</label>
-        <input type="text" id="categoryName" name="categoryName" placeholder="Ex: Suporte Técnico Nível 1" required>
+        <input type="text" id="categoryName" name="categoryName" [(ngModel)]="novaCategoria" placeholder="Ex: Suporte Técnico Nível 1" required>
       </div>
 
-      <!-- Botões de ação do formulário -->
       <div class="form-actions">
         <button type="button" class="btn btn-secondary" (click)="closeAddCategoriaModal()">Cancelar</button>
         <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModalAddDepartament" (click)="closeAddDepartamentModal()"></div>
+
+<div class="modal-container-form" *ngIf="showModalAddDepartament">
+  
+  <div class="modal-header-form">
+    <h3>Adicionar Novo Departamento</h3>
+    <button class="btn-close-modal" (click)="closeAddDepartamentModal()" title="Fechar">×</button>
+  </div>
+
+  <div class="modal-body-form">
+    <form (ngSubmit)="onSaveDepartament(selectedOrg!.id)">
+      
+      <div class="form-group">
+        <label for="DepartamentName">Nome do Departamento</label>
+        <input type="text" id="DepartamentName" name="DepartamentName" [(ngModel)]="novoDepartamento" placeholder="Ex: Suporte Técnico Nível 1" required>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeAddDepartamentModal()">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar Departamento</button>
       </div>
 
     </form>

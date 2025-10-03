@@ -9,4 +9,5 @@ export interface TokenPayload{
   username: string;
   email: string;
   roles: string[];
+  organizationId: string;
 }

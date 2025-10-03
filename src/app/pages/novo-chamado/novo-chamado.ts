@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Tickets_Services } from '../../services/ticket-service';
 import { Notificacao } from '../../services/notificacao';
 import { Router } from '@angular/router';
+import { Token } from '../../services/token';
+import { Organization_services } from '../../services/organizations_services';
+import { Organization } from '../../models/AuthModels';
 
 export interface Anexo {
   file: File;
@@ -18,7 +21,7 @@ export interface Anexo {
   styleUrl: './novo-chamado.css'
 })
 export class NovoChamado {
-  constructor(private ticketService: Tickets_Services, private notificacao: Notificacao, private router: Router){}
+  constructor(private ticketService: Tickets_Services, private notificacao: Notificacao, private router: Router, private token: Token, private organization_services: Organization_services){}
 
   titulo: string = '';
   descricao: string = '';
@@ -26,10 +29,11 @@ export class NovoChamado {
   prioridade: string = '';
   departamento: string = '';
   anexos: Anexo[] = [];
-  categories: string[] = [];
+
+  organization!: Organization; 
 
   ngOnInit(): void{
-    this.GetCategories();
+    this.GetOrganizationData();
   }
 
   onFileSelected(event: any) {
@@ -109,11 +113,13 @@ export class NovoChamado {
     });
   }
 
-  GetCategories(){
-    this.ticketService.GetCategories()
+  GetOrganizationData(){
+    var tokenPayload = this.token.GetPayload();
+    var organizationId = tokenPayload?.organizationId || "";
+    this.organization_services.GetOrganizationById(organizationId)
     .subscribe({
       next:(response) => {
-        this.categories = response.data
+        this.organization = response.data
       },
       error:(err) => {
         this.notificacao.erro("Erro ao buscar categorias." + err);

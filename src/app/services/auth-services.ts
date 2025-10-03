@@ -76,7 +76,7 @@ export class Auth_Services {
 
     if (id) params = params.set('id', id);
     if (email) params = params.set('email', email);
-    if (organizationId) params = params.set('organizationId', organizationId);
+    if (organizationId) params = params.set('organization', organizationId);
     if (username) params = params.set('username', username);
 
     return this.http.get<ApiResponse<ApplicationUser []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-all-users`, { params });

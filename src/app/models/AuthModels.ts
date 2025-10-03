@@ -53,3 +53,13 @@ export interface CreateAccountRequest{
     organizationId: string | null;
     companyId: string | null;
 }
+
+export interface CreateCategory{
+    organizationId: string;
+    categoryName: string;
+}
+
+export interface CreateDepartament{
+    organizationId: string;
+    departamentName: string;
+}

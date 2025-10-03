@@ -60,8 +60,8 @@ export class Tickets_Services {
     return this.http.put<ApiResponse<Ticket>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/change-ticket-status`, request);
   }
 
-  GetCategories(): Observable<ApiResponse<string []>>{
-    return this.http.get<ApiResponse<string []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/categories`);
+  GetCategories(orgId: string): Observable<ApiResponse<string []>>{
+    return this.http.get<ApiResponse<string []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/categories/${orgId}`);
   }
 
   GetTicketAnalysis(): Observable<ApiResponse<TicketDashboardResponse>>{

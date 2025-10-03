@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Auth_Services } from '../../services/auth-services';
 import { Notificacao } from '../../services/notificacao';
-import { ApplicationUser, AssociateRoleRequest, Organization, UpdateApplicationUser } from '../../models/AuthModels';
+import { ApplicationUser, AssociateRoleRequest, CreateCategory, CreateDepartament, Organization, UpdateApplicationUser } from '../../models/AuthModels';
 import { Organization_services } from '../../services/organizations_services';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +39,6 @@ export class GerenciamentoApp {
 
   closeModal() {
     this.showModalUsuarios = false;
-    this.selectedOrg = null;
   }
 
   openModalConfigs(org: Organization) {
@@ -52,7 +51,6 @@ export class GerenciamentoApp {
     this.organization_services.GetOrganizationById(orgId)
     .subscribe({
       next: (response) => {
-        console.log(response.data)
         this.selectedOrg = response.data
       },
       error: (err) => {
@@ -63,14 +61,12 @@ export class GerenciamentoApp {
   
   closeModalConfigs() {
     this.showModalConfigs = false;
-    this.selectedOrg = null;
   }
 
   GetOrganizations(){
     this.organization_services.GetAllOrganizations()
     .subscribe({
       next: (response) => {
-        console.log(response.data)
         this.current_orgs = response.data
       },
       error: (err) => {
@@ -172,27 +168,97 @@ export class GerenciamentoApp {
   }
 
   showModalAddCategoria = false;
+  showModalAddDepartament = false;
 
-// Função para ABRIR o modal de adicionar categoria
-// Você vai chamar esta função no (click) do botão '+' de Categorias
-openAddCategoriaModal() {
-  this.showModalAddCategoria = true;
-}
+  novaCategoria: string = "";
+  novoDepartamento: string = "";
 
-// Função para FECHAR o modal
-closeAddCategoriaModal() {
-  this.showModalAddCategoria = false;
-}
+  openAddCategoriaModal() {
+    this.showModalAddCategoria = true;
+  }
 
-// Função para lidar com o SUBMIT do formulário
-onSaveCategory() {
-  // 1. Pegue o valor do input
-  // (usando ngModel ou outra técnica de formulário do Angular)
-  console.log('Salvando a nova categoria...');
+  closeAddCategoriaModal() {
+    this.showModalAddCategoria = false;
+  }
 
-  // 2. Adicione sua lógica para salvar a categoria aqui
+  openAddDepartamentModal() {
+    this.showModalAddDepartament = true;
+  }
 
-  // 3. Feche o modal após salvar
-  this.closeAddCategoriaModal();
-}
+  closeAddDepartamentModal() {
+    this.showModalAddDepartament = false;
+  }
+
+  onSaveCategory(orgId: string) {
+    if (!this.novaCategoria || this.novaCategoria.trim() === '') {
+      
+      this.notification.erro("Informe um nome para a categoria.");
+      return; 
+    }
+
+    if (!orgId) {
+      this.notification.erro('ID da organização não encontrado. Não é possível salvar.');
+      return;
+    }
+
+    const request: CreateCategory = {
+      organizationId: orgId,
+      categoryName: this.novaCategoria.trim()
+    };
+
+    this.organization_services.CreateCategory(request)
+    .subscribe({
+      next: (response) => {
+        this.notification.sucesso("Categoria adicionada");
+
+        this.closeAddCategoriaModal();
+        this.closeModalConfigs();
+
+        setTimeout(() => {
+          this.openModalConfigs(this.selectedOrg!);
+        }, 50)
+      },
+      error: (err) => {
+        this.notification.erro(err);
+      }
+    });
+
+    this.closeAddCategoriaModal();
+  }
+
+  onSaveDepartament(orgId: string) {
+
+    if (!this.novoDepartamento || this.novoDepartamento.trim() === '') {
+      
+      this.notification.erro("Informe um nome para o departamento.");
+      return; 
+    }
+
+    if (!orgId) {
+      this.notification.erro('ID da organização não encontrado. Não é possível salvar.');
+      return;
+    }
+
+    const request: CreateDepartament = {
+      organizationId: orgId,
+      departamentName: this.novoDepartamento.trim()
+    };
+
+    this.organization_services.CreateDepartament(request)
+    .subscribe({
+      next: (response) => {
+        this.notification.sucesso("Departamento adicionado");
+
+        this.closeAddDepartamentModal();
+        this.closeModalConfigs();
+
+        setTimeout(() => {
+          this.openModalConfigs(this.selectedOrg!);
+        }, 50)
+      },
+      error: (err) => {
+        this.notification.erro(err);
+      }
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '../models/Response';
 import { Observable } from 'rxjs';
-import { Organization } from '../models/AuthModels';
+import { CreateCategory, CreateDepartament, Organization } from '../models/AuthModels';
 import { API_CONFIG } from '../core/API_CONFIG';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,5 +19,13 @@ export class Organization_services {
 
     GetOrganizationById(orgId: string): Observable<ApiResponse<Organization>>{
       return this.http.get<ApiResponse<Organization>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/${orgId}`);
+    }
+
+    CreateCategory(request: CreateCategory): Observable<ApiResponse<boolean>>{
+      return this.http.post<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/create-category`, request);
+    }
+
+    CreateDepartament(request: CreateDepartament): Observable<ApiResponse<boolean>>{
+      return this.http.post<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/create-departament`, request);
     }
 }

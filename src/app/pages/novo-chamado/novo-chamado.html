@@ -13,7 +13,7 @@
             <label for="categoria">Categoria</label>
             <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
               <option value="">Selecione</option>
-              <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
+              <option *ngFor="let category of organization.categories.sort()" value="{{category}}">{{category}}</option>
             </select>
         </div>
 
@@ -29,18 +29,9 @@
 
         <div class="form-group">
             <label for="departamento">Departamento</label>
-            <select id="departamento" name="departamento" [(ngModel)]="departamento" required>
-                <option value="">Selecione</option>
-                <option value="Comercial">Comercial</option>
-                <option value="Contábil">Contábil</option>
-                <option value="Financeiro">Financeiro</option>
-                <option value="Fiscal">Fiscal</option>
-                <option value="Logística">Logística</option>
-                <option value="Lojas">Lojas</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Operações">Operações</option>
-                <option value="Desenvolvimento">Desenvolvimento</option>
-                <option value="Recursos Humanos">Recursos Humanos (RH)</option>
+           <select id="categoria" name="categoria" [(ngModel)]="departamento" required>
+              <option value="">Selecione</option>
+              <option *ngFor="let departamet of organization.departaments.sort()" value="{{departamet}}">{{departamet}}</option>
             </select>
         </div>
     </div>
