@@ -67,4 +67,8 @@ export class Tickets_Services {
   GetTicketAnalysis(): Observable<ApiResponse<TicketDashboardResponse>>{
     return this.http.get<ApiResponse<TicketDashboardResponse>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/get-tickets/analysis`);
   }
+
+  GetPendingTickets(): Observable<ApiResponse<Ticket []>>{
+    return this.http.get<ApiResponse<Ticket []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/pending`);
+  }
 }
