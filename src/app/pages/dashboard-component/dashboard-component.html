@@ -62,13 +62,13 @@
                 <td class="ticket-assunto">{{ ticket.customer.userEmail}} ({{ticket.customer.organizationName}})</td>
                 <td>
                   <span class="status-badge" [ngClass]="getStatusClass(ticket.status)">
-                    {{ ticket.status }}
+                    {{ TranslateStatus(ticket.status) }}
                   </span>
                 </td>
                 <td>{{ ticket.analyst.analystEmail}}</td>
                 <td>
                   <span class="priority-badge " [ngClass]="getPriorityClass(ticket.priority)">
-                    {{ ticket.priority }}
+                    {{ TranslatePriority(ticket.priority) }}
                   </span>
                 </td>
                 <td class="ticket-update">{{ ticket.modifiedAt | date: 'HH:mm - dd/MM/yyyy'}}</td>

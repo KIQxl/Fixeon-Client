@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Ticket, TicketDashboardResponse } from '../../models/Ticket';
+import { Ticket, TicketDashboardResponse, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { Notificacao } from '../../services/notificacao';
 import { CommonModule } from '@angular/common';
@@ -108,4 +108,12 @@ export class DashboardComponent {
   goToTicketDetails(ticketId: string): void {
     this.router.navigate(['/solicitacoes', ticketId]);
   }
+
+  TranslatePriority(prioridade: string): string{
+      return TranslatePriority(prioridade);
+  }
+
+    TranslateStatus(status: string): string{
+        return TranslateStatus(status);
+    }
 }

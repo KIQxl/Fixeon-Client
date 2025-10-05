@@ -1,13 +1,33 @@
 <div class="solicitacoes">
   <div class="container-topo">
     <h2>Solicitações</h2>
-    <a [routerLink]="['/novo-chamado']" class="fake-button">
-      <button>Novo chamado</button>
-    </a>
+    <div class="actions">
+      <a [routerLink]="['/novo-chamado']" class="fake-button">
+        <button>Novo chamado</button>
+      </a>
+    </div>
   </div>
 
-  <div class="lista-solicitacoes">
-    <a class="card" *ngFor="let ticket of tickets"
+  <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+    <div class="search-container">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input 
+    type="text" 
+    placeholder="Pesquisar..." 
+    [(ngModel)]="searchText"
+    (input)="onSearchChange()" 
+  />
+</div>
+
+    <div>
+      <button class="view-toggle-button" (click)="toggleView()" [attr.aria-label]="isCardView ? 'Visualizar em lista' : 'Visualizar em cards'">
+        <i [class]="isCardView ? 'fa-solid fa-list' : 'fa-solid fa-border-all'"></i>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isCardView" class="lista-solicitacoes card-view">
+    <a class="card" *ngFor="let ticket of filteredTickets"
        [routerLink]="['/solicitacoes', ticket.id]">
       <div class="header">
         <span><strong>#{{ ticket.protocol }}</strong></span>
@@ -22,5 +42,44 @@
       <p><strong>Analista:</strong> {{ ticket.analyst.analystEmail || '-' }}</p>
       <p><strong>Status:</strong> {{ TranslateStatus(ticket.status) }}</p>
     </a>
+  </div>
+
+  <div *ngIf="!isCardView" class="lista-solicitacoes list-view">
+    <div class="table-container">
+      <table class="tickets-table">
+        <thead>
+          <tr>
+            <th>ID do Chamado</th>
+            <th>Assunto</th>
+            <th>Requirente</th>
+            <th>Status</th>
+            <th>Analista Responsável</th>
+            <th>Prioridade</th>
+            <th>Última Atualização</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of filteredTickets"
+              (click)="goToTicketDetails(ticket.id)"
+              class="cursor-pointer hover:bg-gray-50">
+            <td class="ticket-id">{{ ticket.protocol }}</td>
+            <td class="ticket-assunto">{{ ticket.title }}</td>
+            <td class="ticket-assunto">{{ ticket.customer.userEmail}} ({{ticket.customer.organizationName}})</td>
+            <td>
+              <span class="status-badge" [ngClass]="GetStatusClass(ticket.status)">
+                {{ TranslateStatus(ticket.status) }}
+              </span>
+            </td>
+            <td>{{ ticket.analyst.analystEmail || '-' }}</td>
+            <td>
+              <span class="priority-badge " [ngClass]="GetPriorityClass(ticket.priority)">
+                {{ TranslatePriority(ticket.priority) }}
+              </span>
+            </td>
+            <td class="ticket-update">{{ ticket.createdAt | date: 'HH:mm - dd/MM/yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
