@@ -39,21 +39,17 @@ export class Solicitacoes {
     return TranslatePriority(prioridade);
   }
   
-  // Método para obter a classe CSS da prioridade
   GetPriorityClass(prioridade: string): string {
     const prioridadeTraduzida = this.TranslatePriority(prioridade).toLowerCase();
     return `prioridade ${prioridadeTraduzida}`;
   }
 
-  // Método para traduzir o status (usando a função importada diretamente)
   TranslateStatus(status: string): string{
       return TranslateStatus(status);
   }
 
-  // Função atualizada para gerar classes CSS baseadas no status traduzido
   GetStatusClass(status: string): string {
     const translatedStatus = this.TranslateStatus(status);
-    // Converte o status traduzido para um formato de classe CSS (ex: "Em progresso" -> "status-em-progresso")
     return `${translatedStatus.toLowerCase().replace(/ /g, '-')}`;
   }
 
@@ -69,10 +65,24 @@ export class Solicitacoes {
   searchText: string = '';
 
   onSearchChange() {
-    if(this.searchText != '')
-      this.filteredTickets = this.tickets.filter(x => x.protocol.includes(this.searchText));
+    if (this.searchText !== '') {
+      const search = this.searchText.toLowerCase();
+      const filteredMap = new Map<string, any>();
+
+      this.tickets.forEach(ticket => {
+        if (
+          ticket.protocol.toLowerCase().includes(search) ||
+          ticket.title.toLowerCase().includes(search) ||
+          ticket.customer.userEmail.toLowerCase().includes(search)
+        ) {
+          filteredMap.set(ticket.protocol, ticket); // evita duplicatas
+        }
+      });
+
+      this.filteredTickets = Array.from(filteredMap.values());
+    }
     else
       this.filteredTickets = this.tickets;
-  }
+    }
 }
 

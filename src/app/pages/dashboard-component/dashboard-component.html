@@ -32,21 +32,13 @@
               Em Andamento da Equipe
             <span class="badge">{{ getTabCount('andamento') }}</span>
           </button>
-          <button
-            [class.active]="activeTab === 'porAnalista'"
-            (click)="setActiveTab('porAnalista')"
-          >
-            <span class="icon">👥</span>
-              Por Analista
-            <span class="badge">{{ getTabCount('porAnalista') }}</span>
-          </button>
         </div>
 
         <div class="table-container">
           <table class="tickets-table">
             <thead>
               <tr>
-                <th>ID do Chamado</th>
+                <th>Protocolo</th>
                 <th>Assunto</th>
                 <th>Requirente</th>
                 <th>Status</th>
@@ -73,8 +65,73 @@
                 </td>
                 <td class="ticket-update">{{ ticket.modifiedAt | date: 'HH:mm - dd/MM/yyyy'}}</td>
               </tr>
+
+              <tr *ngIf="filteredTickets.length < 1">
+                <td colspan="7" style="text-align: center;" class="no-data">Sem tickets...</td>
+              </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <div class="card-header">
+          <h2>Resumo por Analista</h2>
+        </div>
+
+        <div class="card-content">
+          <div class="tabs-list">
+            <button
+              *ngFor="let analyst of analysts"
+              [class.active]="activeAnalyst === analyst.email"
+              (click)="filterTicketsByAnalyst(analyst.email)"
+            >
+              <span class="icon">👤</span>
+              {{ analyst.email }}
+              <span class="badge">{{ analyst.total }}</span>
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="tickets-table">
+              <thead>
+                <tr>
+                  <th>Protocolo</th>
+                  <th>Assunto</th>
+                  <th>Requirente</th>
+                  <th>Status</th>
+                  <th>Analista Responsável</th>
+                  <th>Prioridade</th>
+                  <th>Última Atualização</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ticket of filteredTicketsByAnalyst" (click)="goToTicketDetails(ticket.id)">
+                  <td class="ticket-id">{{ ticket.protocol }}</td>
+                  <td class="ticket-assunto">{{ ticket.title }}</td>
+                  <td class="ticket-assunto">
+                    {{ ticket.customer.userEmail }} ({{ ticket.customer.organizationName }})
+                  </td>
+                  <td>
+                    <span class="status-badge" [ngClass]="getStatusClass(ticket.status)">
+                      {{ TranslateStatus(ticket.status) }}
+                    </span>
+                  </td>
+                  <td>{{ ticket.analyst.analystEmail}}</td>
+                  <td>
+                    <span class="priority-badge" [ngClass]="getPriorityClass(ticket.priority)">
+                      {{ TranslatePriority(ticket.priority) }}
+                    </span>
+                  </td>
+                  <td class="ticket-update">{{ ticket.modifiedAt | date: 'HH:mm - dd/MM/yyyy' }}</td>
+                </tr>
+
+                <tr *ngIf="filteredTicketsByAnalyst.length < 1">
+                  <td colspan="7" style="text-align: center;" class="no-data">Sem tickets...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -127,10 +127,23 @@ export function TranslatePriority(priority: string | undefined): string{
     averageTime: string;
   }
 
+  export interface TicketsByDayResponse{
+    date: Date;
+    created: number;
+    resolved: number;
+  }
+
+  export interface TicketsByHourResponse{
+    hour: number;
+    ticketsCreated: number;
+  }
+
   export interface TicketDashboardResponse{
     ticketAnalysisResponse: TicketAnalysisResponse;
     analystTicketsAnalyses: AnalystTicketsAnalysis [];
     topAnalystResponse: TopAnalystResponse [];
+    ticketsByDay: TicketsByDayResponse [];
+    ticketsByHour: TicketsByHourResponse [];
   }
 
   export function TranslateStatus(priority: string | undefined): string{

@@ -14,7 +14,11 @@ import { Router } from '@angular/router';
 export class DashboardComponent {
   email: string | null = sessionStorage.getItem("email");
   tickets: Ticket[] = [];
-  filteredTickets: Ticket[] = []; // Armazena os tickets filtrados para exibição
+  filteredTickets: Ticket[] = [];
+
+  analysts: { email: string; total: number }[] = [];
+  activeAnalyst: string | null = null;
+  filteredTicketsByAnalyst: Ticket[] = [];
 
   activeTab: 'meus' | 'pendentes' | 'andamento' | 'porAnalista' = 'meus';
 
@@ -27,7 +31,7 @@ export class DashboardComponent {
     
     setTimeout(() => {
       this.setActiveTab("meus");
-    }, 1000)
+    }, 300)
   }
 
   GetPendingAndInProgressTickets(){
@@ -35,6 +39,7 @@ export class DashboardComponent {
     .subscribe({
       next: (response) => {
         this.tickets = response.data;
+        this.generateAnalystSummary();
       },
       error: (err) => {
         this.notificacao.erro(err);
@@ -70,7 +75,32 @@ export class DashboardComponent {
     }
   }
 
-  getTabCount(tab: 'meus' | 'pendentes' | 'andamento' | 'porAnalista'): number {
+  generateAnalystSummary(): void {
+    const map = new Map<string, number>();
+
+    this.tickets.forEach(ticket => {
+      const analystEmail = ticket.analyst?.analystEmail;
+      if (analystEmail) {
+        map.set(analystEmail, (map.get(analystEmail) || 0) + 1);
+      }
+    });
+
+    this.analysts = Array.from(map, ([email, total]) => ({ email, total }));
+
+    if (this.analysts.length > 0) {
+      this.activeAnalyst = this.analysts[0].email;
+      this.filterTicketsByAnalyst(this.activeAnalyst);
+    }
+  }
+
+  filterTicketsByAnalyst(email: string): void {
+    this.activeAnalyst = email;
+    this.filteredTicketsByAnalyst = this.tickets.filter(
+      t => t.analyst?.analystEmail === email
+    );
+  }
+
+  getTabCount(tab: 'meus' | 'pendentes' | 'andamento'): number {
     switch (tab) {
       case 'meus':
         return this.tickets.filter(ticket => ticket.analyst.analystEmail === this.email).length;
@@ -78,8 +108,6 @@ export class DashboardComponent {
         return this.tickets.filter(ticket => ticket.status === 'Pending').length;
       case 'andamento':
         return this.tickets.filter(ticket => ticket.status === 'InProgress').length;
-      case 'porAnalista':
-        return this.tickets.length; // Ou uma contagem mais específica se houver agrupamento
       default:
         return 0;
     }

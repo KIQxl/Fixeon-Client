@@ -9,6 +9,7 @@ import { GerenciamentoUsuarios } from './pages/gerenciamento-usuarios/gerenciame
 import { GerenciamentoConta } from './pages/gerenciamento-conta/gerenciamento-conta';
 import { NovoUsuario } from './pages/novo-usuario/novo-usuario';
 import { GerenciamentoApp } from './pages/gerenciamento-app/gerenciamento-app';
+import { AnaliseComponent } from './pages/analise-component/analise-component';
 
 export const routes: Routes = [
     {
@@ -50,5 +51,9 @@ export const routes: Routes = [
     {
       path: 'gerenciamento-app',
       component: GerenciamentoApp
+    },
+    {
+      path: 'analise',
+      component: AnaliseComponent
     }
 ];

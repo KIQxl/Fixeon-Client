@@ -8,6 +8,10 @@
   margin-bottom: 0.5rem;
 }
 
+/* .card + .card {
+  margin-top: 2rem;
+} */
+
 .subtitle {
   color: #666;
   margin-bottom: 2rem;
@@ -42,16 +46,16 @@
 }
 
 .tabs-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
   background-color: #f3f4f6;
   border-radius: 0.5rem;
   padding: 0.25rem;
+  justify-content: space-between;
 }
 
 .tabs-list button {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,4 +198,12 @@
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+.no-data {
+  text-align: center;
+  color: #6b7280; /* cinza suave */
+  padding: 1rem;
+  font-style: italic;
+  background-color: #f9fafb;
 }

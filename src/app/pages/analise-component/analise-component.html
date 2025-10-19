@@ -1,0 +1,68 @@
+<div class="dashboard-container" *ngIf="!loading && data">
+  <h2>📊 Análise de Chamados</h2>
+
+  <div class="cards-grid">
+    <div class="card total">
+      <h3>Total</h3>
+      <p>{{ data!.ticketAnalysisResponse.total }}</p>
+    </div>
+    <div class="card avg">
+      <h3>Média de Resolução</h3>
+      <p>{{ data!.ticketAnalysisResponse.averageResolutionTimeInHours }}h</p>
+    </div>
+    <div class="card pending">
+      <h3>Pendentes</h3>
+      <p>{{ data!.ticketAnalysisResponse.pending }}</p>
+    </div>
+    <div class="card inprogress">
+      <h3>Em Progresso</h3>
+      <p>{{ data!.ticketAnalysisResponse.inProgress }}</p>
+    </div>
+    <div class="card resolved">
+      <h3>Resolvidos</h3>
+      <p>{{ data!.ticketAnalysisResponse.resolved }}</p>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card wide">
+      <canvas #statusChart></canvas>
+    </div>
+    <div class="chart-card wide">
+      <canvas #analystChart></canvas>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <canvas #dayChart></canvas>
+    </div>
+    <div class="chart-card">
+      <canvas #hourChart></canvas>
+    </div>
+  </div>
+
+  <div class="table-section">
+    <h3>🏆 Top Analistas (últimos 30 dias)</h3>
+    <table class="top-analysts">
+      <thead>
+        <tr>
+          <th>Analista</th>
+          <th>Chamados Resolvidos</th>
+          <th>Média de Tempo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of data.topAnalystResponse">
+          <td>{{ a.analystName }}</td>
+          <td>{{ a.ticketsLast30Days }}</td>
+          <td>{{ a.averageTime }}h</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  ⏳ Carregando análises...
+</div>
