@@ -17,7 +17,7 @@
                 <th>CNPJ</th>
                 <th>Email</th>
                 <th>Criado em</th>
-                <th>Ações</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +26,10 @@
                 <td>{{ org.cnpj }}</td>
                 <td>{{ org.email }}</td>
                 <td>{{ org.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
-                <td class="table-buttons">
-                  <button (click)="openModal(org)">Gerenciar Usuários</button>
-                  <button (click)="openModalConfigs(org)">Gerenciar Cliente</button>
+                <td>
+                  <a [routerLink]="['/org', org.id]">
+                    <i class="fa-regular fa-eye"></i>
+                  </a>
                 </td>
             </tr>
         </tbody>
@@ -112,13 +113,49 @@
           <h5>SLA's</h5>
           <button class="btn-add-minimalist" title="Adicionar novo SLA">+</button>
         </div>
-        <ul>
-          <li *ngFor="let sla of selectedOrg?.organizationSLAs">
-            {{ sla }}
-          </li>
-        </ul>
-      </div>
 
+        <table style="list-style: none;">
+          <thead>
+            <tr>
+              <td>Tipo</td>
+              <td>Prioridade</td>
+              <td>Tempo em Minutos</td>
+            </tr>
+          </thead>
+          <tbody>
+           <tr>
+             <td style="padding: 0;">Primeira Interação</td>
+              <td style="padding: 0;">Baixa</td>
+              <td style="padding: 0; text-align: center;">15</td>
+           </tr>
+           <tr>
+             <td style="padding: 0;">Primeira Interação</td>
+              <td style="padding: 0;">Média</td>
+              <td style="padding: 0; text-align: center;">10</td>
+           </tr>
+           <tr>
+             <td style="padding: 0;">Primeira Interação</td>
+              <td style="padding: 0;">Alta</td>
+              <td style="padding: 0; text-align: center;">5</td>
+           </tr>
+           <tr>
+             <td style="padding: 0;">Resolução</td>
+              <td style="padding: 0;">Baixa</td>
+              <td style="padding: 0; text-align: center;">15</td>
+           </tr>
+           <tr>
+             <td style="padding: 0;">Resolução</td>
+              <td style="padding: 0;">Média</td>
+              <td style="padding: 0; text-align: center;">10</td>
+           </tr>
+           <tr>
+             <td style="padding: 0;">Resolução</td>
+              <td style="padding: 0;">Alta</td>
+              <td style="padding: 0; text-align: center;">5</td>
+           </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

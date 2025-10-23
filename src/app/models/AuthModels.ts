@@ -22,8 +22,8 @@ export interface Organization{
 
 export interface OrganizationSLA{
     organizationId: string;
-    sLAInMinutes: number;
-    sLAPriority: string;
+    slaInMinutes: number;
+    slaPriority: string;
     type: number;
 }
 
@@ -62,4 +62,11 @@ export interface CreateCategory{
 export interface CreateDepartament{
     organizationId: string;
     departamentName: string;
+}
+
+export interface CreateSla{
+    organizationId: string;
+    slaInMinutes: number;
+    slaPriority: number;
+    type: number;
 }

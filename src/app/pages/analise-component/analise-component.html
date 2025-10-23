@@ -8,7 +8,7 @@
     </div>
     <div class="card avg">
       <h3>Média de Resolução</h3>
-      <p>{{ data!.ticketAnalysisResponse.averageResolutionTimeInHours }}h</p>
+      <p>{{ data!.ticketAnalysisResponse.averageResolutionTimeInHours }}</p>
     </div>
     <div class="card pending">
       <h3>Pendentes</h3>
@@ -25,20 +25,22 @@
   </div>
 
   <div class="charts-grid">
+    <div class="chart-card">
+      <h5>Chamados Criados X Chamados Encerrados</h5>
+      <canvas #dayChart></canvas>
+    </div>
+    <div class="chart-card">
+      <h5>Pico de Ocorrencias por Horário</h5>
+      <canvas #hourChart></canvas>
+    </div>
+  </div>
+
+  <div class="charts-grid">
     <div class="chart-card wide">
       <canvas #statusChart></canvas>
     </div>
     <div class="chart-card wide">
       <canvas #analystChart></canvas>
-    </div>
-  </div>
-
-  <div class="charts-grid">
-    <div class="chart-card">
-      <canvas #dayChart></canvas>
-    </div>
-    <div class="chart-card">
-      <canvas #hourChart></canvas>
     </div>
   </div>
 
@@ -56,7 +58,7 @@
         <tr *ngFor="let a of data.topAnalystResponse">
           <td>{{ a.analystName }}</td>
           <td>{{ a.ticketsLast30Days }}</td>
-          <td>{{ a.averageTime }}h</td>
+          <td>{{ a.averageTime }}</td>
         </tr>
       </tbody>
     </table>

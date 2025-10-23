@@ -1,0 +1,272 @@
+<h3>Gerenciamento de Clientes</h3>
+
+<div class="org-info">
+    <input [ngModel]="organization.name">
+    <input [ngModel]="organization.email">
+    <input [ngModel]="organization.cnpj">
+</div>
+
+<div class="users-info">
+    <h4>
+        Usuários
+    </h4>
+
+    <table >
+        <thead>
+            <tr>
+                <th>Nome de usuário</th>
+                <th>Email</th>
+                <th>Organização</th>
+                <th>Perfis</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
+                <td>
+                    <span *ngFor="let role of user.roles; let last = last">
+                    {{ role }}<span *ngIf="!last">, </span>
+                    </span>
+                </td>
+                <td>
+                   <div class="table-buttons">
+                        <button (click)="openDialog(dialogUser, user)">Editar</button>
+                        <button (click)="openDialog(dialogRoles, user)">Gerenciar Perfis</button>
+                        <!-- <button (click)="remover(user)">Remover</button> -->
+                   </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <dialog #dialogEditUser class="dialog-edit-user">
+        <div>
+            <h3>Editar Usuário</h3>
+
+        <div class="dialog-edit-user-container">
+            <div class="label-input">
+                <label>Usuário</label>
+                <input type="text" [(ngModel)]="selectedUser.username" name="username">
+            </div>
+
+            <div class="label-input">
+                <label>Email</label>
+                <input type="text" [(ngModel)]="selectedUser.email" name="email">
+            </div>
+
+            <div class="label-input">
+                <label>Organização</label>
+                <select [(ngModel)]="selectedUser.organization.organizationId" name="organization">
+                    <option *ngIf="!selectedUser.organization" [ngValue]="null">
+                        Selecione a organização
+                    </option>
+
+                    <!-- <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
+                        {{ selectedUser.organization.organizationId }}
+                    </option> -->
+
+                    <option *ngFor="let organization of orgs" [ngValue]="organization.id">
+                        {{ organization.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="dialog-buttons-container">
+                <button type="button" (click)="EditUser()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogUser)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+
+  <dialog #dialogEditRoles class="dialog-edit-user">
+        <div>
+            <h3>Gerenciar Perfis</h3>
+
+        <div class="dialog-edit-user-container">
+            <div class="role-cbx-container" *ngFor="let role of roles">
+                <label>{{role}}</label>
+                <input type="checkbox" [value]="role" [checked]="selectedUser.roles.includes(role)" (change)="onRoleChange($event, role)">
+            </div>
+            <div class="dialog-buttons-container" style="margin-top: 8%;">
+                <button type="button" (click)="EditRoles()">Salvar</button>
+                <button type="button" (click)="closeDialog(dialogRoles)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+  </dialog>
+</div>
+
+<div class="categorias-departamentos-sla-info">
+
+    <div style="width: 30%;">
+        <div class="sub-container-categories-departaments-sla">
+            <div class="sub-container-header">
+                <h5>Categorias</h5>
+                <button class="btn-add-minimalist" title="Adicionar nova categoria" (click)="openAddCategoriaModal()">+</button>
+            </div>
+            <ul class="category-list">
+                <li *ngFor="let category of organization.categories.sort()">
+                    {{ category }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-backdrop" *ngIf="showModalAddCategoria" (click)="closeAddCategoriaModal()"></div>
+
+        <div class="modal-container-form" *ngIf="showModalAddCategoria">
+            <div class="modal-header-form">
+                <h3>Adicionar Nova Categoria</h3>
+                <button class="btn-close-modal" (click)="closeAddCategoriaModal()" title="Fechar">×</button>
+            </div>
+
+            <div class="modal-body-form">
+                <form (ngSubmit)="onSaveCategory(organization.id)">
+                    <div class="form-group">
+                        <label for="categoryName">Nome da Categoria</label>
+                        <input type="text" id="categoryName" name="categoryName" [(ngModel)]="novaCategoria" placeholder="Ex: Suporte Técnico Nível 1" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 30%;">
+        <div class="sub-container-categories-departaments-sla">
+            <div class="sub-container-header">
+                <h5>Departamentos</h5>
+                <button class="btn-add-minimalist" title="Adicionar novo departamento" (click)="openAddDepartamentModal()">+</button>
+            </div>
+            <ul class="category-list">
+                <li *ngFor="let departament of organization.departaments.sort()">
+                    {{ departament }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-backdrop" *ngIf="showModalAddDepartament" (click)="closeAddDepartamentModal()"></div>
+
+        <div class="modal-container-form" *ngIf="showModalAddDepartament">
+        
+            <div class="modal-header-form">
+                <h3>Adicionar Novo Departamento</h3>
+                <button class="btn-close-modal" (click)="closeAddDepartamentModal()" title="Fechar">×</button>
+            </div>
+
+            <div class="modal-body-form">
+                <form (ngSubmit)="onSaveDepartament(organization.id)">
+                    <div class="form-group">
+                        <label for="DepartamentName">Nome do Departamento</label>
+                        <input type="text" id="DepartamentName" name="DepartamentName" [(ngModel)]="novoDepartamento" placeholder="Ex: Suporte Técnico Nível 1" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar Departamento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:30%;">
+        <div class="sub-container-categories-departaments-sla">
+            <div class="sub-container-header">
+                <h5>SLA's</h5>
+                <button class="btn-add-minimalist" title="Adicionar novo SLA" (click)="openAddSLAModal()">+</button>
+            </div>
+
+            <table class="sla-table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Prioridade</th>
+                        <th style="text-align: center;">Tempo em Minutos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Primeira Interação</td>
+                        <td class="prioridade-baixa">Baixa</td>
+                        <td class="center">{{FindSLA("Low", 1) || "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Primeira Interação</td>
+                        <td class="prioridade-media">Média</td>
+                        <td class="center">{{FindSLA("Medium", 1) || "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Primeira Interação</td>
+                        <td class="prioridade-alta">Alta</td>
+                        <td class="center">{{FindSLA("High", 1) || "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Resolução</td>
+                        <td class="prioridade-baixa">Baixa</td>
+                        <td class="center">{{FindSLA("Low", 2) || "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Resolução</td>
+                        <td class="prioridade-media">Média</td>
+                        <td class="center">{{FindSLA("Medium", 2) || "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Resolução</td>
+                        <td class="prioridade-alta">Alta</td>
+                        <td class="center">{{FindSLA("High", 2) || "-"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-backdrop" *ngIf="showModalAddSLA" (click)="closeAddSLAModal()"></div>
+
+        <div class="modal-container-form" *ngIf="showModalAddSLA">
+        
+            <div class="modal-header-form">
+                <h3>Configuração de SLA</h3>
+                <button class="btn-close-modal" (click)="closeAddSLAModal()" title="Fechar">×</button>
+            </div>
+
+            <div class="modal-body-form">
+                <form (ngSubmit)="onSaveSLA(organization.id)">
+                    <div class="form-group" style="justify-content: space-between;">
+                        <div style="width: 40%;">
+                            <label>Tipo de SLA</label>
+                            <select name="slaType" [(ngModel)]="slaType" required>
+                                <option [ngValue]="0" disabled selected>Tipo</option>
+                                <option [ngValue]="1">Primeira Interação</option>
+                                <option [ngValue]="2">Resolução</option>
+                            </select>
+                        </div>
+                        
+                        <div style="width: 29%;">
+                            <label>Prioridade da SLA</label>
+                            <select name="slaPriority" [(ngModel)]="slaPriority" required>
+                                <option [ngValue]="0" disabled selected>Prioridade</option>
+                                <option [ngValue]="1">Baixa</option>
+                                <option [ngValue]="2">Média</option>
+                                <option [ngValue]="3">Alta</option>
+                            </select>
+                        </div>
+
+                        <div style="width: 29%;">
+                            <label>Prazo em Minutos</label>
+                            <input type="text" id="slaInMinutes" name="slaInMinutes" [(ngModel)]="slaInMinutes" placeholder="Prazo minutos" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Salvar SLA</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

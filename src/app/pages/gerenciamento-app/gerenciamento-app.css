@@ -64,6 +64,16 @@ tbody td {
   transition: 0.3s ease;
   white-space: normal;
   word-wrap: break-word;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+a {
+  text-decoration: none;
+  color: #1e3447;
 }
 
 .table-buttons button:hover {
@@ -188,7 +198,6 @@ tbody tr:hover {
 }
 
 .sub-container-categories-departaments-sla{
-  width: 30%;
   border: 1px solid black;
 }
 
@@ -202,10 +211,7 @@ tbody tr:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-
-  
-  width: 90%;
-  max-width: 700px; 
+  width: 70%;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -309,7 +315,6 @@ tbody tr:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-  
   width: 90%;
   max-width: 500px;
   background-color: #fff;

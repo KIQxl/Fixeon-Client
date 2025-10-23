@@ -5,10 +5,11 @@ import { ApplicationUser, AssociateRoleRequest, CreateCategory, CreateDepartamen
 import { Organization_services } from '../../services/organizations_services';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-gerenciamento-app',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './gerenciamento-app.html',
   styleUrl: './gerenciamento-app.css'
 })

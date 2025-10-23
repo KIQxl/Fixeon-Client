@@ -109,7 +109,7 @@ export function TranslatePriority(priority: string | undefined): string{
     canceled: number;
     reOpened: number;
     total: number;
-    averageResolutionTimeInHours: number;
+    averageResolutionTimeInHours: string;
   }
 
   export interface AnalystTicketsAnalysis{

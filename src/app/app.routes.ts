@@ -10,6 +10,7 @@ import { GerenciamentoConta } from './pages/gerenciamento-conta/gerenciamento-co
 import { NovoUsuario } from './pages/novo-usuario/novo-usuario';
 import { GerenciamentoApp } from './pages/gerenciamento-app/gerenciamento-app';
 import { AnaliseComponent } from './pages/analise-component/analise-component';
+import { OrganizationViewComponent } from './pages/organization-view-component/organization-view-component';
 
 export const routes: Routes = [
     {
@@ -55,5 +56,9 @@ export const routes: Routes = [
     {
       path: 'analise',
       component: AnaliseComponent
+    },
+    {
+      path: 'org/:id',
+      component: OrganizationViewComponent
     }
 ];

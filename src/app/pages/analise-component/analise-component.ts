@@ -40,7 +40,6 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
         this.data = res.data;
         this.loading = false;
 
-        // wait until viewchild references exist (they should on AfterViewInit), then render
         this.safeRender();
       },
       error: (err) => {
@@ -52,11 +51,9 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   }
 
   private safeRender() {
-    // ensure canvases exist before rendering
     if (this.statusChartRef && this.analystChartRef && this.dayChartRef && this.hourChartRef && this.data) {
       this.renderCharts();
     } else {
-      // fallback: check periodically but should rarely be needed in AfterViewInit
       this.readyInterval = setInterval(() => {
         if (this.statusChartRef && this.analystChartRef && this.dayChartRef && this.hourChartRef && this.data) {
           clearInterval(this.readyInterval);
@@ -67,7 +64,6 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // destroy chart instances to free memory
     [this.statusChart, this.analystChart, this.dayChart, this.hourChart].forEach(c => c?.destroy());
     if (this.readyInterval) clearInterval(this.readyInterval);
   }
@@ -85,7 +81,6 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   renderCharts() {
     if (!this.data) return;
 
-    // destroy previous
     this.destroyAll();
 
     const ticketData = this.data.ticketAnalysisResponse;
@@ -191,22 +186,45 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
     const hours = (this.data.ticketsByHour ?? []).map(h => this.padHourLabel(h.hour));
     const hoursValues = (this.data.ticketsByHour ?? []).map(h => h.ticketsCreated);
     const ctxHour = this.hourChartRef.nativeElement.getContext('2d')!;
+
+    const gradient = ctxHour.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(59,130,246,0.25)');
+    gradient.addColorStop(1, 'rgba(59,130,246,0.02)');
     this.hourChart = new Chart(ctxHour, {
-      type: 'bar' as ChartType,
+      type: 'line' as ChartType,
       data: {
         labels: hours,
         datasets: [{
-          label: 'Chamados',
+          label: 'Chamados criados por hora',
           data: hoursValues,
-          backgroundColor: '#dbeafe',
-          borderRadius: 4,
-          barThickness: 12
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: '#3b82f6',
+          borderWidth: 2,
+          tension: 0.4,
+          pointBackgroundColor: '#3b82f6',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#1d4ed8',
+          pointHoverBorderColor: '#fff',
+          pointRadius: 4,
+          pointHoverRadius: 6
         }]
       },
       options: <ChartOptions>{
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.parsed} chamados` } } },
+        plugins: { legend: { display: false }, tooltip: 
+        {
+          backgroundColor: '#1e293b',
+          titleColor: '#f8fafc',
+          bodyColor: '#e2e8f0',
+          padding: 12,
+          displayColors: false,
+          callbacks: {
+            label: (ctx) => ` ${ctx.parsed.y} chamados`
+          }
+        }
+      },
         scales: { x: { ticks: { color: '#475569' } }, y: { beginAtZero: true, ticks: { color: '#475569' }, grid: { color: '#f3f4f6' } } }
       }
     });
