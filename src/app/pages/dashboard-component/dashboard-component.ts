@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Ticket, TicketDashboardResponse, TranslatePriority, TranslateStatus } from '../../models/Ticket';
+import { SLA, Ticket, TicketDashboardResponse, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { Notificacao } from '../../services/notificacao';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -22,7 +23,7 @@ export class DashboardComponent {
 
   activeTab: 'meus' | 'pendentes' | 'andamento' | 'porAnalista' = 'meus';
 
-  constructor(private ticket_services: Tickets_Services, private notificacao: Notificacao, private router: Router){
+  constructor(private ticket_services: Tickets_Services, private notificacao: Notificacao, private router: Router, private sanitizer: DomSanitizer){
 
   }
 
@@ -141,7 +142,36 @@ export class DashboardComponent {
       return TranslatePriority(prioridade);
   }
 
-    TranslateStatus(status: string): string{
-        return TranslateStatus(status);
+  TranslateStatus(status: string): string{
+      return TranslateStatus(status);
+  }
+
+  ValidaSLA(prazo: SLA | null): SafeHtml {
+    const dataAtual = new Date();
+
+    if (!prazo?.deadline) {
+      return this.sanitizer.bypassSecurityTrustHtml('-');
     }
+
+    let accomplished = prazo.accomplished;
+    let deadline = new Date(prazo.deadline);
+
+    if(accomplished){
+      if(new Date(accomplished) > deadline)
+        return this.sanitizer.bypassSecurityTrustHtml(`<i class="fa-solid fa-xmark" style="color: #ef4444;"></i>`);
+      else
+         return this.sanitizer.bypassSecurityTrustHtml(`<i class="fa-solid fa-check" style="color: #10b981;"></i>`);
+    }
+    else{
+      if (dataAtual > deadline) {
+        return this.sanitizer.bypassSecurityTrustHtml(
+          `<i class="fa-solid fa-xmark" style="color: #ef4444;"></i>`
+        );
+      } else {
+        return this.sanitizer.bypassSecurityTrustHtml(
+          `<i class="fa-solid fa-check" style="color: #10b981;"></i>`
+        );
+      }
+    }
+  }
 }

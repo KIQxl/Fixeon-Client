@@ -1,4 +1,4 @@
-.detalhes-container {
+/* .detalhes-container {
   max-width: 99%;
   margin: 0 auto;
   font-family: 'Segoe UI', sans-serif;
@@ -38,7 +38,7 @@ h2 {
 .container-info-chamado {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
   margin-bottom: 2rem;
   width: 28%;
 }
@@ -86,12 +86,17 @@ h2 {
 .campo{
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .campo label {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: #444;
+}
+
+.campo span {
+  font-size: 0.85rem;
   color: #444;
 }
 
@@ -285,5 +290,327 @@ dialog:not([open]) {
   .msg-header {
     flex-direction: column;
     gap: 4px;
+  }
+} */
+
+
+.detalhes-container {
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1e3447;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Cabeçalho principal */
+.detalhes-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #1e3447;
+}
+
+.container-ticket {
+  display: flex;
+  gap: 2%;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Descrição principal */
+.ticket-description-section {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ticket-description-section h3 {
+  font-size: 1.2rem;
+  color: #1e3447;
+  border-left: 4px solid #f97316;
+  padding-left: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Card de descrição */
+.descricao-principal {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem 1.4rem;
+  border: 1px solid #e2e8f0;
+  min-height: 35vh;
+  line-height: 1.5rem;
+  font-size: 0.95rem;
+  white-space: pre-line;
+}
+
+/* Botões principais */
+.btn-anexos,
+.btn-enviar,
+.btn-action {
+  background-color: #f97316;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-anexos:hover,
+.btn-enviar:hover,
+.btn-action:hover {
+  background-color: #d65b10;
+  transform: translateY(-1px);
+}
+
+.btn-action {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: #444;
+}
+
+.btn-action:hover {
+  border-color: transparent;
+}
+
+.btn-action i {
+  margin-right: 6px;
+}
+
+/* Cores específicas */
+.selfAssign:hover { background-color: #138496; color: white; }
+.assignTo:hover { background-color: #1E90FF; color: white; }
+.edit:hover { background-color: #FFA500; color: white; }
+.resolved:hover { background-color: #2ECC71; color: white; }
+
+.container-ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Seção de informações */
+.container-info-chamado {
+  width: 37%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #e2e8f0;
+  max-height: 51vh;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.campo span {
+  font-size: 0.9rem;
+  /* color: #2c3e50; */
+}
+
+/* Prioridade */
+.prioridade {
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  display: inline-block;
+  text-align: center;
+}
+
+.alta { background-color: #fee2e2; color: #dc2626;}
+.média { background-color: #fffbeb; color: #d97706;}
+.baixa { background-color: #d1fae5; color: #059669;}
+
+/* Mensagens */
+.mensagens {
+  border-top: #e2e8f0 1px solid;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+}
+
+.mensagens h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  margin-top: 0.8rem;
+}
+
+.mensagem {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #1e3447;
+  border-radius: 8px;
+  padding: 1rem 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.msg-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1e3447;
+}
+
+.msg-conteudo {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+  color: #333;
+  white-space: pre-line;
+}
+
+/* Caixa de resposta */
+.resposta {
+  margin-top: 3rem;
+  background-color: #f9fafb;
+  padding: .8rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.resposta h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #1e3447;
+}
+
+.drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.drop-area:hover {
+  border-color: #f97316;
+}
+
+textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 120px;
+  outline: none;
+}
+
+.anexos {
+  display: flex;
+  gap: 10px;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.anexo {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.anexo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remover {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icone-arquivo {
+  font-size: 1.5rem;
+}
+
+/* Dialog */
+.analyst-dialog-container {
+  margin: auto;
+  width: 30%;
+  border: none;
+  max-height: 60vh;
+  min-height: 30vh;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.select-analyst-row {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.select-analyst-row:hover {
+  background-color: #f1f7ff;
+}
+
+@media (max-width: 900px) {
+  .container-ticket {
+    flex-direction: column;
+  }
+
+  .container-info-chamado, 
+  .ticket-description-section {
+    width: 100%;
+  }
+
+  .container-info-chamado{
+    margin-top: 2rem;
+    max-height: 100vh;
+  }
+
+  .analyst-dialog-container {
+    width: 80%;
   }
 }

@@ -387,7 +387,8 @@ ul{
 }
 
 .prioridade-baixa{
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
   padding: 1px;
   border-radius: 9999px;
@@ -398,8 +399,9 @@ ul{
 }
 
 .prioridade-media{
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   padding: 1px;
   border-radius: 9999px;
   font-size: 0.75rem;
@@ -410,8 +412,9 @@ ul{
 
 
 .prioridade-alta{
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   padding: 1px;
   border-radius: 9999px;
   font-size: 0.75rem;

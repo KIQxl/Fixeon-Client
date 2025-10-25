@@ -16,7 +16,7 @@ Chart.register(...registerables);
 })
 export class AnaliseComponent implements AfterViewInit, OnDestroy {
   @ViewChild('statusChart') statusChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('analystChart') analystChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('slaChart') slaChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('dayChart') dayChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('hourChart') hourChartRef!: ElementRef<HTMLCanvasElement>;
 
@@ -25,9 +25,9 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
 
   // hold chart instances to destroy later
   private statusChart?: Chart;
-  private analystChart?: Chart;
   private dayChart?: Chart;
   private hourChart?: Chart;
+  private slaChart?: Chart;
 
   private readyInterval?: any;
 
@@ -40,6 +40,7 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
         this.data = res.data;
         this.loading = false;
 
+        console.log(res.data)
         this.safeRender();
       },
       error: (err) => {
@@ -51,11 +52,11 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   }
 
   private safeRender() {
-    if (this.statusChartRef && this.analystChartRef && this.dayChartRef && this.hourChartRef && this.data) {
+    if (this.statusChartRef && this.dayChartRef && this.hourChartRef && this.slaChartRef && this.data) {
       this.renderCharts();
     } else {
       this.readyInterval = setInterval(() => {
-        if (this.statusChartRef && this.analystChartRef && this.dayChartRef && this.hourChartRef && this.data) {
+        if (this.statusChartRef && this.slaChartRef && this.dayChartRef && this.hourChartRef && this.data) {
           clearInterval(this.readyInterval);
           this.renderCharts();
         }
@@ -64,18 +65,18 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    [this.statusChart, this.analystChart, this.dayChart, this.hourChart].forEach(c => c?.destroy());
+    [this.statusChart, this.dayChart, this.hourChart].forEach(c => c?.destroy());
     if (this.readyInterval) clearInterval(this.readyInterval);
   }
 
   private destroyAll() {
-    [this.statusChart, this.analystChart, this.dayChart, this.hourChart].forEach(c => {
+    [this.statusChart, this.dayChart, this.hourChart, this.slaChart].forEach(c => {
       if (c) { c.destroy(); }
     });
     this.statusChart = undefined;
-    this.analystChart = undefined;
     this.dayChart = undefined;
     this.hourChart = undefined;
+    this.slaChart = undefined;
   }
 
   renderCharts() {
@@ -107,39 +108,11 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
       options: <ChartOptions>{
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '65%',
+        cutout: '60%',
         plugins: {
           legend: { position: 'bottom', labels: { color: '#374151' } },
           tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} (${(ctx.parsed as number / ticketData.total * 100 || 0).toFixed(1)}%)` } },
           title: { display: false }
-        }
-      }
-    });
-
-    // ---------------- ANALYST BAR (horizontal) ----------------
-    const analystLabels = this.data.analystTicketsAnalyses.map(a => a.analystName);
-    const analystValues = this.data.analystTicketsAnalyses.map(a => a.ticketsTotal);
-    const ctxAnalyst = this.analystChartRef.nativeElement.getContext('2d')!;
-    this.analystChart = new Chart(ctxAnalyst, {
-      type: 'bar' as ChartType,
-      data: {
-        labels: analystLabels,
-        datasets: [{
-          label: 'Total',
-          data: analystValues,
-          backgroundColor: '#c7dbfd',
-          borderRadius: 6,
-          barThickness: 18
-        }]
-      },
-      options: <ChartOptions>{
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { mode: 'nearest' } },
-        scales: {
-          x: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { color: '#475569' } },
-          y: { ticks: { color: '#475569' } }
         }
       }
     });
@@ -226,6 +199,87 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
         }
       },
         scales: { x: { ticks: { color: '#475569' } }, y: { beginAtZero: true, ticks: { color: '#475569' }, grid: { color: '#f3f4f6' } } }
+      }
+    });
+
+    // ---------------- SLA BAR (por empresa) ----------------
+    const slaData = this.data.ticketSLAAnalysisResponse ?? []; // ajuste conforme o nome no response
+
+    const slaLabels = slaData.map(x => x.organizationName ?? x.organizationId);
+    const totalTickets = slaData.map(x => x.totalTickets);
+    const firstInteraction = slaData.map(x => x.firstInteractionWithinSLA)
+    const resolution = slaData.map(x => x.resolutionWithinSLA)
+
+    const ctxSLA = this.slaChartRef.nativeElement.getContext('2d')!;
+
+    this.slaChart = new Chart(ctxSLA, {
+      type: 'bar' as ChartType,
+      data: {
+        labels: slaLabels,
+        datasets: [
+          {
+            label: 'Total de Chamados',
+            data: totalTickets,
+            backgroundColor: '#bfdbfe',
+            borderRadius: 6,
+            barPercentage: 0.6
+          },
+          {
+            label: 'Dentro SLA - 1ª Interação',
+            data: firstInteraction,
+            backgroundColor: '#86efac',
+            borderRadius: 6,
+            barPercentage: 0.4
+          },
+          {
+            label: '% Dentro SLA - Resolução',
+            data: resolution,
+            backgroundColor: '#fca5a5',
+            borderRadius: 6,
+            barPercentage: 0.4
+          }
+        ]
+      },
+      options: <ChartOptions>{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#374151', boxWidth: 20, padding: 15 }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const datasetLabel = ctx.dataset.label || '';
+                const value = ctx.parsed.y ?? 0;
+                if (datasetLabel.includes('%')) return `${datasetLabel}: ${value.toFixed(1)}%`;
+                return `${datasetLabel}: ${value}`;
+              }
+            }
+          },
+          title: {
+            display: true,
+            color: '#1e293b',
+            font: { size: 16, weight: 600 },
+            padding: { top: 10, bottom: 20 }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#f3f4f6' },
+            ticks: { color: '#475569' },
+            stacked: false
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#475569',
+              callback: (value) => `${value}`
+            },
+            grid: { color: '#f3f4f6' }
+          }
+        }
       }
     });
   }

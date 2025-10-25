@@ -51,6 +51,7 @@ export class DetalhesChamado {
       .subscribe({
         next: (data) => {
           this.ticket = data;
+          console.log(data)
         },
         error: (err) => {
           console.log(err)

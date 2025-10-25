@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
+import { SLA, SLAInfo, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-solicitacoes',
@@ -21,7 +22,7 @@ export class Solicitacoes {
   isCardView: boolean = this.visualizationPreference;
 
 
-  constructor (private ticket_service: Tickets_Services, private router: Router) {}
+  constructor (private ticket_service: Tickets_Services, private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void{
     this.ticket_service.GetTickets().subscribe({
@@ -84,5 +85,34 @@ export class Solicitacoes {
     else
       this.filteredTickets = this.tickets;
     }
+
+  ValidaSLA(prazo: SLA | null): SafeHtml {
+    const dataAtual = new Date();
+
+    if (!prazo?.deadline) {
+      return this.sanitizer.bypassSecurityTrustHtml('-');
+    }
+
+    let accomplished = prazo.accomplished;
+    let deadline = new Date(prazo.deadline);
+
+    if(accomplished){
+      if(new Date(accomplished) > deadline)
+        return this.sanitizer.bypassSecurityTrustHtml(`<i class="fa-solid fa-xmark" style="color: #ef4444;"></i>`);
+      else
+         return this.sanitizer.bypassSecurityTrustHtml(`<i class="fa-solid fa-check" style="color: #10b981;"></i>`);
+    }
+    else{
+      if (dataAtual > deadline) {
+        return this.sanitizer.bypassSecurityTrustHtml(
+          `<i class="fa-solid fa-xmark" style="color: #ef4444;"></i>`
+        );
+      } else {
+        return this.sanitizer.bypassSecurityTrustHtml(
+          `<i class="fa-solid fa-check" style="color: #10b981;"></i>`
+        );
+      }
+    }
+  }
 }
 

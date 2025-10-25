@@ -1,15 +1,17 @@
 @if(!isLoginRoute){
+  <div class="app-wrapper">
     <app-header></app-header>
 
-  <div class="layout">
-    <app-sidenav></app-sidenav>
+    <div class="layout" [class.sidebar-collapsed]="isSidebarCollapsed">
+      <app-sidenav (collapsedChange)="isSidebarCollapsed = $event"></app-sidenav>
 
-    <div class="page-content">
-      <router-outlet></router-outlet>
+      <div class="page-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-  </div>
 
-  <app-footer></app-footer>
+    <app-footer></app-footer>
+  </div>
 }
 
 @if(isLoginRoute){

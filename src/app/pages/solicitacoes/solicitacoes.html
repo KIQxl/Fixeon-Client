@@ -56,6 +56,8 @@
             <th>Analista Responsável</th>
             <th>Prioridade</th>
             <th>Última Atualização</th>
+            <th>Prazo primeiro Atendimento</th>
+            <th>Prazo Resolução</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +79,14 @@
               </span>
             </td>
             <td class="ticket-update">{{ ticket.createdAt | date: 'HH:mm - dd/MM/yyyy'}}</td>
+            <td class="ticket-update">
+              <span [innerHTML]="ValidaSLA(ticket.slaInfo.firstInteraction)"></span>
+              {{ ticket.slaInfo.firstInteraction.deadline ? (' ' + (ticket.slaInfo.firstInteraction.deadline | date:'HH:mm - dd/MM/yyyy')) : '' }}
+            </td>
+           <td class="ticket-update">
+              <span [innerHTML]="ValidaSLA(ticket.slaInfo.resolution)"></span>
+              {{ ticket.slaInfo.resolution.deadline ? (' ' + (ticket.slaInfo.resolution.deadline | date:'HH:mm - dd/MM/yyyy')) : '' }}
+            </td>
           </tr>
         </tbody>
       </table>

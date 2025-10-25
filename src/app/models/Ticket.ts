@@ -17,6 +17,7 @@ export interface Ticket{
     duration: string | null;
     attachments: string[];
     closedBy: Analyst
+    slaInfo: SLAInfo;
   }
 
 export interface Customer{
@@ -86,6 +87,16 @@ export interface Departament{
   Name: string;
 }
 
+export interface SLAInfo{
+  firstInteraction: SLA;
+  resolution: SLA;
+}
+
+export interface SLA{
+  deadline: Date | null;
+  accomplished: Date | null;
+}
+
 export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
       case "Low":
@@ -144,6 +155,19 @@ export function TranslatePriority(priority: string | undefined): string{
     topAnalystResponse: TopAnalystResponse [];
     ticketsByDay: TicketsByDayResponse [];
     ticketsByHour: TicketsByHourResponse [];
+    ticketSLAAnalysisResponse: TicketSLAAnalysisResponse[];
+  }
+
+  export interface TicketSLAAnalysisResponse{
+    organizationId: string;
+    organizationName: string;
+    totalTickets: number;
+    resolutionTicketsWithSLA: number;
+    resolutionWithinSLA: number;
+    resolutionWithinSLAPercentage: number;
+    firstInteractionTicketsWithSLA: number;
+    firstInteractionWithinSLA: number;
+    firstInteractionWithinSLAPercentage: number;
   }
 
   export function TranslateStatus(priority: string | undefined): string{

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Auth_Services } from '../../services/auth-services';
 import { CommonModule } from '@angular/common';
@@ -12,4 +12,12 @@ import { HasRole } from '../../directives/has-role';
 })
 export class Sidenav {
   constructor(public auth: Auth_Services){}
+
+  isCollapsed = true;
+  @Output() collapsedChange = new EventEmitter<boolean>();
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
+    this.collapsedChange.emit(this.isCollapsed);
+  }
 }

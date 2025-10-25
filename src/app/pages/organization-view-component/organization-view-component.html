@@ -164,7 +164,7 @@
                 <form (ngSubmit)="onSaveDepartament(organization.id)">
                     <div class="form-group">
                         <label for="DepartamentName">Nome do Departamento</label>
-                        <input type="text" id="DepartamentName" name="DepartamentName" [(ngModel)]="novoDepartamento" placeholder="Ex: Suporte Técnico Nível 1" required>
+                        <input type="text" id="DepartamentName" name="DepartamentName" [(ngModel)]="novoDepartamento" placeholder="Ex: Recursos Humanos" required>
                     </div>
 
                     <div class="form-actions">
@@ -194,32 +194,32 @@
                     <tr>
                         <td>Primeira Interação</td>
                         <td class="prioridade-baixa">Baixa</td>
-                        <td class="center">{{FindSLA("Low", 1) || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 1) + " minutos" || "-"}}</td>
                     </tr>
                     <tr>
                         <td>Primeira Interação</td>
                         <td class="prioridade-media">Média</td>
-                        <td class="center">{{FindSLA("Medium", 1) || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 1) + " minutos" || "-"}}</td>
                     </tr>
                     <tr>
                         <td>Primeira Interação</td>
-                        <td class="prioridade-alta">Alta</td>
-                        <td class="center">{{FindSLA("High", 1) || "-"}}</td>
+                        <td class="prioridade-alta ">Alta</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 1) + " minutos" || "-"}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-baixa">Baixa</td>
-                        <td class="center">{{FindSLA("Low", 2) || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 2) + " minutos" || "-"}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-media">Média</td>
-                        <td class="center">{{FindSLA("Medium", 2) || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 2) + " minutos" || "-"}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-alta">Alta</td>
-                        <td class="center">{{FindSLA("High", 2) || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 2) + " minutos" || "-"}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -16,9 +16,10 @@ export class App {
    protected title = 'Fixeon';
 
    isLoginRoute = false;
+   isSidebarCollapsed = true;
 
   constructor(private router: Router) {
-     const currentUrl = this.router.url;
+    const currentUrl = this.router.url;
     this.isLoginRoute = currentUrl === '/' || currentUrl === '/login';
 
     this.router.events.pipe(
