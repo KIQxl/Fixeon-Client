@@ -1,71 +1,78 @@
 <div class="form-container">
   <h2>Abertura de Chamado</h2>
 
-  <form (ngSubmit)="abrirChamado()" enctype="multipart/form-data">
-
-    <div class="form-group">
-      <label for="titulo">Título</label>
-      <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required />
-    </div>
-
-    <div class="flex-line">
-        <div class="form-group">
-            <label for="categoria">Categoria</label>
-            <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
-              <option value="">Selecione</option>
-              <option *ngFor="let category of organization.categories.sort()" value="{{category}}">{{category}}</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="prioridade">Prioridade</label>
-            <select id="prioridade" name="prioridade" [(ngModel)]="prioridade" required>
-                <option value="">Selecione</option>
-                <option value="1">Baixa</option>
-                <option value="2">Média</option>
-                <option value="3">Alta</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="departamento">Departamento</label>
-           <select id="categoria" name="categoria" [(ngModel)]="departamento" required>
-              <option value="">Selecione</option>
-              <option *ngFor="let departamet of organization.departaments.sort()" value="{{departamet}}">{{departamet}}</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-      <label for="descricao">Descrição</label>
-      <textarea id="descricao" name="descricao" [(ngModel)]="descricao" required></textarea>
-    </div>
-
-    <div 
-      class="drop-area" 
-      (dragover)="onDragOver($event)" 
-      (drop)="onDrop($event)"
-    >
-      <p>Arraste arquivos aqui ou clique abaixo para anexar (máx: 3)</p>
-    </div>
-
-    <div class="anexos">
-      <div class="anexo" *ngFor="let anexo of anexos; let i = index">
-        <button type="button" class="remover" (click)="removerAnexo(i)">✖</button>
-
-        <ng-container *ngIf="anexo.preview; else arquivo">
-          <img [src]="anexo.preview" alt="Preview" />
-        </ng-container>
-
-        <ng-template #arquivo>
-          <div class="icone-arquivo">📄</div>
-        </ng-template>
+  <div *ngIf="organization?.id; else semOrganizacao">
+      <form (ngSubmit)="abrirChamado()" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required />
       </div>
-    </div>
 
-    <div class="form-group">
-      <button class="btn-enviar" type="submit">Abrir Chamado</button>
-    </div>
+      <div class="flex-line">
+          <div class="form-group">
+              <label for="categoria">Categoria</label>
+              <select id="categoria" name="categoria" [(ngModel)]="categoria" required>
+                <option value="">Selecione</option>
+                <option *ngFor="let category of organization.categories" value="{{category.name}}">{{category.name}}</option>
+              </select>
+          </div>
 
-  </form>
+          <div class="form-group">
+              <label for="prioridade">Prioridade</label>
+              <select id="prioridade" name="prioridade" [(ngModel)]="prioridade" required>
+                  <option value="">Selecione</option>
+                  <option value="1">Baixa</option>
+                  <option value="2">Média</option>
+                  <option value="3">Alta</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="departamento">Departamento</label>
+            <select id="departamento" name="departamento" [(ngModel)]="departamento" required>
+                <option value="">Selecione</option>
+                <option *ngFor="let departamet of organization.departaments" value="{{departamet.name}}">{{departamet.name}}</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" [(ngModel)]="descricao" required></textarea>
+      </div>
+
+      <div 
+        class="drop-area" 
+        (dragover)="onDragOver($event)" 
+        (drop)="onDrop($event)"
+      >
+        <p>Arraste arquivos aqui ou clique abaixo para anexar (máx: 3)</p>
+      </div>
+
+      <div class="anexos">
+        <div class="anexo" *ngFor="let anexo of anexos; let i = index">
+          <button type="button" class="remover" (click)="removerAnexo(i)">✖</button>
+
+          <ng-container *ngIf="anexo.preview; else arquivo">
+            <img [src]="anexo.preview" alt="Preview" />
+          </ng-container>
+
+          <ng-template #arquivo>
+            <div class="icone-arquivo">📄</div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn-enviar" type="submit">Abrir Chamado</button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #semOrganizacao>
+    <div class="alert alert-warning">
+      Nenhuma organização encontrada.<br/>
+      Entre em contato com o suporte para ativar ou verificar sua organização.
+    </div>
+  </ng-template>
 </div>

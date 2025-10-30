@@ -114,5 +114,9 @@ export class Solicitacoes {
       }
     }
   }
+
+  trackByUserId(index: number, user: any) {
+  return user.id;
+}
 }
 

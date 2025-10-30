@@ -126,7 +126,7 @@
         <div class="msg-conteudo">
           {{ msg.message }}
         </div>
-        <div>
+        <div style="margin-top: 1rem;">
           <button class="btn-enviar" (click)="OpenAllAttachments(msg.attachmentsUrls)">Visualizar Anexos</button>
         </div>
       </div>
@@ -137,7 +137,7 @@
     </ng-template>
   </section>
 
-  <section class="resposta">
+  <section *ngIf="ticket?.status != 'Resolved' && ticket?.status != 'Pending' && ticket?.status != 'Canceled'" class="resposta">
     <h3>Responder chamado</h3>
     <div
         class="drop-area"
@@ -166,7 +166,7 @@
     </div>
 
     <input type="file" multiple (change)="onFileSelected($event)" />
-    <button class="btn-enviar" (click)="newInteraction()">Enviar</button>  
+    <button style="margin-top: 1rem;" class="btn-enviar" (click)="newInteraction()">Enviar</button>  
   </section>
 
   <dialog #analystDialog class="analyst-dialog-container">

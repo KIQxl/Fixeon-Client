@@ -11,6 +11,7 @@ import { NovoUsuario } from './pages/novo-usuario/novo-usuario';
 import { GerenciamentoApp } from './pages/gerenciamento-app/gerenciamento-app';
 import { AnaliseComponent } from './pages/analise-component/analise-component';
 import { OrganizationViewComponent } from './pages/organization-view-component/organization-view-component';
+import { CreateOrganizationComponent } from './pages/create-organization-component/create-organization-component';
 
 export const routes: Routes = [
     {
@@ -60,5 +61,9 @@ export const routes: Routes = [
     {
       path: 'org/:id',
       component: OrganizationViewComponent
+    },
+    {
+      path: 'create-organization',
+      component: CreateOrganizationComponent
     }
 ];

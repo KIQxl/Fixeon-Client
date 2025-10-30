@@ -4,7 +4,7 @@ import { filter } from 'rxjs';
 import { Footer } from './layout/footer/footer';
 import { Header } from './layout/header/header';
 import { Sidenav } from './layout/sidenav/sidenav';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class App {
    isLoginRoute = false;
    isSidebarCollapsed = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private location: Location,) {
     const currentUrl = this.router.url;
     this.isLoginRoute = currentUrl === '/' || currentUrl === '/login';
 
@@ -27,5 +27,15 @@ export class App {
     ).subscribe((event: any) => {
       this.isLoginRoute = event.url === '/' || event.urlAfterRedirects === '/';
     });
+  }
+
+  voltar(): void {
+    // Se há histórico anterior no navegador, volta
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      // Se foi acesso direto (sem histórico anterior), define rota padrão
+      this.router.navigate(['/home']); 
+    }
   }
 }

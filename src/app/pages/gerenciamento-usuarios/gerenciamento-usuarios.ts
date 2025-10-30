@@ -113,7 +113,6 @@ export class GerenciamentoUsuarios {
   }
 
   remover(user: ApplicationUser) {
-    console.log("Remover usuário:", user);
   }
 
   GetOrganizations(){

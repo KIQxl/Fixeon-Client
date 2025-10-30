@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Token } from '../../services/token';
 import { Organization_services } from '../../services/organizations_services';
 import { Organization } from '../../models/AuthModels';
+import { Category, Departament } from '../../models/Ticket';
 
 export interface Anexo {
   file: File;
@@ -78,8 +79,9 @@ export class NovoChamado {
   }
 
   abrirChamado() {
-    const id = sessionStorage.getItem('id') ?? '';
-    const email = sessionStorage.getItem('email') ?? '';
+    const tokenPayload = this.token.GetPayload();
+    const email = tokenPayload?.email ?? '';
+    const id = tokenPayload?.id ?? '';
 
     if(email == '' || id == ''){
       return;
@@ -118,11 +120,21 @@ export class NovoChamado {
     var organizationId = tokenPayload?.organizationId || "";
     this.organization_services.GetOrganizationById(organizationId)
     .subscribe({
-      next:(response) => {
-        this.organization = response.data
+      next: (response) => {
+        if (response.success && response.data) {
+          this.organization = response.data;
+          this.organization.categories = this.organization.categories?.sort((a, b) => a.name.localeCompare(b.name)) || [];
+          this.organization.departaments = this.organization.departaments?.sort((a, b) => a.name.localeCompare(b.name)) || [];
+        } else {
+          this.organization = { } as Organization;
+          this.organization.categories = [] as Category [];
+          this.organization.departaments = [] as Departament [];
+          this.notificacao.erro(response.errors);
+        }
       },
-      error:(err) => {
-        this.notificacao.erro("Erro ao buscar categorias." + err);
+      error: (err) => {
+        this.organization = {} as Organization;
+        this.notificacao.erro(err?.error?.errors || "Erro ao buscar organização");
       }
     });
   }

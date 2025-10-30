@@ -1,4 +1,4 @@
-<div class="container-principal">
+<!-- <div class="container-principal">
     <div class="container-image">
         <img src="/assets/logo-with-name.png" class="image">
     </div>
@@ -38,4 +38,78 @@
             </div>
         </div>
     </div>
+</div> -->
+
+<div class="user-profile">
+  <div class="profile-header">
+    <div class="avatar-section">
+      <img src="/assets/logo-with-name.png" alt="Foto do usuário" class="avatar" />
+      <div class="user-info">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+      </div>
+    </div>
+
+    <div class="user-meta">
+      <div class="meta-item">
+        <label>ID:</label>
+        <span>{{ user.id }}</span>
+      </div>
+      <div class="meta-item">
+        <label>Organização:</label>
+        <span>{{ user.organization.organizationName }}</span>
+      </div>
+      <div class="meta-item">
+        <label>Criado em:</label>
+        <span>23/08/2025</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <div class="card info-card">
+      <h3>Informações Pessoais</h3>
+      <div class="info-grid">
+        <div>
+          <label>Nome Completo</label>
+          <input type="text" [value]="user.username" readonly />
+        </div>
+        <div>
+          <label>E-mail</label>
+          <input type="text" [value]="user.email" readonly />
+        </div>
+        <div>
+          <label>Perfis</label>
+          <input type="text" [value]="user.roles" readonly />
+        </div>
+      </div>
+    </div>
+
+    <div class="card org-card">
+      <h3>Informações da Organização</h3>
+      <div class="info-grid">
+        <div>
+          <label>Nome</label>
+          <input type="text" [value]="user.organization.organizationName" readonly />
+        </div>
+        <div>
+          <label>Código</label>
+          <input type="text" [value]="user.organization.organizationId" readonly />
+        </div>
+        <div>
+          <label>Status</label>
+          <input type="text" value="Ativa" readonly class="status-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card activity-card">
+      <h3>Atividade Recente</h3>
+      <ul>
+        <li>🟢 Login realizado com sucesso - 23/10/2025 às 10:43</li>
+        <li>📂 Criou um chamado de suporte - 22/10/2025 às 17:21</li>
+        <li>🧾 Atualizou informações da conta - 18/10/2025 às 14:12</li>
+      </ul>
+    </div>
+  </div>
 </div>

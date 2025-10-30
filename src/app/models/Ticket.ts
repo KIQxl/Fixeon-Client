@@ -1,90 +1,92 @@
 export interface Ticket{
-    id: string;
-    protocol: string;
-    title: string;
-    description: string;
-    createdAt: Date;
-    modifiedAt: Date | null;
-    resolvedAt: Date | null;
-    customer: Customer;
-    analyst: Analyst;
-    category: string;
-    priority: string;
-    status: string;
-    departament: string;
-    interactions: Interaction[] | null;
-    durationFormat: string;
-    duration: string | null;
-    attachments: string[];
-    closedBy: Analyst
-    slaInfo: SLAInfo;
+  id: string;
+  protocol: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+  modifiedAt: Date | null;
+  resolvedAt: Date | null;
+  customer: Customer;
+  analyst: Analyst;
+  category: string;
+  priority: string;
+  status: string;
+  departament: string;
+  interactions: Interaction[] | null;
+  durationFormat: string;
+  duration: string | null;
+  attachments: string[];
+  closedBy: Analyst
+  slaInfo: SLAInfo;
   }
 
 export interface Customer{
-    userId: string;
-    userEmail: string;
-    organizationName: string | null;
-    organizationId: string | null;
+  userId: string;
+  userEmail: string;
+  organizationName: string | null;
+  organizationId: string | null;
 }
 
 export interface Analyst{
-    analystId: string;
-    analystEmail: string;
+  analystId: string;
+  analystEmail: string;
 }
 
 export interface Interaction{
-    ticketId: string;
-    message: string;
-    attachmentsUrls: string[];
-    createdAt: Date;
-    createdByUserName: string;
-    createdByUserId: string;
+  ticketId: string;
+  message: string;
+  attachmentsUrls: string[];
+  createdAt: Date;
+  createdByUserName: string;
+  createdByUserId: string;
 }
 
 export interface Attachment{
-    name: string;
-    extension: string;
-    uploadedAt: Date;
-    senderId: string;
-    ticketId: string | null;
-    interactionId: string | null;
+  name: string;
+  extension: string;
+  uploadedAt: Date;
+  senderId: string;
+  ticketId: string | null;
+  interactionId: string | null;
 }
 
 export interface CreateTicketDto{
-    title: string;
-    description: string;
-    category: string;
-    CreateByUserId: string;
-    CreateByUsername: string;
-    priority: number;
-    files: File[];
+  title: string;
+  description: string;
+  category: string;
+  CreateByUserId: string;
+  CreateByUsername: string;
+  priority: number;
+  files: File[];
 }
 
 export interface CreateTicketInteractionDto{
-    TicketId: string;
-    CreateByUserId: string;
-    CreateByUsername: string;
-    Message: string;
-    files: File[];
+  TicketId: string;
+  CreateByUserId: string;
+  CreateByUsername: string;
+  Message: string;
+  files: File[];
 }
 
 export interface CreateAssignTicketRequest{
-    TicketId: string;
-    AnalystId: string;
-    AnalystEmail: string;
+  TicketId: string;
+  AnalystId: string;
+  AnalystEmail: string;
 }
 
 export interface ChangeTicketStatusRequest{
-    TicketId: string;
-    Status: number;
+  TicketId: string;
+  Status: number;
 }
 
 export interface Category{
-  Name: string;
+  id: string;
+  name: string;
 }
 
 export interface Departament{
-  Name: string;
+  id: string;
+  name: string;
 }
 
 export interface SLAInfo{

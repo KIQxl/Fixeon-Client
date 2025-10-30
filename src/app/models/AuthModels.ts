@@ -70,3 +70,23 @@ export interface CreateSla{
     slaPriority: number;
     type: number;
 }
+
+export interface CreateSlaInOrganizationRequest{
+    slaInMinutes: number;
+    slaPriority: number;
+    type: number;
+}
+
+export interface DeleteCategoryOrDepartament{
+    OrganizationId: string;
+    CategoryOrDepartamentId: string;
+}
+
+export interface CreateOrganizationRequest{
+    Name: string;
+    Slas: CreateSlaInOrganizationRequest[];
+    CNPJ: string;
+    Email: string;
+    Categories: string [];
+    Departaments: string [];
+}

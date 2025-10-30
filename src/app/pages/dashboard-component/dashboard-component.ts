@@ -29,10 +29,6 @@ export class DashboardComponent {
 
   ngOnInit(){
     this.GetPendingAndInProgressTickets();
-    
-    setTimeout(() => {
-      this.setActiveTab("meus");
-    }, 300)
   }
 
   GetPendingAndInProgressTickets(){
@@ -40,7 +36,10 @@ export class DashboardComponent {
     .subscribe({
       next: (response) => {
         this.tickets = response.data;
+
         this.generateAnalystSummary();
+        
+        this.setActiveTab("meus");
       },
       error: (err) => {
         this.notificacao.erro(err);

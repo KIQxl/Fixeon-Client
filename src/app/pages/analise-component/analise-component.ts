@@ -40,7 +40,6 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
         this.data = res.data;
         this.loading = false;
 
-        console.log(res.data)
         this.safeRender();
       },
       error: (err) => {
@@ -65,7 +64,7 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    [this.statusChart, this.dayChart, this.hourChart].forEach(c => c?.destroy());
+    [this.statusChart, this.dayChart, this.hourChart, this.slaChart].forEach(c => c?.destroy());
     if (this.readyInterval) clearInterval(this.readyInterval);
   }
 
@@ -232,7 +231,7 @@ export class AnaliseComponent implements AfterViewInit, OnDestroy {
             barPercentage: 0.4
           },
           {
-            label: '% Dentro SLA - Resolução',
+            label: 'Dentro SLA - Resolução',
             data: resolution,
             backgroundColor: '#fca5a5',
             borderRadius: 6,

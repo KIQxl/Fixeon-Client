@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '../models/Response';
 import { Observable } from 'rxjs';
-import { CreateCategory, CreateDepartament, CreateSla, Organization } from '../models/AuthModels';
+import { CreateCategory, CreateDepartament, CreateOrganizationRequest, CreateSla, DeleteCategoryOrDepartament, Organization } from '../models/AuthModels';
 import { API_CONFIG } from '../core/API_CONFIG';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,8 +12,11 @@ import { Router } from '@angular/router';
 export class Organization_services {
 
   constructor(private http: HttpClient, private router: Router) { }
+    CreateOrganization(request: CreateOrganizationRequest): Observable<ApiResponse<Organization>>{
+      return this.http.post<ApiResponse<Organization>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}`, request);
+    }
 
-   GetAllOrganizations(): Observable<ApiResponse<Organization []>>{
+    GetAllOrganizations(): Observable<ApiResponse<Organization []>>{
       return this.http.get<ApiResponse<Organization []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}`);
     }
 
@@ -31,5 +34,13 @@ export class Organization_services {
 
     CreateSLA(request: CreateSla): Observable<ApiResponse<boolean>>{
       return this.http.post<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/create-sla`, request);
+    }
+
+    DeleteCategory(request: DeleteCategoryOrDepartament): Observable<ApiResponse<boolean>>{
+      return this.http.delete<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/delete-category`, { body: request });
+    }
+
+    DeleteDepartament(request: DeleteCategoryOrDepartament): Observable<ApiResponse<boolean>>{
+      return this.http.delete<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}/delete-departament`, { body: request });
     }
 }

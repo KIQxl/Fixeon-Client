@@ -121,3 +121,28 @@
   height: 20px;
   font-size: 12px;
 }
+
+.alert {
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #ffc107; /* destaque amarelo */
+  background-color: #fff8e1; /* fundo suave */
+  color: #1e3447;
+}
+
+.alert-warning::before {
+  content: "⚠️";
+  font-size: 1.2rem;
+}
+
+.alert-warning strong {
+  color: #d38b00;
+}

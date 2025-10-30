@@ -51,7 +51,8 @@ export class DetalhesChamado {
       .subscribe({
         next: (data) => {
           this.ticket = data;
-          console.log(data)
+          this.ticket.interactions = (data.interactions ?? [])
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
         },
         error: (err) => {
           console.log(err)
@@ -257,7 +258,6 @@ export class DetalhesChamado {
     const selectedRadio = dialog.querySelector<HTMLInputElement>('input[type="radio"]:checked');
 
     if (!selectedRadio) {
-      console.log('Nenhum analista selecionado');
       return;
     }
 

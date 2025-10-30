@@ -1,10 +1,22 @@
 <h3>Gerenciamento de Clientes</h3>
 
 <div class="org-info">
-    <input [ngModel]="organization.name">
-    <input [ngModel]="organization.email">
-    <input [ngModel]="organization.cnpj">
+  <div class="input-group">
+    <label for="org-name">Nome da Organização</label>
+    <input id="org-name" type="text" [ngModel]="organization.name" readonly />
+  </div>
+
+  <div class="input-group">
+    <label for="org-email">E-mail</label>
+    <input id="org-email" type="email" [ngModel]="organization.email" readonly />
+  </div>
+
+  <div class="input-group">
+    <label for="org-cnpj">CNPJ</label>
+    <input id="org-cnpj" type="text" [ngModel]="organization.cnpj" readonly />
+  </div>
 </div>
+
 
 <div class="users-info">
     <h4>
@@ -109,8 +121,11 @@
                 <button class="btn-add-minimalist" title="Adicionar nova categoria" (click)="openAddCategoriaModal()">+</button>
             </div>
             <ul class="category-list">
-                <li *ngFor="let category of organization.categories.sort()">
-                    {{ category }}
+                <li style="display: flex; justify-content: space-between;" *ngFor="let category of organization.categories.sort()">
+                    {{ category.name }}
+                    <button class="garbage-button" (click)="DeleteCategory(category.id)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -145,8 +160,11 @@
                 <button class="btn-add-minimalist" title="Adicionar novo departamento" (click)="openAddDepartamentModal()">+</button>
             </div>
             <ul class="category-list">
-                <li *ngFor="let departament of organization.departaments.sort()">
-                    {{ departament }}
+                <li style="display: flex; justify-content: space-between;" *ngFor="let departament of organization.departaments.sort()">
+                    {{ departament.name }}
+                    <button class="garbage-button" (click)="DeleteDepartament(departament.id)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -194,32 +212,32 @@
                     <tr>
                         <td>Primeira Interação</td>
                         <td class="prioridade-baixa">Baixa</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 1) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 1)}}</td>
                     </tr>
                     <tr>
                         <td>Primeira Interação</td>
                         <td class="prioridade-media">Média</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 1) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 1)}}</td>
                     </tr>
                     <tr>
                         <td>Primeira Interação</td>
                         <td class="prioridade-alta ">Alta</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 1) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 1)}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-baixa">Baixa</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 2) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Low", 2)}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-media">Média</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 2) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("Medium", 2)}}</td>
                     </tr>
                     <tr>
                         <td>Resolução</td>
                         <td class="prioridade-alta">Alta</td>
-                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 2) + " minutos" || "-"}}</td>
+                        <td class="center" style="font-weight: 500;">{{FindSLA("High", 2)}}</td>
                     </tr>
                 </tbody>
             </table>

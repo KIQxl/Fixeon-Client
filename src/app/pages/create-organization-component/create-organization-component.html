@@ -1,0 +1,93 @@
+<div class="create-org-container">
+  <h2 class="title">Cadastrar Nova Organização</h2>
+
+  <form (ngSubmit)="onSubmit()" #orgForm="ngForm" class="org-form">
+    <div class="form-group">
+      <label for="name">Nome da Organização</label>
+      <input
+        id="name"
+        name="name"
+        [(ngModel)]="organization.Name"
+        placeholder="Ex: Tech Solutions Ltda"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="organization.Email"
+        placeholder="contato@empresa.com"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cnpj">CNPJ</label>
+      <input
+        id="cnpj"
+        name="cnpj"
+        maxlength="18"
+        [(ngModel)]="organization.CNPJ"
+        (input)="onCnpjInput($event)"
+        placeholder="00.000.000/0000-00"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="category">Categorias</label>
+      <div class="category-input">
+        <input
+          id="category"
+          [(ngModel)]="newCategory"
+          name="category"
+          placeholder="Ex: Varejo, Tecnologia..."
+          (keydown.enter)="handleEnterCategory($event)"
+        />
+        <button type="button" (click)="addCategory()">Adicionar</button>
+      </div>
+
+      <div class="category-list" *ngIf="organization.Categories.length > 0">
+        <span
+          class="category-chip"
+          *ngFor="let cat of organization.Categories; let i = index"
+        >
+          {{ cat }}
+          <button type="button" (click)="removeCategory(i)">×</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Departamentos</label>
+      <div class="category-input">
+        <input
+          id="category"
+          [(ngModel)]="newDepartament"
+          name="category"
+          placeholder="Ex: Recursos Humano, Financeiro, Fiscal..."
+          (keydown.enter)="handleEnterDepartament($event)"
+        />
+        <button type="button" (click)="addDepartament()">Adicionar</button>
+      </div>
+
+      <div class="category-list" *ngIf="organization.Departaments.length > 0">
+        <span
+          class="category-chip"
+          *ngFor="let dep of organization.Departaments; let i = index"
+        >
+          {{ dep }}
+          <button type="button" (click)="removeDepartament(i)">×</button>
+        </span>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit" [disabled]="!orgForm.form.valid">Salvar</button>
+      <button type="button" class="cancel" (click)="cancel()" [routerLink]="['/gerenciamento-app']">Cancelar</button>
+    </div>
+  </form>
+</div>

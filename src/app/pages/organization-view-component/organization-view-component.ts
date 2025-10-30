@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Organization_services } from '../../services/organizations_services';
 import { Notificacao } from '../../services/notificacao';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationUser, AssociateRoleRequest, CreateCategory, CreateDepartament, CreateSla, Organization, UpdateApplicationUser } from '../../models/AuthModels';
+import { ApplicationUser, AssociateRoleRequest, CreateCategory, CreateDepartament, CreateSla, DeleteCategoryOrDepartament, Organization, UpdateApplicationUser } from '../../models/AuthModels';
 import { FormsModule } from '@angular/forms';
 import { Auth_Services } from '../../services/auth-services';
 import { CommonModule } from '@angular/common';
@@ -268,11 +268,11 @@ export class OrganizationViewComponent {
   slaPriority: number = 0;
   slaInMinutes: number = 0;
 
-  FindSLA(slaPriority: string, type: number): number | null {
+  FindSLA(slaPriority: string, type: number): string | null {
     let sla = this.organization.organizationSLAs.find(s => s.type == type && s.slaPriority == slaPriority);
 
     let slaInMinutes: number | null = sla ? sla.slaInMinutes : null
-    return slaInMinutes;
+    return slaInMinutes != null ? `${slaInMinutes} minutos` : "-";
   }
 
   showModalAddSLA = false;
@@ -314,7 +314,6 @@ export class OrganizationViewComponent {
       type: this.slaType
     }
 
-    console.log(typeof(this.slaType));
     this.organization_services.CreateSLA(request)
     .subscribe({
       next: (res) => {
@@ -351,5 +350,42 @@ export class OrganizationViewComponent {
 
   openModalConfigs() {
     this.showModalConfigs = true;
+  }
+
+  DeleteCategory(id: string){
+    let request: DeleteCategoryOrDepartament = {
+      OrganizationId: this.organization.id,
+      CategoryOrDepartamentId: id,
+    }
+
+    this.organization_services.DeleteCategory(request)
+    .subscribe({
+      next: (res) => {
+        this.notificacao.sucesso("Categoria removida.");
+        this.GetOrganization();
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.errors)
+      }
+    });
+  }
+
+  DeleteDepartament(id: string){
+    let request: DeleteCategoryOrDepartament =  {
+      OrganizationId: this.organization.id,
+      CategoryOrDepartamentId: id,
+    }
+
+    this.organization_services.DeleteDepartament(request)
+    .subscribe({
+      next: (res) => {
+        this.notificacao.sucesso("Departamento removido.");
+        this.GetOrganization();
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error)
+        console.log(err)
+      }
+    });
   }
 }
