@@ -595,6 +595,21 @@ textarea {
   background-color: #f1f7ff;
 }
 
+.select-edit {
+  width: 100%;
+  padding: 0.3rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  transition: border 0.2s;
+  background-color: #fff;
+  color: #333;
+}
+
+.select-edit:focus {
+  outline: none;
+  border-color: #1e3447;
+}
+
 @media (max-width: 900px) {
   .container-ticket {
     flex-direction: column;

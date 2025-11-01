@@ -71,8 +71,32 @@
 
   <ng-template #semOrganizacao>
     <div class="alert alert-warning">
-      Nenhuma organização encontrada.<br/>
-      Entre em contato com o suporte para ativar ou verificar sua organização.
+      <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
+        <span>⚠️</span>
+        <div>
+          Nenhuma organização encontrada.
+          Entre em contato com o suporte para ativar ou verificar sua organização.
+        </div>
+      </div>
+
+      <button (click)="openModal()" class="btn-report">
+        Reportar para a equipe de analistas.
+      </button>
     </div>
   </ng-template>
+</div>
+
+<div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Reportar Usuário sem Organização</h2>
+
+    <textarea
+      [(ngModel)]="observation"
+      placeholder="Informe o nome da organização a qual você pertence e caso hajam outras observações descreva aqui..."
+    ></textarea>
+
+    <div class="actions">
+      <button type="button" class="report" (click)="CreateDeafultOrganizationTicket()">Reportar</button>
+    </div>
+  </div>
 </div>

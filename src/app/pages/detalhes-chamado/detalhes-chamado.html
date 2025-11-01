@@ -32,41 +32,59 @@
         <button class="btn-action assignTo" *appHasRole="'AnalistaPolicy'" (click)="LoadAnalysts()">
           <i class="fa-solid fa-repeat"></i>
           Transferir</button>
-        <button class="btn-action edit" *appHasRole="'AnalistaPolicy'">
+        <button class="btn-action edit" *appHasRole="'AnalistaPolicy'" (click)="toggleEditMode(ticket?.customer?.organizationId!)">
           <i class="fa-solid fa-pencil"></i>
-          Editar Ticket</button>
+           {{ getButtonText() }}
+        </button>
         <button class="btn-action resolved" *appHasRole="'AnalistaPolicy'" (click)="ChangeTicketStatus(2)">
           <i class="fa-solid fa-check"></i>
           Fechar Ticket
         </button>
       </div>
 
-      <div class="campo">
-        <label>Requirente:</label>
-        <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
-      </div>
-
       <div style="display: flex; justify-content: space-between;">
         <div class="campo">
-          <label>Assunto:</label>
-          <span>{{ ticket?.title }}</span>
+          <label>Requirente:</label>
+          <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
         </div>
 
         <div class="campo" style="width: 50%;">
-          <label>Status:</label>
-          <span>{{ this.TranslateStatus() }}</span>
+            <label>Status:</label>
+            <span>{{ this.TranslateStatus() }}</span>
         </div>
       </div>
 
+    
+      <div class="campo">
+        <label>Assunto:</label>
+        <span>{{ ticket?.title }}</span>
+      </div>
+
       <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
+        <div class="campo" style="width: 48%;">
           <label>Categoria:</label>
-          <span>{{ ticket?.category }}</span>
+          <ng-container *ngIf="!isEditing; else editCategoria">
+            <span>{{ ticket?.category }}</span>
+          </ng-container>
+          <ng-template #editCategoria>
+           <select [(ngModel)]="newCategory" class="select-edit">
+            <option [ngValue]="null" disabled>Selecione a categoria</option>
+            <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+          </select>
+          </ng-template>
         </div>
 
         <div class="campo" style="width: 50%;">
           <label>Departamento:</label>
-          <span>{{ ticket?.departament }}</span>
+          <ng-container *ngIf="!isEditing; else editDepartamento">
+            <span>{{ ticket?.departament }}</span>
+          </ng-container>
+          <ng-template #editDepartamento>
+            <select [(ngModel)]="newDepartament" class="select-edit">
+              <option [ngValue]="null" disabled>Selecione o departamento</option>
+              <option *ngFor="let d of departaments" [ngValue]="d.id">{{ d.name }}</option>
+            </select>
+          </ng-template>
         </div>
       </div>
 
@@ -110,7 +128,6 @@
           <span>{{ (ticket?.slaInfo?.resolution?.accomplished | date: 'dd/MM/yyyy HH:mm') || "-" }}</span>
         </div>
       </div>
-
     </section>
   </div>
 
@@ -177,6 +194,6 @@
       </li>
     </ul>
 
-    <button type="button" class="btn-enviar" (click)="AssginAnalist()">Vincular/Transferir</button>
+    <button type="button" class="btn-enviar" style="margin-top: 1rem; width: 100%;" (click)="AssginAnalist()">Vincular/Transferir</button>
   </dialog>
 </div>

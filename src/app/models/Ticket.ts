@@ -99,6 +99,13 @@ export interface SLA{
   accomplished: Date | null;
 }
 
+export interface ChangeTicketCategoryAndDepartament{
+  Id: string;
+  OrganizationId: string;
+  CategoryId: string;
+  DepartamentId: string;
+}
+
 export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
       case "Low":

@@ -66,9 +66,9 @@
       <label for="category">Departamentos</label>
       <div class="category-input">
         <input
-          id="category"
+          id="departament"
           [(ngModel)]="newDepartament"
-          name="category"
+          name="departament"
           placeholder="Ex: Recursos Humano, Financeiro, Fiscal..."
           (keydown.enter)="handleEnterDepartament($event)"
         />
@@ -83,6 +83,70 @@
           {{ dep }}
           <button type="button" (click)="removeDepartament(i)">×</button>
         </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="SLA">Configuração de SLA</label>
+      <div class="category-input">
+        <select
+          id="type"
+          [(ngModel)]="newSLA.type"
+          name="type"
+          style="width: 30%;"
+        >
+          <option [ngValue]="0" disabled selected>Selecione o tipo</option>
+          <option [ngValue]="1">Primeiro Atendimento</option>
+          <option [ngValue]="2">Resolução</option>
+        </select>
+
+        <select
+          id="slaPriority"
+          [(ngModel)]="newSLA.slaPriority"
+          name="slaPriority"
+          style="width: 30%;"
+        >
+          <option [ngValue]="0" disabled selected>Selecione a prioridade</option>
+          <option [ngValue]="1">Baixa</option>
+          <option [ngValue]="2">Média</option>
+          <option [ngValue]="3">Alta</option>
+        </select>
+
+        <input
+          id="slaInMinutes"
+          [(ngModel)]="newSLA.slaInMinutes"
+          name="slaInMinutes"
+          placeholder="Tempo em minutos..."
+          style="width: 30%;"
+        />
+
+        <button type="button" (click)="addSLA()">Adicionar</button>
+      </div>
+
+      <div class="category-list" *ngIf="organization.Slas.length > 0">
+
+        <table class="sla-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th style="text-align: center;">Prioridade</th>
+              <th style="text-align: center;">Tempo em minutos</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sla of organization.Slas; let i = index">
+              <td>{{ TranslateSLAType(sla.type) }}</td>
+              <td class="center">{{ TranslateSLAPriority(sla.slaPriority) }}</td>
+              <td class="center">{{ sla.slaInMinutes }}</td>
+              <td>
+                <button type="button" style="background-color: transparent; color: 1e3447; border: none;" (click)="removeSLA(i)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="actions">

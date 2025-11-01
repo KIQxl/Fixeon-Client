@@ -138,4 +138,71 @@ export class NovoChamado {
       }
     });
   }
+
+  CreateDeafultOrganizationTicket(){
+    const formData = new FormData();
+
+    let tokenPayload = this.token.GetPayload();
+
+    let title = "Usuário sem vínculo com organização.";
+    const reportMessage = `
+      Usuário sem vínculo com organização.
+
+      Um de nossos usuários cadastrados reportou que se encontra sem vínculo com nenhuma organização ativa.  
+
+      Esse tipo de ocorrência não permite que o mesmo abra ou interaja com chamados, o que pode causar inconsistências em permissões e relatórios.  
+
+      **Detalhes do usuário identificado:**  
+      - Nome: ${tokenPayload?.username}  
+      - E-mail: ${tokenPayload?.email}  
+      - ID do usuário: ${tokenPayload?.id}  
+      - Reportado em: ${new Date().toLocaleString('pt-BR')}
+
+      **Observações do usuário:**
+      ${this.observation}
+
+      **Ação recomendada:**  
+      1. Verificar se o usuário deve pertencer a uma organização existente.  
+      2. Caso sim, vincular o usuário manualmente.  
+      3. Caso contrário, avaliar se o usuário deve ser desativado ou excluído.  
+
+      Entre em contato com o usuário para obter mais informações.
+      `;
+
+    let category = "SEM ORGANIZAÇÃO";
+    let departament = "SEM ORGANIZAÇÃO";
+
+    formData.append('title', title)
+    formData.append('description', reportMessage)
+    formData.append('category', category)
+    formData.append('Departament', departament)
+    formData.append('priority', "3")
+
+    this.ticketService.CreateTicket(formData).subscribe({
+      next: (response) => {
+        if(response.success){
+          this.notificacao.sucesso("Sua situação foi reportada para a equipe, dentro de alguns instantes um de nossos analistas irá realizar o vínculo com sua organização.");
+          this.router.navigate(['/solicitacoes']);
+        }
+        else{
+          this.notificacao.erro(response.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.errors);
+      }
+    });
+  }
+
+  showModal = false;
+  observation = '';
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.observation = '';
+  }
 }

@@ -55,6 +55,65 @@ export class CreateOrganizationComponent {
     this.organization.Departaments.splice(index, 1);
   }
 
+  newSLA: CreateSlaInOrganizationRequest = {
+    type: 0,
+    slaPriority: 0,
+    slaInMinutes: 0
+   };
+
+  addSLA() {
+    const sla = { ... this.newSLA };
+    if (sla.slaInMinutes && sla.slaInMinutes > 0 && sla.slaPriority > 0 && sla.type > 0) {
+
+      let index = this.organization.Slas.findIndex(x => x.slaPriority === sla.slaPriority && x.type === sla.type);
+      if(index !== -1)
+        this.organization.Slas.splice(index, 1);
+
+      this.organization.Slas.push(sla);
+    }
+
+    this.newSLA = {
+      type: 0,
+      slaPriority: 0,
+      slaInMinutes: 0
+    };
+
+    console.log(this.organization)
+  }
+
+  removeSLA(index: number) {
+    this.organization.Slas.splice(index, 1);
+  }
+
+  TranslateSLAPriority(slaPriority: number): string{
+    switch(slaPriority){
+      case 1:
+        return "Baixa";
+
+        case 2:
+        return "Média";
+
+        case 3:
+        return "Alta";
+
+        default:
+          return "-";
+    }
+  }
+
+  TranslateSLAType(slaType: number){
+    switch(slaType){
+      case 1:
+        return "Primeiro atendimento";
+
+        case 2:
+        return "Resolução";
+
+        default:
+          return "-";
+    }
+  }
+
   onSubmit() {
     this.organization.CNPJ = this.organization.CNPJ.replace(/\D/g, '');
     console.log('Organização cadastrada:', this.organization);

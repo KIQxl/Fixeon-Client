@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ChangeTicketStatusRequest, CreateAssignTicketRequest, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
+import { Category, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Departament, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 import { Token } from '../../services/token';
 import { Notificacao } from '../../services/notificacao';
 import { ApplicationUser } from '../../models/AuthModels';
 import { Auth_Services } from '../../services/auth-services';
+import { Organization_services } from '../../services/organizations_services';
 
 export interface Anexo {
   file: File;
@@ -33,7 +34,7 @@ export class DetalhesChamado {
   @ViewChild('analystDialog') analystDialog!: ElementRef<HTMLDialogElement>;
   isDialogOpen: boolean = false;
 
-  constructor(private route: ActivatedRoute, private ticketService: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao, private authService: Auth_Services) {
+  constructor(private route: ActivatedRoute, private ticketService: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao, private authService: Auth_Services, private organization_services: Organization_services) {
     this.id = String(this.route.snapshot.paramMap.get('id'));
   }
 
@@ -289,6 +290,97 @@ export class DetalhesChamado {
         error: (err) => {
           this.notificacao.erro(err?.error?.errors);
         }
-      });
+      }
+    );
+  }
+
+  isEditing = false;
+
+  categories: Category[] = [];
+
+  newCategory = "";
+
+  departaments: Departament[] = [];
+
+  newDepartament = "";
+
+  ticketCategory: Category = {} as Category;
+  ticketDepartament: Departament = {} as Departament;
+
+  toggleEditMode(orgId: string) {
+    if (this.isEditing) {
+      this.isEditing = false;
+
+      if(this.newDepartament !== this.ticketDepartament.id || this.newCategory !== this.ticketCategory.id)
+      {
+        this.UpdateTicket(orgId);
+      }
+
+      return;
+    }
+
+  this.organization_services.GetOrganizationById(orgId)
+    .subscribe({
+      next: (res) => {
+        if(res.success){
+          this.categories = res.data.categories || [];
+          this.departaments = res.data.departaments || [];
+
+          this.ticketCategory = this.categories.find(x => x.name === this.ticket!.category)!;
+          this.ticketDepartament = this.departaments.find(x => x.name === this.ticket!.departament)!;
+
+          this.newCategory = this.ticketCategory.id;
+          this.newDepartament = this.ticketDepartament?.id;
+          
+          this.isEditing = true;
+        }
+        else
+        {
+          this.notificacao.erro(res.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.alerta(err?.error?.errors);
+      }
+    });
+  }
+
+  UpdateTicket(orgId: string){
+    let request: ChangeTicketCategoryAndDepartament = {
+      Id: this.ticket!.id,
+      OrganizationId: orgId,
+      CategoryId: this.newCategory,
+      DepartamentId: this.newDepartament
+    }
+
+    this.ticketService.UpdateTicket(request)
+      .subscribe({
+        next: (res) => {
+          if(res.success){
+            this.notificacao.sucesso("Ticket editado.")
+            this.LoadTickets();
+          }
+          else
+          {
+            this.notificacao.erro(res.errors)
+          }
+        },
+        error: (err) => {
+          this.notificacao.alerta(err?.error?.errors);
+        }
+      }
+    );
+  }
+
+  getButtonText(): string {
+    if (!this.isEditing) {
+      return 'Editar Ticket';
+    }
+
+    const hasChanges =
+      this.newDepartament !== this.ticketDepartament.id ||
+      this.newCategory !== this.ticketCategory.id;
+
+    return hasChanges ? 'Confirmar' : 'Cancelar';
   }
 }

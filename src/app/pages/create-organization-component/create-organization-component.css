@@ -40,17 +40,24 @@
   color: #34495e;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   padding: 0.6rem;
   border: 1px solid #d0d0d0;
   border-radius: 8px;
   transition: border 0.2s;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
   border-color: #1e3447;
 }
+
+.form-group select {
+  padding-right: 2rem;
+}
+
 
 .category-input {
   display: flex;
@@ -133,4 +140,52 @@
 
 .actions button:hover {
   opacity: 0.9;
+}
+
+.sla-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+
+.sla-table thead {
+  background-color: #f9fafb;
+  text-align: left;
+}
+
+.sla-table th {
+  padding: 0.9rem 1.2rem;
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sla-table td {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sla-table td.center {
+  text-align: center;
+}
+
+.sla-table tbody tr:hover {
+  background-color: #f1f5f9;
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+.sla-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sla-table td.center {
+  text-align: center;
 }
