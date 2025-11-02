@@ -212,17 +212,42 @@ export class DetalhesChamado {
       }
   }
 
-  ChangeTicketStatus(status: number){
+   CloseTicket(){
 
     let request: ChangeTicketStatusRequest = {
       TicketId: this.id,
-      Status: status
+      Status: 2
     };
 
     this.ticketService.ChangeTicketStatus(request).subscribe({
       next: (response) => {
         if(response.success){
-          this.notificacao.sucesso("Ticket Finalizado!");
+          this.notificacao.sucesso("Ticket Finalizado.");
+          this.LoadTickets();
+        }
+
+        else{
+          console.log(response.errors)
+          this.notificacao.erro(response.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.errors);
+      }
+    });
+  }
+
+  ReopenTicket(){
+
+    let request: ChangeTicketStatusRequest = {
+      TicketId: this.id,
+      Status: 4
+    };
+
+    this.ticketService.ChangeTicketStatus(request).subscribe({
+      next: (response) => {
+        if(response.success){
+          this.notificacao.sucesso("Ticket Reaberto.");
           this.LoadTickets();
         }
 

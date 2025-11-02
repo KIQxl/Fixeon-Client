@@ -1,299 +1,3 @@
-/* .detalhes-container {
-  max-width: 99%;
-  margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
-  color: #1e3447;
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-}
-
-.container-ticket{
-  display: flex;
-  gap: 2%;
-  width: 100%;
-}
-
-.ticket-description-section{
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.btn-anexos {
-  background-color: #f97316;
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.container-info-chamado {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: 2rem;
-  width: 28%;
-}
-
-.btn-action{
-  height: 2.5rem;
-  padding: 0 2.5%;
-  border: 1px solid #777;
-  color: #777;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: transparent;
-  transition: background-color 0.3s;
-}
-
-.selfAssign:hover {
-  background-color: #138496;
-  color: white;
-  border-color: #138496;
-}
-
-.assignTo:hover {
-  background-color: #1E90FF;
-  color: white;
-  border-color: #1E90FF;
-}
-
-.edit:hover {
-  background-color: #FFA500;
-  color: white;
-  border-color: #FFA500;
-}
-
-.resolved:hover {
-  background-color: #2ECC71;
-  color: white;
-  border-color: #2ECC71;
-}
-
-.container-ticket-actions{
-  display: flex;
-  gap: 2%;
-}
-
-.campo{
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.campo label {
-  font-weight: bold;
-  font-size: 0.8rem;
-  color: #444;
-}
-
-.campo span {
-  font-size: 0.85rem;
-  color: #444;
-}
-
-.prioridade{
-  padding: 3%;
-  text-align: center;
-  border-radius: 4px;
-  color: #f9fafb;
-}
-
-.alta {
-  background-color: #e83b31;
-}
-
-.média {
-  background-color: #f97316;
-}
-
-.baixa {
-  background-color: #2ecc71;
-}
-
-.mensagens {
-  margin-top: 2rem;
-}
-
-.mensagens h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-}
-
-.mensagem {
-  background: #f9fafb;
-  padding: 1rem 1.4rem;
-  border: 1px solid #1e3447;
-  border-left: 4px solid #1e3447;
-  border-radius: 8px;
-  margin-bottom: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  word-wrap: break-word;
-}
-
-.descricao-principal{
-  min-height: 40vh;
-}
-
-.msg-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.msg-conteudo {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  white-space: pre-line;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.msg-conteudo::-webkit-scrollbar {
-  width: 6px;
-}
-
-.msg-conteudo::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 3px;
-}
-
-.nenhuma-msg {
-  font-style: italic;
-  color: #777;
-}
-
-.resposta {
-  margin-top: 2.5rem;
-}
-
-textarea {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  resize: vertical;
-  margin-bottom: 1rem;
-  min-height: 120px;
-}
-
-input[type="file"] {
-  display: block;
-  margin-bottom: 1rem;
-}
-
-.btn-enviar {
-  background-color: #f97316;
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-.btn-enviar:hover, .btn-anexos:hover {
-  background-color: #d65b10;
-}
-
-.anexos {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1%;
-}
-
-.anexo {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.anexo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.icone-arquivo {
-  font-size: 24px;
-}
-
-.remover {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  background-color: #ff4d4f;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  font-size: 10px;
-  cursor: pointer;
-  line-height: 14px;
-}
-
-dialog:not([open]) {
-  display: none !important;
-}
-
-.analyst-dialog-container{
-  margin: auto;
-  width: 27%;
-  border: none;
-  max-height: 50vh;
-  min-height: 25vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1%;
-}
-
-.select-analyst-list{
-  width: 100%;
-}
-
-.select-analyst-list :hover{
-  background-color: #f1f7ff;
-}
-
-.select-analyst-row{
-  list-style: none; 
-  display: flex; 
-  transition: 0.3s;
-  padding: 2%;
-  justify-content: space-between;
-}
-
-@media (max-width: 600px) {
-  .msg-header {
-    flex-direction: column;
-    gap: 4px;
-  }
-} */
-
-
 .detalhes-container {
   margin: 0 auto;
   font-family: 'Segoe UI', sans-serif;
@@ -304,7 +8,6 @@ dialog:not([open]) {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Cabeçalho principal */
 .detalhes-container h2 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
@@ -318,7 +21,6 @@ dialog:not([open]) {
   justify-content: space-between;
 }
 
-/* Descrição principal */
 .ticket-description-section {
   width: 65%;
   display: flex;
@@ -334,7 +36,6 @@ dialog:not([open]) {
   margin-bottom: 0.6rem;
 }
 
-/* Card de descrição */
 .descricao-principal {
   background-color: #f9fafb;
   border-radius: 8px;
@@ -346,13 +47,12 @@ dialog:not([open]) {
   white-space: pre-line;
 }
 
-/* Botões principais */
 .btn-anexos,
 .btn-enviar,
 .btn-action {
   background-color: #f97316;
   color: white;
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 0.7rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -385,20 +85,24 @@ dialog:not([open]) {
   margin-right: 6px;
 }
 
-/* Cores específicas */
 .selfAssign:hover { background-color: #138496; color: white; }
 .assignTo:hover { background-color: #1E90FF; color: white; }
 .edit:hover { background-color: #FFA500; color: white; }
 .resolved:hover { background-color: #2ECC71; color: white; }
+.reopen:hover { background-color: #b5b5b5; color: white; }
 
 .container-ticket-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-between;
   gap: 8px;
   margin-bottom: 1rem;
 }
 
-/* Seção de informações */
+.container-ticket-actions .btn-action{
+  width: 100%;
+}
+
 .container-info-chamado {
   width: 37%;
   display: flex;
@@ -408,7 +112,8 @@ dialog:not([open]) {
   border-radius: 8px;
   background: #f9fafb;
   border: 1px solid #e2e8f0;
-  max-height: 51vh;
+  max-height: max-content;
+  min-width: max-content;
 }
 
 .campo {
@@ -610,7 +315,7 @@ textarea {
   border-color: #1e3447;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .container-ticket {
     flex-direction: column;
   }

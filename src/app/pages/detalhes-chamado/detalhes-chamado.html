@@ -36,22 +36,30 @@
           <i class="fa-solid fa-pencil"></i>
            {{ getButtonText() }}
         </button>
-        <button class="btn-action resolved" *appHasRole="'AnalistaPolicy'" (click)="ChangeTicketStatus(2)">
-          <i class="fa-solid fa-check"></i>
-          Fechar Ticket
-        </button>
+        <ng-container *appHasRole="'AnalistaPolicy'">
+          <button 
+            class="btn-action resolved" 
+            *ngIf="ticket?.status !== 'Resolved'" 
+            (click)="CloseTicket()">
+            <i class="fa-solid fa-check"></i>
+            Fechar Ticket
+          </button>
+        </ng-container>
+
+        <ng-container *appHasRole="'AnalistaPolicy'">
+          <button 
+            class="btn-action reopen" 
+            *ngIf="ticket?.status === 'Resolved'" 
+            (click)="ReopenTicket()">
+            <i class="fa-solid fa-rotate-left"></i>
+            Reabrir
+          </button>
+        </ng-container>
       </div>
 
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
-          <label>Requirente:</label>
-          <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
-        </div>
-
-        <div class="campo" style="width: 50%;">
-            <label>Status:</label>
-            <span>{{ this.TranslateStatus() }}</span>
-        </div>
+      <div class="campo">
+        <label>Requirente:</label>
+        <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
       </div>
 
     
@@ -88,9 +96,16 @@
         </div>
       </div>
 
-      <div class="campo">
-        <label>Analista:</label>
-        <span>{{ ticket?.analyst?.analystEmail }}</span>
+      <div style="display: flex; justify-content: space-between;">
+        <div class="campo">
+          <label>Analista:</label>
+          <span>{{ ticket?.analyst?.analystEmail }}</span>
+        </div>
+
+        <div class="campo" style="width: 50%;">
+            <label>Status:</label>
+            <span>{{ this.TranslateStatus() }}</span>
+        </div>
       </div>
 
       <div style="display: flex; justify-content: space-between;">
