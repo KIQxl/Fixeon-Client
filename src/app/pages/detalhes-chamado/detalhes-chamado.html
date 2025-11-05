@@ -11,163 +11,185 @@
   </div>
 
   <div class="container-ticket">
-    <section class="ticket-description-section">
-      <div>
-        <div class="mensagem descricao-principal">
-          <span>{{ticket?.description}}</span>
-        </div>
-
+    <div class="description-messages">
+      <section class="ticket-description-section">
         <div>
-          <button class="btn-anexos" (click)="OpenAllAttachments(ticket?.attachments ?? null)">Visualizar Anexos</button>
+          <div class="mensagem descricao-principal">
+            <span>{{ticket?.description}}</span>
+          </div>
+
+          <div>
+            <button class="btn-anexos" (click)="OpenAllAttachments(ticket?.attachments ?? null)">Visualizar Anexos</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="container-info-chamado">
-      <h3>Detalhes</h3>
-      <div class="container-ticket-actions">
-        <button class="btn-action selfAssign" *appHasRole="'AnalistaPolicy'" (click)="SelfAssignTicket()">
-          <i class="fa-solid fa-hand"></i>
-          Assumir</button>
-        <button class="btn-action assignTo" *appHasRole="'AnalistaPolicy'" (click)="LoadAnalysts()">
-          <i class="fa-solid fa-repeat"></i>
-          Transferir</button>
-        <button class="btn-action edit" *appHasRole="'AnalistaPolicy'" (click)="toggleEditMode(ticket?.customer?.organizationId!)">
-          <i class="fa-solid fa-pencil"></i>
-           {{ getButtonText() }}
-        </button>
-        <ng-container *appHasRole="'AnalistaPolicy'">
-          <button 
-            class="btn-action resolved" 
-            *ngIf="ticket?.status !== 'Resolved'" 
-            (click)="CloseTicket()">
-            <i class="fa-solid fa-check"></i>
-            Fechar Ticket
-          </button>
-        </ng-container>
+      <section class="mensagens">
+        <h3>Respostas</h3>
 
-        <ng-container *appHasRole="'AnalistaPolicy'">
-          <button 
-            class="btn-action reopen" 
-            *ngIf="ticket?.status === 'Resolved'" 
-            (click)="ReopenTicket()">
-            <i class="fa-solid fa-rotate-left"></i>
-            Reabrir
-          </button>
-        </ng-container>
-      </div>
-
-      <div class="campo">
-        <label>Requirente:</label>
-        <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
-      </div>
-
-    
-      <div class="campo">
-        <label>Assunto:</label>
-        <span>{{ ticket?.title }}</span>
-      </div>
-
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo" style="width: 48%;">
-          <label>Categoria:</label>
-          <ng-container *ngIf="!isEditing; else editCategoria">
-            <span>{{ ticket?.category }}</span>
-          </ng-container>
-          <ng-template #editCategoria>
-           <select [(ngModel)]="newCategory" class="select-edit">
-            <option [ngValue]="null" disabled>Selecione a categoria</option>
-            <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
-          </select>
-          </ng-template>
+        <div *ngIf="ticket && ticket.interactions?.length; else semMensagens">
+          <div class="mensagem" *ngFor="let msg of ticket.interactions">
+            <div class="msg-header">
+              <strong>{{ msg.createdByUserName}}</strong>
+              <span>{{ msg.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="msg-conteudo">
+              {{ msg.message }}
+            </div>
+            <div style="margin-top: 1rem;">
+              <button class="btn-enviar" (click)="OpenAllAttachments(msg.attachmentsUrls)">Visualizar Anexos</button>
+            </div>
+          </div>
         </div>
 
-        <div class="campo" style="width: 50%;">
-          <label>Departamento:</label>
-          <ng-container *ngIf="!isEditing; else editDepartamento">
-            <span>{{ ticket?.departament }}</span>
-          </ng-container>
-          <ng-template #editDepartamento>
-            <select [(ngModel)]="newDepartament" class="select-edit">
-              <option [ngValue]="null" disabled>Selecione o departamento</option>
-              <option *ngFor="let d of departaments" [ngValue]="d.id">{{ d.name }}</option>
-            </select>
-          </ng-template>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
-          <label>Analista:</label>
-          <span>{{ ticket?.analyst?.analystEmail }}</span>
-        </div>
-
-        <div class="campo" style="width: 50%;">
-            <label>Status:</label>
-            <span>{{ this.TranslateStatus() }}</span>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
-          <label>Data de criação:</label>
-          <span>{{ ticket?.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
-        </div>
-
-        <div class="campo" style="width: 50%;">
-          <label>Ultima atualização:</label>
-          <span>{{ ticket?.modifiedAt != null ? (ticket?.modifiedAt | date: 'dd/MM/yyyy HH:mm') : "-" }}</span>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
-          <label>Prazo limite para primeira interação:</label>
-          <span>{{ (ticket?.slaInfo?.firstInteraction?.deadline | date: 'dd/MM/yyyy HH:mm') || "Não configurado." }}</span>
-        </div>
-
-        <div class="campo" style="width: 50%;">
-          <label>Data e Hora da primeira interação:</label>
-          <span>{{ (ticket?.slaInfo?.firstInteraction?.accomplished | date: 'dd/MM/yyyy HH:mm') || "-" }}</span>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between;">
-        <div class="campo">
-          <label>Prazo limite para resolução:</label>
-          <span>{{ (ticket?.slaInfo?.resolution?.deadline | date: 'dd/MM/yyyy HH:mm') || "Não configurado." }}</span>
-        </div>
-
-        <div class="campo" style="width: 50%;">
-          <label>Data e Hora de resolução:</label>
-          <span>{{ (ticket?.slaInfo?.resolution?.accomplished | date: 'dd/MM/yyyy HH:mm') || "-" }}</span>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <section class="mensagens">
-    <h3>Respostas</h3>
-
-    <div *ngIf="ticket && ticket.interactions?.length; else semMensagens">
-      <div class="mensagem" *ngFor="let msg of ticket.interactions">
-        <div class="msg-header">
-          <strong>{{ msg.createdByUserName}}</strong>
-          <span>{{ msg.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
-        </div>
-        <div class="msg-conteudo">
-          {{ msg.message }}
-        </div>
-        <div style="margin-top: 1rem;">
-          <button class="btn-enviar" (click)="OpenAllAttachments(msg.attachmentsUrls)">Visualizar Anexos</button>
-        </div>
-      </div>
+        <ng-template #semMensagens>
+          <p class="nenhuma-msg">Nenhuma mensagem registrada.</p>
+        </ng-template>
+      </section>
     </div>
 
-    <ng-template #semMensagens>
-      <p class="nenhuma-msg">Nenhuma mensagem registrada.</p>
-    </ng-template>
-  </section>
+    <div class="container-gerenciamento-chamado">
+      <section class="container-info-chamado">
+        <h3>Detalhes</h3>
+        <div class="container-ticket-actions">
+          <button class="btn-action selfAssign" *appHasRole="'AnalistaPolicy'" (click)="SelfAssignTicket()">
+            <i class="fa-solid fa-hand"></i>
+            Assumir</button>
+          <button class="btn-action assignTo" *appHasRole="'AnalistaPolicy'" (click)="LoadAnalysts()">
+            <i class="fa-solid fa-repeat"></i>
+            Transferir</button>
+          <button class="btn-action edit" *appHasRole="'AnalistaPolicy'" (click)="toggleEditMode(ticket?.customer?.organizationId!)">
+            <i class="fa-solid fa-pencil"></i>
+            {{ getButtonText() }}
+          </button>
+          <ng-container *appHasRole="'AnalistaPolicy'">
+            <button 
+              class="btn-action resolved" 
+              *ngIf="ticket?.status !== 'Resolved'" 
+              (click)="CloseTicket()">
+              <i class="fa-solid fa-check"></i>
+              Fechar Ticket
+            </button>
+          </ng-container>
+
+          <ng-container *appHasRole="'AnalistaPolicy'">
+            <button 
+              class="btn-action reopen" 
+              *ngIf="ticket?.status === 'Resolved'" 
+              (click)="ReopenTicket()">
+              <i class="fa-solid fa-rotate-left"></i>
+              Reabrir
+            </button>
+          </ng-container>
+        </div>
+
+        <div class="campo">
+          <label>Requirente:</label>
+          <span>{{ ticket?.customer?.userEmail }} ( {{ ticket?.customer?.organizationName }} )</span>
+        </div>
+
+      
+        <div class="campo">
+          <label>Assunto:</label>
+          <span>{{ ticket?.title }}</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <div class="campo" style="width: 48%;">
+            <label>Categoria:</label>
+            <ng-container *ngIf="!isEditing; else editCategoria">
+              <span>{{ ticket?.category }}</span>
+            </ng-container>
+            <ng-template #editCategoria>
+            <select [(ngModel)]="newCategory" class="select-edit">
+              <option [ngValue]="null" disabled>Selecione a categoria</option>
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+            </select>
+            </ng-template>
+          </div>
+
+          <div class="campo" style="width: 50%;">
+            <label>Departamento:</label>
+            <ng-container *ngIf="!isEditing; else editDepartamento">
+              <span>{{ ticket?.departament }}</span>
+            </ng-container>
+            <ng-template #editDepartamento>
+              <select [(ngModel)]="newDepartament" class="select-edit">
+                <option [ngValue]="null" disabled>Selecione o departamento</option>
+                <option *ngFor="let d of departaments" [ngValue]="d.id">{{ d.name }}</option>
+              </select>
+            </ng-template>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <div class="campo">
+            <label>Analista:</label>
+            <span>{{ ticket?.analyst?.analystEmail }}</span>
+          </div>
+
+          <div class="campo" style="width: 50%;">
+              <label>Status:</label>
+              <span>{{ this.TranslateStatus() }}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <div class="campo">
+            <label>Data de criação:</label>
+            <span>{{ ticket?.createdAt | date: 'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+
+          <div class="campo" style="width: 50%;">
+            <label>Ultima atualização:</label>
+            <span>{{ ticket?.modifiedAt != null ? (ticket?.modifiedAt | date: 'dd/MM/yyyy HH:mm') : "-" }}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <div class="campo">
+            <label>Prazo limite para primeira interação:</label>
+            <span>{{ (ticket?.slaInfo?.firstInteraction?.deadline | date: 'dd/MM/yyyy HH:mm') || "Não configurado." }}</span>
+          </div>
+
+          <div class="campo" style="width: 50%;">
+            <label>Data e Hora da primeira interação:</label>
+            <span>{{ (ticket?.slaInfo?.firstInteraction?.accomplished | date: 'dd/MM/yyyy HH:mm') || "-" }}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <div class="campo">
+            <label>Prazo limite para resolução:</label>
+            <span>{{ (ticket?.slaInfo?.resolution?.deadline | date: 'dd/MM/yyyy HH:mm') || "Não configurado." }}</span>
+          </div>
+
+          <div class="campo" style="width: 50%;">
+            <label>Data e Hora de resolução:</label>
+            <span>{{ (ticket?.slaInfo?.resolution?.accomplished | date: 'dd/MM/yyyy HH:mm') || "-" }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="container-tags">
+        <h3>Tags</h3>
+        <select class="select-edit" style="margin-bottom: 1rem;" [(ngModel)]="selectedTag" (change)="AddTag($event)">
+          <option [ngValue]="null" disabled selected>Selecione uma tag</option>
+          <option value="1">Aguardando ação interna</option>
+          <option value="2">Aguardando ação externa</option>
+          <option value="3">Sem retorno do requirente</option>
+          <option value="4">T.I Externo</option>
+        </select>
+
+        <span class="tag-chip" *ngFor="let tag of tags; let i = index">
+          {{ tag.name }}
+          <button type="button" (click)="tags.splice(i, 1)">
+            <i class="fa-solid fa-square-xmark"></i>
+          </button>
+        </span>
+      </section>
+    </div>
+  </div>
 
   <section *ngIf="ticket?.status != 'Resolved' && ticket?.status != 'Pending' && ticket?.status != 'Canceled'" class="resposta">
     <h3>Responder chamado</h3>
@@ -200,8 +222,9 @@
     <input type="file" multiple (change)="onFileSelected($event)" />
     <button style="margin-top: 1rem;" class="btn-enviar" (click)="newInteraction()">Enviar</button>  
   </section>
+</div>
 
-  <dialog #analystDialog class="analyst-dialog-container">
+ <dialog #analystDialog class="analyst-dialog-container">
     <ul class="select-analyst-list">
       <li class="select-analyst-row" *ngFor="let analyst of this.analysts" (click)="selectRadio(radio)">
         <label>{{analyst.email}}</label>
@@ -211,4 +234,3 @@
 
     <button type="button" class="btn-enviar" style="margin-top: 1rem; width: 100%;" (click)="AssginAnalist()">Vincular/Transferir</button>
   </dialog>
-</div>

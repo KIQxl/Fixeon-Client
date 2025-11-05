@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Category, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Departament, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
+import { Category, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Departament, Tag, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 import { Token } from '../../services/token';
@@ -407,5 +407,27 @@ export class DetalhesChamado {
       this.newCategory !== this.ticketCategory.id;
 
     return hasChanges ? 'Confirmar' : 'Cancelar';
+  }
+
+  tags: Tag[] = []
+  selectedTag: Tag | null = null; 
+
+  AddTag(event: Event){
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedValue = selectElement.value;
+    const selectedText = selectElement.options[selectElement.selectedIndex].text;
+
+    if (this.tags.some(t => t.id === selectedValue) || selectedValue == null) {
+      return;
+    }
+
+    let tag: Tag = {
+      id: selectedValue,
+      name: selectedText
+    }
+
+    this.tags.push(tag);
+
+    selectElement.selectedIndex = 0;
   }
 }

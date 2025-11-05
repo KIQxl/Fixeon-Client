@@ -106,6 +106,11 @@ export interface ChangeTicketCategoryAndDepartament{
   DepartamentId: string;
 }
 
+export interface Tag{
+  id: string;
+  name: string;
+}
+
 export function TranslatePriority(priority: string | undefined): string{
     switch(priority){
       case "Low":
