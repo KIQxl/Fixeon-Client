@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: 'https://localhost:7016',
+  BASE_URL: 'https://fixeon.onrender.com',
   AUTH: 'auth',
   TICKETS: 'tickets',
   ORGANIZATIONS: 'organizations',
