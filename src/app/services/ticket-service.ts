@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, pipe } from 'rxjs';
-import { ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Ticket, TicketDashboardResponse } from '../models/Ticket';
+import { AddTagInTicketRequest, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Ticket, TicketDashboardResponse } from '../models/Ticket';
 import { ApiResponse } from '../models/Response';
 import { API_CONFIG } from '../core/API_CONFIG';
 
@@ -74,5 +74,9 @@ export class Tickets_Services {
 
   UpdateTicket(request: ChangeTicketCategoryAndDepartament): Observable<ApiResponse<Ticket []>>{
     return this.http.put<ApiResponse<Ticket []>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/change-ticket-category`, request);
+  }
+
+  ManageTagInTicket(request: AddTagInTicketRequest): Observable<ApiResponse<boolean>>{
+    return this.http.post<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.TICKETS}/add-tag`, request);
   }
 }

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Category, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Departament, Tag, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
+import { AddTagInTicketRequest, Category, ChangeTicketCategoryAndDepartament, ChangeTicketStatusRequest, CreateAssignTicketRequest, Departament, Tag, Ticket, TranslatePriority, TranslateStatus } from '../../models/Ticket';
 import { Tickets_Services } from '../../services/ticket-service';
 import { HasRole } from '../../directives/has-role';
 import { Token } from '../../services/token';
@@ -10,6 +10,7 @@ import { Notificacao } from '../../services/notificacao';
 import { ApplicationUser } from '../../models/AuthModels';
 import { Auth_Services } from '../../services/auth-services';
 import { Organization_services } from '../../services/organizations_services';
+import { CompanyServices } from '../../services/company-services';
 
 export interface Anexo {
   file: File;
@@ -34,12 +35,13 @@ export class DetalhesChamado {
   @ViewChild('analystDialog') analystDialog!: ElementRef<HTMLDialogElement>;
   isDialogOpen: boolean = false;
 
-  constructor(private route: ActivatedRoute, private ticketService: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao, private authService: Auth_Services, private organization_services: Organization_services) {
+  constructor(private route: ActivatedRoute, private ticketService: Tickets_Services, private tokenServices: Token, private notificacao: Notificacao, private authService: Auth_Services, private organization_services: Organization_services, private company_services: CompanyServices) {
     this.id = String(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void{
     this.LoadTickets();
+    this.GetAllTags();
     document.addEventListener('click', this.onDialogClick.bind(this));
   }
 
@@ -410,24 +412,73 @@ export class DetalhesChamado {
   }
 
   tags: Tag[] = []
-  selectedTag: Tag | null = null; 
+  selectedTag: Tag | null = null;
 
-  AddTag(event: Event){
+  UpdateTicketTags(event: Event){
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
-    const selectedText = selectElement.options[selectElement.selectedIndex].text;
-
-    if (this.tags.some(t => t.id === selectedValue) || selectedValue == null) {
+    
+    if (this.ticket?.tags.some(t => t.id === selectedValue) || selectedValue == null) {
+      selectElement.selectedIndex = 0;
       return;
     }
 
-    let tag: Tag = {
-      id: selectedValue,
-      name: selectedText
-    }
+    let tag: AddTagInTicketRequest = {
+      TicketId: this.ticket!.id,
+      TagId: selectedValue
+    };
 
-    this.tags.push(tag);
-
+    this.ManageTagInTicket(tag);
     selectElement.selectedIndex = 0;
+
+    this.LoadTickets();
+  }
+
+  RemoveTicketTag(tagId: string){
+
+    let tag: AddTagInTicketRequest = {
+      TicketId: this.ticket!.id,
+      TagId: tagId
+    };
+
+    this.ManageTagInTicket(tag);
+
+    this.LoadTickets();
+  }
+
+  GetAllTags(){
+    this.company_services.GetAllTags()
+    .subscribe({
+      next: (res) => {
+        if(res.success){
+          this.tags = res.data;
+        }
+        else
+        {
+          this.notificacao.erro(res.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.erros);
+      }
+    })
+  }
+
+  ManageTagInTicket(request: AddTagInTicketRequest){
+    this.ticketService.ManageTagInTicket(request)
+    .subscribe({
+      next: (res) => {
+        if(res.success){
+          this.LoadTickets();
+          this.notificacao.sucesso("Tag atualizada no ticket.");
+        }
+        else{
+          this.notificacao.erro(res.errors);
+        }
+      },
+      error: (err) => {
+        this.notificacao.erro(err?.error?.erros);
+      }
+    })
   }
 }

@@ -11,3 +11,8 @@
   --header-height: 4rem;
   --footer-height: 3.5rem;
 }
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}

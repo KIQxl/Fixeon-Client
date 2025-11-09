@@ -173,17 +173,14 @@
 
       <section class="container-tags">
         <h3>Tags</h3>
-        <select class="select-edit" style="margin-bottom: 1rem;" [(ngModel)]="selectedTag" (change)="AddTag($event)">
+        <select class="select-edit" style="margin-bottom: 1rem;" [(ngModel)]="selectedTag" (change)="UpdateTicketTags($event)">
           <option [ngValue]="null" disabled selected>Selecione uma tag</option>
-          <option value="1">Aguardando ação interna</option>
-          <option value="2">Aguardando ação externa</option>
-          <option value="3">Sem retorno do requirente</option>
-          <option value="4">T.I Externo</option>
+          <option *ngFor="let tag of tags" value="{{tag.id}}">{{tag.name}}</option>
         </select>
 
-        <span class="tag-chip" *ngFor="let tag of tags; let i = index">
+        <span class="tag-chip" *ngFor="let tag of ticket?.tags; let i = index">
           {{ tag.name }}
-          <button type="button" (click)="tags.splice(i, 1)">
+          <button type="button" (click)="RemoveTicketTag(tag.id)">
             <i class="fa-solid fa-square-xmark"></i>
           </button>
         </span>

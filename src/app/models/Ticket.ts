@@ -18,6 +18,7 @@ export interface Ticket{
   attachments: string[];
   closedBy: Analyst
   slaInfo: SLAInfo;
+  tags: Tag[];
   }
 
 export interface Customer{
@@ -109,6 +110,11 @@ export interface ChangeTicketCategoryAndDepartament{
 export interface Tag{
   id: string;
   name: string;
+}
+
+export interface AddTagInTicketRequest{
+  TicketId: string;
+  TagId: string;
 }
 
 export function TranslatePriority(priority: string | undefined): string{
