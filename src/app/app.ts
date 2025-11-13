@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
-import { Footer } from './layout/footer/footer';
-import { Header } from './layout/header/header';
-import { Sidenav } from './layout/sidenav/sidenav';
+import { Footer } from './core/components/footer/footer';
+import { Header } from './core/components/header/header';
+import { Sidenav } from './core/components/sidenav/sidenav';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({

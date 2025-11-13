@@ -1,0 +1,16 @@
+<div class="app-wrapper">
+  <app-header></app-header>
+
+  <div class="layout" [class.sidebar-collapsed]="isSidebarCollapsed">
+    <app-sidenav (collapsedChange)="isSidebarCollapsed = $event"></app-sidenav>
+
+    <div class="page-content">
+      <button class="back-button" (click)="voltar()">
+        <i class="fa-solid fa-left-long"></i>
+      </button>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

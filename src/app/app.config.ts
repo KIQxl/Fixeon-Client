@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { httpInterceptor } from './http-interceptor';
+import { httpInterceptor } from './core/interceptors/http-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

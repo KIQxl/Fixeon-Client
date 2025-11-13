@@ -1,17 +1,18 @@
-import { Routes } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard-component/dashboard-component';
-import { Solicitacoes } from './pages/solicitacoes/solicitacoes';
-import { DetalhesChamado } from './pages/detalhes-chamado/detalhes-chamado';
-import { Login } from './pages/login/login';
-import { NovoChamado } from './pages/novo-chamado/novo-chamado';
-import { DashboardGerenciamento } from './pages/dashboard-gerenciamento/dashboard-gerenciamento';
-import { GerenciamentoUsuarios } from './pages/gerenciamento-usuarios/gerenciamento-usuarios';
-import { GerenciamentoConta } from './pages/gerenciamento-conta/gerenciamento-conta';
-import { NovoUsuario } from './pages/novo-usuario/novo-usuario';
-import { GerenciamentoApp } from './pages/gerenciamento-app/gerenciamento-app';
-import { AnaliseComponent } from './pages/analise-component/analise-component';
-import { OrganizationViewComponent } from './pages/organization-view-component/organization-view-component';
-import { CreateOrganizationComponent } from './pages/create-organization-component/create-organization-component';
+import { Routes } from "@angular/router";
+import { AnaliseComponent } from "./features/admin/analise-component/analise-component";
+import { CreateOrganizationComponent } from "./features/admin/create-organization-component/create-organization-component";
+import { DashboardGerenciamento } from "./features/admin/dashboard-gerenciamento/dashboard-gerenciamento";
+import { GerenciamentoApp } from "./features/admin/gerenciamento-app/gerenciamento-app";
+import { GerenciamentoConta } from "./features/admin/gerenciamento-conta/gerenciamento-conta";
+import { GerenciamentoUsuarios } from "./features/admin/gerenciamento-usuarios/gerenciamento-usuarios";
+import { NovoUsuario } from "./features/admin/novo-usuario/novo-usuario";
+import { OrganizationViewComponent } from "./features/admin/organization-view-component/organization-view-component";
+import { Login } from "./features/auth/login/login";
+import { DashboardComponent } from "./features/workspace/dashboard-component/dashboard-component";
+import { DetalhesChamado } from "./features/workspace/detalhes-chamado/detalhes-chamado";
+import { NovoChamado } from "./features/workspace/novo-chamado/novo-chamado";
+import { Solicitacoes } from "./features/workspace/solicitacoes/solicitacoes";
+import { authGuard } from "./core/guards/auth-guard";
 
 export const routes: Routes = [
     {
@@ -20,50 +21,98 @@ export const routes: Routes = [
     },
     {
       path: 'dashboard',
-      component: DashboardComponent
+      component: DashboardComponent,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'solicitacoes',
-      component: Solicitacoes
+      component: Solicitacoes,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'solicitacoes/:id',
-      component: DetalhesChamado
+      component: DetalhesChamado,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'novo-chamado',
-      component: NovoChamado
+      component: NovoChamado,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'gerenciamento',
-      component: DashboardGerenciamento
+      component: DashboardGerenciamento,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'usuarios',
-      component: GerenciamentoUsuarios
+      component: GerenciamentoUsuarios,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin']
+      }
     },
     {
       path: 'conta',
-      component: GerenciamentoConta
+      component: GerenciamentoConta,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista', 'Usuario']
+      }
     },
     {
       path: 'novo-usuario',
-      component: NovoUsuario
+      component: NovoUsuario,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin']
+      }
     },
     {
       path: 'gerenciamento-app',
-      component: GerenciamentoApp
+      component: GerenciamentoApp,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin', 'Analista']
+      }
     },
     {
       path: 'analise',
-      component: AnaliseComponent
+      component: AnaliseComponent,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin']
+      }
     },
     {
       path: 'org/:id',
-      component: OrganizationViewComponent
+      component: OrganizationViewComponent,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin']
+      }
     },
     {
       path: 'create-organization',
-      component: CreateOrganizationComponent
+      component: CreateOrganizationComponent,
+      canActivate: [authGuard],
+      data: {
+        roles: ['Admin', 'MasterAdmin']
+      }
     }
 ];
