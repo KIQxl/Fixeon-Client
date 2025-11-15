@@ -1,0 +1,280 @@
+/* Importando a mesma fonte para consistência */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' );
+
+:host {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.page-container {
+  padding: 30px;
+  width: 98%;
+  margin: 0 auto;
+}
+
+/* Cabeçalho da Empresa */
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.company-identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.company-logo-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.company-info h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.status-badge {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-active { background-color: #c6f6d5; color: #2f855a; }
+.status-inactive { background-color: #fed7d7; color: #c53030; }
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn { /* Estilos de botão genéricos */
+  padding: 10px 20px; border: none; border-radius: 8px; font-size: 15px;
+  font-weight: 600; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-secondary { background-color: #e2e8f0; color: #4a5568; }
+.btn-secondary:hover { background-color: #cbd5e0; }
+.btn-danger { background-color: #e53e3e; color: white; }
+.btn-danger:hover { background-color: #c53030; }
+
+/* Sistema de Abas */
+.tabs-navigation {
+  display: flex;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 30px;
+}
+
+.tab-button {
+  padding: 15px 25px;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  color: #718096;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px; /* Alinha com a borda principal */
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button:hover {
+  color: #2d3748;
+}
+
+.tab-button.active {
+  color: #3182ce;
+  border-bottom-color: #3182ce;
+}
+
+/* Conteúdo das Abas */
+.tab-content {
+  display: none; /* Escondido por padrão */
+}
+
+.tab-content.active-content {
+  display: block; /* Mostra apenas o conteúdo da aba ativa */
+}
+
+/* Estilos para a Aba "Usuários" */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.table-header h3 { margin: 0; font-size: 20px; font-weight: 600; }
+.btn-primary-outline { background-color: transparent; border: 1px solid #3182ce; color: #3182ce; }
+.btn-primary-outline:hover { background-color: #ebf8ff; }
+.table-wrapper { background-color: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 18px 24px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+th { font-size: 13px; color: #718096; text-transform: uppercase; }
+.role-badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.role-admin { background-color: #fce5d8; color: #c05621; }
+.role-analyst { background-color: #e6fffa; color: #2c7a7b; }
+.btn-manage-sm { background: #edf2f7; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+/* CSS Adicional para a Aba "Dados da Empresa" */
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.content-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.btn-secondary-outline {
+  background-color: transparent;
+  border: 1px solid #cbd5e0;
+  color: #4a5568;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary-outline:hover {
+  background-color: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.details-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.detail-group h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-item {
+  margin-bottom: 20px;
+}
+
+.detail-item label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #718096;
+  margin-bottom: 5px;
+}
+
+.detail-item p {
+  margin: 0;
+  font-size: 16px;
+  color: #2d3748;
+}
+
+/* Estilos para o formulário de edição (reutilizados da tela de cadastro) */
+.edit-view .form-section {
+  border-top: none;
+  padding-top: 0;
+  margin-bottom: 25px;
+}
+
+.edit-view .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.edit-view .form-group {
+  position: relative;
+}
+
+.edit-view .form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.edit-view .form-group input {
+  width: 100%; padding: 14px 16px; border: 1px solid #cbd5e0;
+  border-radius: 8px; font-size: 16px; background-color: #f7fafc;
+  transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box;
+}
+
+.edit-view .form-group label {
+  position: absolute; left: 16px; top: 14px; color: #a0aec0;
+  pointer-events: none; transition: all 0.2s ease-out;
+  background-color: #f7fafc; padding: 0 4px;
+}
+
+.edit-view .form-group input:focus + label,
+.edit-view .form-group input:not(:placeholder-shown) + label {
+  top: -10px; left: 12px; font-size: 12px; color: #3182ce;
+}
+
+.edit-view .form-group input:focus {
+  outline: none; border-color: #3182ce;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.edit-view .form-actions {
+  display: flex; justify-content: flex-end; gap: 15px;
+  margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;
+}
+
+/* Responsividade para o grid de detalhes */
+@media (max-width: 768px) {
+  .details-view, .edit-view .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .company-header, .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .tabs-navigation {
+    overflow-x: auto;
+  }
+  .tab-button {
+    white-space: nowrap;
+  }
+}

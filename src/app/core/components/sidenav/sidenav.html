@@ -34,5 +34,26 @@
         <span *ngIf="!isCollapsed">Gerenciamento</span>
       </a>
     </li>
+
+    <li *appHasRole="'MasterAdminPolicy'">
+      <a routerLink="/master-dashboard" routerLinkActive="active">
+        <i class="fa-solid fa-globe"></i>
+        <span *ngIf="!isCollapsed">Master Dashboard</span>
+      </a>
+    </li>
+
+    <li *appHasRole="'MasterAdminPolicy'">
+      <a routerLink="/master-list-companies" routerLinkActive="active">
+        <i class="fa-solid fa-building"></i>
+        <span *ngIf="!isCollapsed">Empresas Cadastradas</span>
+      </a>
+    </li>
+
+    <li *appHasRole="'MasterAdminPolicy'">
+      <a routerLink="/master-register-admin" routerLinkActive="active">
+        <i class="fa-solid fa-user-tie"></i>
+        <span *ngIf="!isCollapsed">Administradores Cadastrados</span>
+      </a>
+    </li>
   </ul>
 </nav>

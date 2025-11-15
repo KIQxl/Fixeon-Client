@@ -1,0 +1,105 @@
+<div class="page-background">
+  <div class="form-container">
+    
+    <div class="form-header">
+      <h2>Cadastrar Nova Empresa</h2>
+      <p>Preencha os dados para registrar um novo cliente na plataforma.</p>
+    </div>
+
+    <form class="company-form" (ngSubmit)="onSubmitForm()">
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fa-solid fa-building"></i>
+          Informações da Empresa
+        </h3>
+        
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <input type="text" name="Name" [(ngModel)]="request.Name" placeholder=" " required>
+            <label for="Name">Nome da Empresa</label>
+          </div>
+
+          <div class="form-group full-width">
+            <input type="text" name="Email" placeholder=" " [(ngModel)]="request.Email" required>
+            <label for="Email">Email</label>
+          </div>
+          
+          <div class="form-group">
+            <input type="text" name="CNPJ" placeholder=" " maxlength="18" (input)="applyCnpjMask($event)" [(ngModel)]="request.CNPJ" required>
+            <label for="CNPJ">CNPJ</label>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" maxlength="13" name="PhoneNumber" placeholder=" " [(ngModel)]="request.PhoneNumber">
+            <label for="PhoneNumber">Telefone Principal</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fa-solid fa-location-dot"></i>
+          Endereço
+        </h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <input type="text" name="Street" placeholder=" " [(ngModel)]="request.Street">
+            <label for="Street">Endereço (Rua)</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="Number" placeholder=" " [(ngModel)]="request.Number">
+            <label for="Number">Número (Nº)</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="PostalCode" placeholder=" " maxlength="9" (input)="applyCepMask($event)" (blur)="FillAddressValues()" [(ngModel)]="request.PostalCode">
+            <label for="PostalCode">CEP</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="Neighborhood" placeholder=" " [(ngModel)]="request.Neighborhood">
+            <label for="Neighborhood">Bairro</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="City" placeholder=" " [(ngModel)]="request.City">
+            <label for="City">Cidade</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="State" placeholder=" " [(ngModel)]="request.State">
+            <label for="State">Estado</label>
+          </div>
+          <div class="form-group">
+            <select name="Country" [(ngModel)]="request.Country" required>
+              <option value="" disabled selected>Selecione um país</option>
+              <option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="form-section">
+        <h3 class="section-title">
+          <i class="fa-solid fa-user-shield"></i>
+          Administrador Principal da Conta
+        </h3>
+        <p class="section-description">Este será o primeiro usuário com permissões de administrador para a nova empresa.</p>
+        <div class="form-grid">
+          <div class="form-group">
+            <input type="text" id="adminName" placeholder=" " required>
+            <label for="adminName">Nome do Administrador</label>
+          </div>
+          <div class="form-group">
+            <input type="email" id="adminEmail" placeholder=" " required>
+            <label for="adminEmail">Email do Administrador</label>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="form-actions">
+        <button routerLink="/master-list-companies" routerLinkActive="active" type="button" class="btn btn-secondary">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Cadastrar Empresa</button>
+      </div>
+
+    </form>
+  </div>
+</div>

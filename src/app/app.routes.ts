@@ -13,6 +13,11 @@ import { DetalhesChamado } from "./features/workspace/detalhes-chamado/detalhes-
 import { NovoChamado } from "./features/workspace/novo-chamado/novo-chamado";
 import { Solicitacoes } from "./features/workspace/solicitacoes/solicitacoes";
 import { authGuard } from "./core/guards/auth-guard";
+import { MasterDashboardComponent } from "./features/master-admin/master-dashboard-component/master-dashboard-component";
+import { MasterRegisterCompany } from "./features/master-admin/master-register-company/master-register-company";
+import { MasterRegisterUser } from "./features/master-admin/master-register-user/master-register-user";
+import { MasterListCompanies } from "./features/master-admin/master-list-companies/master-list-companies";
+import { MasterManagementCompany } from "./features/master-admin/master-management-company/master-management-company";
 
 export const routes: Routes = [
     {
@@ -113,6 +118,46 @@ export const routes: Routes = [
       canActivate: [authGuard],
       data: {
         roles: ['Admin', 'MasterAdmin']
+      }
+    },
+    {
+      path: 'master-dashboard',
+      component: MasterDashboardComponent,
+      canActivate: [authGuard],
+      data: {
+        roles: ['MasterAdmin']
+      }
+    },
+    {
+      path: 'master-register-company',
+      component: MasterRegisterCompany,
+      canActivate: [authGuard],
+      data: {
+        roles: ['MasterAdmin']
+      }
+    },
+    {
+      path: 'master-register-admin',
+      component: MasterRegisterUser,
+      canActivate: [authGuard],
+      data: {
+        roles: ['MasterAdmin']
+      }
+    },
+    {
+      path: 'master-list-companies',
+      component: MasterListCompanies,
+      canActivate: [authGuard],
+      data: {
+        roles: ['MasterAdmin']
+      }
+    },
+    {
+      path: 'master-management-company',
+      component: MasterManagementCompany,
+      canActivate: [authGuard],
+      data: {
+        roles: ['MasterAdmin']
       }
     }
 ];

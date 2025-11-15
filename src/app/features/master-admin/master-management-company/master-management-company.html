@@ -1,0 +1,178 @@
+<div class="page-container">
+
+  <!-- Cabeçalho da Empresa -->
+  <div class="company-header">
+    <div class="company-identity">
+      <div class="company-logo-placeholder">T</div>
+      <div class="company-info">
+        <h1>Tech Solutions Ltda.</h1>
+        <span class="status-badge status-active">Ativa</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-danger">
+        <i class="fa-solid fa-power-off"></i>
+        Desativar Empresa
+      </button>
+      <!-- <button class="btn btn-secondary">
+        <i class="fa-solid fa-key"></i>
+        Resetar Senha do Admin
+      </button> -->
+    </div>
+  </div>
+
+  <!-- Navegação por Abas -->
+  <div class="tabs-navigation">
+    <!-- No Angular, você usaria (click) para mudar a aba ativa -->
+    <button class="tab-button" 
+        [class.active]="abaAtiva === 'visaoGeral'" 
+        (click)="mudarAba('visaoGeral')">
+      <i class="fa-solid fa-chart-line"></i>
+      Visão Geral
+    </button>
+    <button class="tab-button" 
+        [class.active]="abaAtiva === 'usuarios'" 
+        (click)="mudarAba('usuarios')">
+      <i class="fa-solid fa-users"></i>
+      Usuários
+    </button>
+    <button class="tab-button" 
+        [class.active]="abaAtiva === 'atividade'" 
+        (click)="mudarAba('atividade')">
+      <i class="fa-solid fa-list-check"></i>
+      Atividade Recente
+    </button>
+  </div>
+
+  <!-- Conteúdo das Abas -->
+  <div class="tab-content-wrapper">
+    
+    <!-- Aba 1: Visão Geral (Exibida por padrão) -->
+    <!-- No Angular, você usaria *ngIf="abaAtiva === 'visaoGeral'" -->
+    <div class="tab-content active-content" *ngIf="abaAtiva === 'visaoGeral'">
+      
+      <div class="content-header">
+        <h3>Informações Cadastrais</h3>
+        <button class="btn btn-secondary-outline" (click)="ToggleEdit()">
+            <i class="fa-solid fa-pencil"></i>
+            Editar Dados
+        </button>
+    </div>
+
+    <div class="details-view" *ngIf="!isEditing">
+        <div class="detail-group">
+            <h4>Informações Principais</h4>
+            <div class="detail-item">
+                <label>Nome da Empresa</label>
+                <p>Tech Solutions Ltda.</p>
+            </div>
+            <div class="detail-item">
+                <label>CNPJ</label>
+                <p>01.234.567/0001-88</p>
+            </div>
+            <div class="detail-item">
+                <label>Telefone</label>
+                <p>(11) 98765-4321</p>
+            </div>
+
+        </div>
+        <div class="detail-group">
+            <h4>Endereço</h4>
+            <div class="detail-item">
+                <label>Endereço</label>
+                <p>Rua das Inovações, 123 - Sala 45</p>
+            </div>
+            <div class="detail-item">
+                <label>Cidade / Estado</label>
+                <p>São Paulo / SP</p>
+            </div>
+            <div class="detail-item">
+                <label>CEP</label>
+                <p>01234-567</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-view" *ngIf="isEditing">
+            <form class="company-form">
+                <div class="form-section">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <input type="text" id="companyName" value="Tech Solutions Ltda." placeholder=" " required>
+                        <label for="companyName">Nome da Empresa</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="cnpj" value="01.234.567/0001-88" placeholder=" " required>
+                        <label for="cnpj">CNPJ</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" value="(11) 98765-4321" placeholder=" ">
+                        <label for="phone">Telefone Principal</label>
+                    </div>
+                </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="postalCode" value="01234-567" placeholder=" ">
+                            <label for="postalCode">CEP</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="address1" value="Rua das Inovações, 123 - Sala 45" placeholder=" ">
+                            <label for="address1">Endereço</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="city" value="São Paulo" placeholder=" ">
+                            <label for="city">Cidade</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="state" value="SP" placeholder=" ">
+                            <label for="state">Estado</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button (click)="ToggleEdit()" type="button" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="tab-content active-content" *ngIf="abaAtiva === 'usuarios'">
+      <div class="table-header">
+        <h3>Usuários da Empresa</h3>
+        <button class="btn btn-primary-outline">
+          <i class="fa-solid fa-user-plus"></i>
+          Convidar Novo Usuário
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Papel (Role)</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>João da Silva (Admin)</td>
+              <td>joao.silvatechsolutions.com</td>
+              <td><span class="role-badge role-admin">Admin</span></td>
+              <td><button class="btn-manage-sm">Editar</button></td>
+            </tr>
+            <tr>
+              <td>Maria Oliveira</td>
+              <td>maria.otechsolutions.com</td>
+              <td><span class="role-badge role-analyst">Analista</span></td>
+              <td><button class="btn-manage-sm">Editar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

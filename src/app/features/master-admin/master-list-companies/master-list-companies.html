@@ -1,0 +1,70 @@
+<div class="page-container">
+  
+  <!-- Cabeçalho da Página e Ações -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Gerenciamento de Empresas</h1>
+      <p>Consulte, pesquise e gerencie as empresas clientes da plataforma.</p>
+    </div>
+    <div class="header-actions">
+      <button routerLink="/master-register-company" routerLinkActive="active" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i>
+        Nova Empresa
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de Ferramentas da Tabela (Pesquisa) -->
+  <div class="table-toolbar">
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" placeholder="Pesquisar por nome ou CNPJ...">
+    </div>
+  </div>
+
+  <!-- Tabela de Empresas -->
+  <div class="table-wrapper">
+    <table class="companies-table">
+      <thead>
+        <tr>
+          <th>Nome da Empresa</th>
+          <th>CNPJ</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Data de Cadastro</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--aqui-->
+        <tr *ngFor="let company of companies">
+          <td>
+            <div class="company-cell">
+              <div class="company-logo-placeholder"></div>
+              <span class="company-name">{{company.name}}</span>
+            </div>
+          </td>
+          <td>{{company.cnpj}}</td>
+          <td>{{company.email}}</td>
+          <td>
+            <span class="status-badge status-active">{{company.status}}</span>
+          </td>
+          <td>{{company.createdAt | date: 'HH:mm - dd/MM/yyyy'}}</td>
+          <td>
+            <button routerLink="/master-management-company" routerLinkActive="active" class="btn-manage">
+              <i class="fa-solid fa-arrow-right"></i>
+              Gerenciar
+            </button>
+          </td>
+        </tr>
+        <!-- Adicione mais linhas de exemplo ou um estado de "Nenhum resultado" -->
+        <!-- 
+        <tr class="no-results-row">
+          <td colspan="6">Nenhuma empresa encontrada.</td>
+        </tr> 
+        -->
+      </tbody>
+    </table>
+  </div>
+
+</div>

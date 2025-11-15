@@ -1,0 +1,191 @@
+/* Importando a mesma fonte para consistência */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' );
+
+:host {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa; /* Um fundo ligeiramente diferente para a página */
+}
+
+.page-container {
+  padding: 30px;
+  width: 98%;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 5px;
+}
+
+.header-content p {
+  font-size: 16px;
+  color: #718096;
+  margin: 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: #3182ce;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2b6cb0;
+}
+
+.table-toolbar {
+  margin-bottom: 20px;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 12px 15px 12px 40px; /* Espaço para o ícone */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.table-wrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow-x: auto; /* Para responsividade em tabelas largas */
+}
+
+.companies-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.companies-table th, .companies-table td {
+  padding: 18px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.companies-table th {
+  font-size: 13px;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.companies-table tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+.company-cell {
+  display: flex;
+  align-items: center;
+}
+
+.company-logo-placeholder {
+  background: url("/assets/logo-without-undername.png");
+  background-position: center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 15px;
+}
+
+.company-name {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background-color: #c6f6d5;
+  color: #2f855a;
+}
+
+.status-inactive {
+  background-color: #fed7d7;
+  color: #c53030;
+}
+
+.status-trial {
+  background-color: #feebc8;
+  color: #975a16;
+}
+
+.btn-manage {
+  background-color: transparent;
+  border: 1px solid #cbd5e0;
+  color: #4a5568;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-manage:hover {
+  background-color: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.no-results-row td {
+  text-align: center;
+  padding: 50px;
+  color: #718096;
+  font-size: 16px;
+}
