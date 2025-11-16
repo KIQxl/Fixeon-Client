@@ -1,12 +1,10 @@
 <div class="page-container">
-
-  <!-- Cabeçalho da Empresa -->
   <div class="company-header">
     <div class="company-identity">
       <div class="company-logo-placeholder">T</div>
       <div class="company-info">
-        <h1>Tech Solutions Ltda.</h1>
-        <span class="status-badge status-active">Ativa</span>
+        <h1>{{company.name}}</h1>
+        <span class="status-badge status-active">{{company.status}}</span>
       </div>
     </div>
     <div class="header-actions">
@@ -21,9 +19,7 @@
     </div>
   </div>
 
-  <!-- Navegação por Abas -->
   <div class="tabs-navigation">
-    <!-- No Angular, você usaria (click) para mudar a aba ativa -->
     <button class="tab-button" 
         [class.active]="abaAtiva === 'visaoGeral'" 
         (click)="mudarAba('visaoGeral')">
@@ -44,11 +40,7 @@
     </button>
   </div>
 
-  <!-- Conteúdo das Abas -->
   <div class="tab-content-wrapper">
-    
-    <!-- Aba 1: Visão Geral (Exibida por padrão) -->
-    <!-- No Angular, você usaria *ngIf="abaAtiva === 'visaoGeral'" -->
     <div class="tab-content active-content" *ngIf="abaAtiva === 'visaoGeral'">
       
       <div class="content-header">
@@ -64,15 +56,15 @@
             <h4>Informações Principais</h4>
             <div class="detail-item">
                 <label>Nome da Empresa</label>
-                <p>Tech Solutions Ltda.</p>
+                <p>{{company.name}}</p>
             </div>
             <div class="detail-item">
                 <label>CNPJ</label>
-                <p>01.234.567/0001-88</p>
+                <p>{{company.cnpj | mask: '00.000.000/0000-00'}}</p>
             </div>
             <div class="detail-item">
                 <label>Telefone</label>
-                <p>(11) 98765-4321</p>
+                <p>{{company.phoneNumber | mask: '00 00 00000-0000'}}</p>
             </div>
 
         </div>
@@ -80,54 +72,78 @@
             <h4>Endereço</h4>
             <div class="detail-item">
                 <label>Endereço</label>
-                <p>Rua das Inovações, 123 - Sala 45</p>
+                <p>{{company.address.street}} - {{company.address.number}} / {{company.address.neighborhood}}</p>
             </div>
             <div class="detail-item">
                 <label>Cidade / Estado</label>
-                <p>São Paulo / SP</p>
+                <p>{{company.address.city}} / {{company.address.state}}</p>
             </div>
             <div class="detail-item">
                 <label>CEP</label>
-                <p>01234-567</p>
+                <p>{{company.address.postalCode | mask: '00000-000'}}</p>
                 </div>
             </div>
         </div>
 
         <div class="edit-view" *ngIf="isEditing">
-            <form class="company-form">
+            <form class="company-form" (submit)="SubmitCompanyChanges()">
                 <div class="form-section">
                 <div class="form-grid">
                     <div class="form-group full-width">
-                        <input type="text" id="companyName" value="Tech Solutions Ltda." placeholder=" " required>
-                        <label for="companyName">Nome da Empresa</label>
+                        <input type="text" name="name" placeholder=" " [(ngModel)]="updateRequest.Name" required>
+                        <label for="name">Nome da Empresa</label>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="cnpj" value="01.234.567/0001-88" placeholder=" " required>
+                        <input type="text" name="email" placeholder=" " [(ngModel)]="updateRequest.Email" required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div style="display: flex; width: 100%; justify-content: space-between; gap: 1%; flex: 1;">
+                      <div class="form-group" style="width: 100%;">
+                        <input type="text" name="cnpj" placeholder=" " mask="00.000.000/0000-00" maxlength="14" [(ngModel)]="updateRequest.CNPJ" required>
                         <label for="cnpj">CNPJ</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="phone" value="(11) 98765-4321" placeholder=" ">
-                        <label for="phone">Telefone Principal</label>
+                      </div>
+                      <div class="form-group" style="width: 100%;">
+                          <input type="tel" name="phoneNumber" mask="00 00 00000-0000" maxlength="13" [(ngModel)]="updateRequest.PhoneNumber" placeholder=" ">
+                          <label for="phoneNumber">Telefone Principal</label>
+                      </div>
                     </div>
                 </div>
                 </div>
                 <div class="form-section">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <input type="text" id="postalCode" value="01234-567" placeholder=" ">
+                        <div style="display: flex; width: 100%; justify-content: space-between; gap: 1%; flex: 1;">
+                          <div class="form-group" style="width: 100%;">
+                            <input type="text" name="postalCode" mask="00000-000" maxlength="8" [(ngModel)]="updateRequest.PostalCode" placeholder=" " >
                             <label for="postalCode">CEP</label>
                         </div>
-                        <div class="form-group">
-                            <input type="text" id="address1" value="Rua das Inovações, 123 - Sala 45" placeholder=" ">
-                            <label for="address1">Endereço</label>
+                        <div class="form-group" style="width: 100%;">
+                            <input type="text" name="country" [(ngModel)]="updateRequest.Country" placeholder=" ">
+                            <label for="country">País</label>
+                        </div>
+                        </div>
+                        <div style="display: flex; width: 100%; justify-content: space-between;">
+                          <div class="form-group" style="width: 79%;">
+                            <input type="text" name="street" [(ngModel)]="updateRequest.Street" placeholder=" ">
+                            <label for="street">Endereço</label>
+                          </div>
+                          <div class="form-group" style="width: 19%;">
+                              <input type="text" name="number" [(ngModel)]="updateRequest.Number" placeholder=" ">
+                              <label for="number">Numero</label>
+                          </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="city" value="São Paulo" placeholder=" ">
+                            <input type="text" name="neighborhood" [(ngModel)]="updateRequest.Neighborhood" placeholder=" ">
+                            <label for="neighborhood">Bairro</label>
+                        </div>
+                        <div style="display: flex; width: 100%; justify-content: space-between; gap: 1%; flex: 1;">
+                          <div class="form-group" style="width: 100%;">
+                            <input type="text" name="city" [(ngModel)]="updateRequest.City" placeholder=" ">
                             <label for="city">Cidade</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="state" value="SP" placeholder=" ">
-                            <label for="state">Estado</label>
+                          </div>
+                          <div class="form-group" style="width: 100%;">
+                              <input type="text" name="state" [(ngModel)]="updateRequest.State" placeholder=" ">
+                              <label for="state">Estado</label>
+                          </div>
                         </div>
                     </div>
                 </div>

@@ -84,7 +84,7 @@ export class Solicitacoes {
     }
     else
       this.filteredTickets = this.tickets;
-    }
+  }
 
   ValidaSLA(prazo: SLA | null): SafeHtml {
     const dataAtual = new Date();

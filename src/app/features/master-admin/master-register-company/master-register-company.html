@@ -25,12 +25,12 @@
           </div>
           
           <div class="form-group">
-            <input type="text" name="CNPJ" placeholder=" " maxlength="18" (input)="applyCnpjMask($event)" [(ngModel)]="request.CNPJ" required>
+            <input type="text" name="CNPJ" placeholder=" " maxlength="18" mask="00.000.000/0000-00" [(ngModel)]="request.CNPJ" required>
             <label for="CNPJ">CNPJ</label>
           </div>
 
           <div class="form-group">
-            <input type="tel" maxlength="13" name="PhoneNumber" placeholder=" " [(ngModel)]="request.PhoneNumber">
+            <input type="tel" name="PhoneNumber" placeholder=" " maxlength="16" mask="00 00 00000-0000" [(ngModel)]="request.PhoneNumber">
             <label for="PhoneNumber">Telefone Principal</label>
           </div>
         </div>
@@ -43,20 +43,20 @@
         </h3>
         <div class="form-grid">
           <div class="form-group">
+            <input type="text" name="PostalCode" placeholder=" " maxlength="9" mask="00000-000" (blur)="FillAddressValues()" [(ngModel)]="request.PostalCode">
+            <label for="PostalCode">CEP</label>
+          </div>
+          <div class="form-group">
+            <input type="text" name="Neighborhood" placeholder=" " [(ngModel)]="request.Neighborhood">
+            <label for="Neighborhood">Bairro</label>
+          </div>
+          <div class="form-group">
             <input type="text" name="Street" placeholder=" " [(ngModel)]="request.Street">
             <label for="Street">Endereço (Rua)</label>
           </div>
           <div class="form-group">
             <input type="text" name="Number" placeholder=" " [(ngModel)]="request.Number">
             <label for="Number">Número (Nº)</label>
-          </div>
-          <div class="form-group">
-            <input type="text" name="PostalCode" placeholder=" " maxlength="9" (input)="applyCepMask($event)" (blur)="FillAddressValues()" [(ngModel)]="request.PostalCode">
-            <label for="PostalCode">CEP</label>
-          </div>
-          <div class="form-group">
-            <input type="text" name="Neighborhood" placeholder=" " [(ngModel)]="request.Neighborhood">
-            <label for="Neighborhood">Bairro</label>
           </div>
           <div class="form-group">
             <input type="text" name="City" placeholder=" " [(ngModel)]="request.City">

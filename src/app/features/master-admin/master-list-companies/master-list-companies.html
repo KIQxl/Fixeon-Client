@@ -18,7 +18,7 @@
   <div class="table-toolbar">
     <div class="search-container">
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" placeholder="Pesquisar por nome ou CNPJ...">
+      <input type="text" (input)="OnSearchChange()" [(ngModel)]="searchText" placeholder="Pesquisar por nome, email ou CNPJ...">
     </div>
   </div>
 
@@ -30,28 +30,30 @@
           <th>Nome da Empresa</th>
           <th>CNPJ</th>
           <th>Email</th>
+          <th>Telefone</th>
           <th>Status</th>
           <th>Data de Cadastro</th>
-          <th>Ações</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <!--aqui-->
-        <tr *ngFor="let company of companies">
+        <tr *ngFor="let company of filteredCompanies">
           <td>
             <div class="company-cell">
               <div class="company-logo-placeholder"></div>
               <span class="company-name">{{company.name}}</span>
             </div>
           </td>
-          <td>{{company.cnpj}}</td>
+          <td>{{company.cnpj | mask: '00.000.000/0000-00'}}</td>
           <td>{{company.email}}</td>
+          <td>{{company.phoneNumber | mask: '00 00 00000-0000'}}</td>
           <td>
             <span class="status-badge status-active">{{company.status}}</span>
           </td>
           <td>{{company.createdAt | date: 'HH:mm - dd/MM/yyyy'}}</td>
           <td>
-            <button routerLink="/master-management-company" routerLinkActive="active" class="btn-manage">
+            <button routerLink="/master-management-company/{{company.id}}" routerLinkActive="active" class="btn-manage">
               <i class="fa-solid fa-arrow-right"></i>
               Gerenciar
             </button>

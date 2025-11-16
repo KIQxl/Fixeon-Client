@@ -153,7 +153,7 @@ export const routes: Routes = [
       }
     },
     {
-      path: 'master-management-company',
+      path: 'master-management-company/:id',
       component: MasterManagementCompany,
       canActivate: [authGuard],
       data: {

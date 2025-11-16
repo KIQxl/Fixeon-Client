@@ -3,7 +3,7 @@ import { Organization } from "./AuthModels";
 export interface Company{
   id: string;
   name: string;
-  cnpj: string | null;
+  cnpj: string;
   email: string;
   address: Address;
   phoneNumber: string;
@@ -21,6 +21,7 @@ export interface Tag{
 export interface Address{
   street: string;
   number: string;
+  neighborhood: string;
   city: string;
   state: string;
   postalCode: string;
@@ -32,6 +33,20 @@ export interface CreateTagRequest{
 }
 
 export interface CreateCompanyRequest{
+  Name: string;
+  CNPJ: string;
+  Email: string;
+  PhoneNumber: string;
+  Street: string;
+  Number: string;
+  Neighborhood: string;
+  City: string;
+  State: string;
+  PostalCode: string
+  Country: string;
+}
+
+export interface UpdateCompanyRequest{
   Name: string;
   CNPJ: string;
   Email: string;
