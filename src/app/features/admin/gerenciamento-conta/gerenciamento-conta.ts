@@ -12,7 +12,7 @@ import { ApplicationUser } from '../../../core/models/AuthModels';
 export class GerenciamentoConta {
   constructor(private auth_services: Auth_Services, private notification: Notificacao){}
 
-  user: ApplicationUser = { id: "", username: "", email: "", organization: {organizationName: "", organizationId: ""}, roles: []};
+  user: ApplicationUser = { id: "", username: "", email: "", phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: {organizationName: "", organizationId: ""}, roles: []};
 
   ngOnInit(){
     this.GetUserById();

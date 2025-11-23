@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class Organization_services {
 
   constructor(private http: HttpClient, private router: Router) { }
-    CreateOrganization(request: CreateOrganizationRequest): Observable<ApiResponse<Organization>>{
+    CreateOrganization(request: FormData): Observable<ApiResponse<Organization>>{
       return this.http.post<ApiResponse<Organization>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.ORGANIZATIONS}`, request);
     }
 

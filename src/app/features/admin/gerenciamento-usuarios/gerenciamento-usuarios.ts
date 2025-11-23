@@ -14,7 +14,7 @@ import { Organization_services } from '../../../core/services/organizations_serv
 })
 export class GerenciamentoUsuarios {
   users: ApplicationUser [] = [];
-  selectedUser: ApplicationUser = { id: '', username: '', email: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
+  selectedUser: ApplicationUser = { id: '', username: '', email: '', phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
   orgs: Organization [] = [];
   roles: string [] = [];
   orgId: string = "";

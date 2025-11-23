@@ -92,7 +92,7 @@ export class NovoChamado {
     formData.append('title', this.titulo)
     formData.append('description', this.descricao)
     formData.append('category', this.categoria)
-    formData.append('Departament', this.departamento)
+    formData.append('departament', this.departamento)
     formData.append('priority', this.prioridade)
 
     this.anexos.forEach((anexo, index) => {

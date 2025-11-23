@@ -483,3 +483,161 @@ ul{
   transition: 0.1s;
   color: #dc2626;
 }
+
+/* Estilos gerais da página (reutilizados) */
+.page-container {
+  width: 98%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Cartão principal de detalhes */
+.details-card {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+/* Cabeçalho do cartão */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 30px;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #fdfdff;
+}
+
+.header-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+.header-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-info {
+  flex-grow: 1;
+}
+.organization-name {
+  margin: 0 0 5px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #212529;
+}
+
+/* "Badge" de Status */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.status-badge.active {
+  background-color: #d1fae5; /* Verde claro */
+  color: #065f46; /* Verde escuro */
+}
+.status-badge.inactive {
+  background-color: #fee2e2; /* Vermelho claro */
+  color: #991b1b; /* Vermelho escuro */
+}
+.status-badge.onboarding {
+  background-color: #dbeafe; /* Azul claro */
+  color: #1e40af; /* Azul escuro */
+}
+
+.header-actions {
+  margin-left: auto;
+}
+.btn-edit {
+  background-color: #4C5FF7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-edit:hover {
+  background-color: #3a4ee1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 95, 247, 0.2);
+}
+
+/* Corpo do cartão */
+.card-body {
+  padding: 10px 30px 30px;
+}
+
+.details-section {
+  margin-top: 30px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.details-grid {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  gap: 25px 20px;
+}
+
+.details-grid-item{
+  width: 25%;
+}
+
+/* Seção de Notas */
+.notes-content {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+}
+.notes-content p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #495057;
+  white-space: pre-wrap; /* Preserva quebras de linha e espaços */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header-actions {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,4 +1,4 @@
-<div class="create-org-container">
+<!-- <div class="create-org-container">
   <h2 class="title">Cadastrar Nova Organização</h2>
 
   <form (ngSubmit)="onSubmit()" #orgForm="ngForm" class="org-form">
@@ -154,4 +154,188 @@
       <button type="button" class="cancel" (click)="cancel()" [routerLink]="['/gerenciamento-app']">Cancelar</button>
     </div>
   </form>
+</div> -->
+
+<div class="page-container">
+  <div class="form-card">
+    
+    <div class="card-header">
+      <h2>Cadastrar Nova Organização</h2>
+      <p>Preencha os dados do cliente para habilitá-lo na plataforma.</p>
+    </div>
+    <div class="tabs-navigation">
+      <button 
+        class="tab-button" 
+        [class.active]="abaAtiva === 'geral'" 
+        (click)="abaAtiva = 'geral'">
+        <i class="fa-solid fa-building"></i>
+        Informações Gerais
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="abaAtiva === 'config'" 
+        (click)="abaAtiva = 'config'">
+        <i class="fa-solid fa-cogs"></i>
+        Configurações
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="abaAtiva === 'anexos'" 
+        (click)="abaAtiva = 'anexos'">
+        <i class="fa-solid fa-paperclip"></i>
+        Notas e Anexos
+      </button>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="abaAtiva === 'geral'" class="tab-content">
+        <div class="form-section">
+          <h4 class="section-title">Dados Principais</h4>
+          <div class="form-grid">
+            <div class="form-group">
+              <input type="text" id="name" [(ngModel)]="request.Name" placeholder=" " required>
+              <label for="name">Nome da Organização</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="cnpj" [(ngModel)]="request.CNPJ" maxlength="18" mask="00.000.000/0000-00" placeholder=" " required>
+              <label for="cnpj">CNPJ</label>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" [(ngModel)]="request.Email" placeholder=" " required>
+              <label for="email">E-mail de Contato</label>
+            </div>
+            <div class="form-group">
+              <input type="tel" id="phone" [(ngModel)]="request.PhoneNumber" maxlength="16" mask="00 00 00000-0000" placeholder=" ">
+              <label for="phone">Telefone</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4 class="section-title">Endereço</h4>
+          <div class="form-grid">
+            <div class="form-group">
+              <input type="text" id="postalCode" [(ngModel)]="request.PostalCode" mask="00000-000" (blur)="FillAddressValues()" placeholder=" ">
+              <label for="postalCode">CEP</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="Country" [(ngModel)]="request.Country" placeholder=" ">
+              <label for="Country">País</label>
+            </div>
+            <div class="form-group full-width">
+              <input type="text" id="street" [(ngModel)]="request.Street" placeholder=" ">
+              <label for="street">Logradouro</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="number" [(ngModel)]="request.Number" placeholder=" ">
+              <label for="number">Número</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="neighborhood" [(ngModel)]="request.Neighborhood" placeholder=" ">
+              <label for="neighborhood">Bairro</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="city" [(ngModel)]="request.City" placeholder=" ">
+              <label for="city">Cidade</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="state" [(ngModel)]="request.State" placeholder=" ">
+              <label for="state">Estado</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="abaAtiva === 'config'" class="tab-content">
+        <div class="form-section">
+          <h4 class="section-title">Categorias de Chamados</h4>
+          <div class="dynamic-input-group">
+            <input type="text" [(ngModel)]="newCategory" name="newCategory" placeholder="Digite uma categoria e pressione Enter" (keydown.enter)="handleEnterCategory($event)">
+            <button type="button" (click)="addCategory()"><i class="fa-solid fa-plus"></i> Adicionar</button>
+          </div>
+          <div class="chip-container" *ngIf="request.Categories.length > 0">
+            <span class="chip" *ngFor="let cat of request.Categories; let i = index">
+              {{ cat }} <button type="button" (click)="removeCategory(i)">&times;</button>
+            </span>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4 class="section-title">Departamentos</h4>
+          <div class="dynamic-input-group">
+            <input type="text" [(ngModel)]="newDepartament" name="newDepartament" placeholder="Digite um departamento e pressione Enter" (keydown.enter)="handleEnterDepartament($event)">
+            <button type="button" (click)="addDepartament()"><i class="fa-solid fa-plus"></i> Adicionar</button>
+          </div>
+          <div class="chip-container" *ngIf="request.Departaments.length > 0">
+            <span class="chip" *ngFor="let dep of request.Departaments; let i = index">
+              {{ dep }} <button type="button" (click)="removeDepartament(i)">&times;</button>
+            </span>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4 class="section-title">Regras de SLA</h4>
+          <div class="sla-input-grid">
+            <select [(ngModel)]="newSLA.type" name="type">
+              <option [ngValue]="0" disabled>Tipo</option>
+              <option [ngValue]="1">Primeiro Atendimento</option>
+              <option [ngValue]="2">Resolução</option>
+            </select>
+            <select [(ngModel)]="newSLA.slaPriority" name="slaPriority">
+              <option [ngValue]="0" disabled>Prioridade</option>
+              <option [ngValue]="1">Baixa</option>
+              <option [ngValue]="2">Média</option>
+              <option [ngValue]="3">Alta</option>
+            </select>
+            <input type="number" [(ngModel)]="newSLA.slaInMinutes" name="slaInMinutes" min="0" placeholder="Tempo (minutos)">
+            <button type="button" (click)="addSLA()"><i class="fa-solid fa-plus"></i> Adicionar SLA</button>
+          </div>
+          <div style="width: 96%; margin-top: 8px;">
+            <span style="font-size: 12px; color: grey;">(O tempo da regra de SLA deve ser adicionado em <strong>MINUTOS</strong>)</span>
+          </div>
+          <div class="sla-table-container" *ngIf="request.Slas.length > 0">
+            <table class="sla-table">
+              <thead><tr><th>Tipo</th><th>Prioridade</th><th>Tempo</th><th></th></tr></thead>
+              <tbody>
+                <tr *ngFor="let sla of request.Slas; let i = index">
+                  <td>{{ TranslateSLAType(sla.type) }}</td>
+                  <td>{{ TranslateSLAPriority(sla.slaPriority) }}</td>
+                  <td>{{ sla.slaInMinutes }} min</td>
+                  <td><button type="button" class="btn-remove-sla" (click)="removeSLA(i)"><i class="fa-solid fa-trash-can"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="abaAtiva === 'anexos'" class="tab-content">
+        <div class="form-section">
+          <h4 class="section-title">Observações Internas</h4>
+          <div class="form-group">
+            <textarea id="notes" [(ngModel)]="request.Notes" placeholder="Adicione informações relevantes sobre este cliente, como contatos específicos, detalhes do contrato, etc." rows="6"></textarea>
+            <label for="notes">Notas</label>
+          </div>
+        </div>
+        <div class="form-section">
+          <h4 class="section-title">Logo da Organização</h4>
+          <div class="upload-area" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.drag-over]="isDragging">
+            <div *ngIf="imagePreview" class="image-preview-container">
+              <img [src]="imagePreview" alt="Prévia da logo" class="image-preview">
+              <button class="remove-image-btn" (click)="removerImagem()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div *ngIf="!imagePreview" class="upload-placeholder" (click)="fileInput.click()">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p><strong>Clique para enviar</strong> ou arraste e solte</p>
+              <span>PNG, JPG (MAX. 2MB)</span>
+            </div>
+          </div>
+          <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+        </div>
+      </div>
+
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn-submit" (click)="onSubmit()">
+        <i class="fa-solid fa-save"></i>
+        Salvar Organização
+      </button>
+    </div>
+  </div>
 </div>

@@ -22,7 +22,17 @@
         </thead>
         <tbody>
             <tr *ngFor="let org of current_orgs">
-                <td>{{ org.name }}</td>
+                <td style="display: flex; align-items: center; gap:5%; background-size: cover; background-position: center;">
+                   <div 
+                    *ngIf="org && org.profileUrl" 
+                    style="width: 35px; height: 35px; border-radius: 50%; background-size: cover; background-position: center;" 
+                    [style.background-image]="'url(' + org.profileUrl.replace('https', 'http' ) + ')'">
+                    </div>
+
+                    <div *ngIf="!org || !org.profileUrl" class="avatar-placeholder">
+                    </div>
+                    {{ org.name }}
+                </td>
                 <td>{{ org.cnpj }}</td>
                 <td>{{ org.email }}</td>
                 <td>{{ org.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>

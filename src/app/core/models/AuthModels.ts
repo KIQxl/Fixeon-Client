@@ -1,9 +1,13 @@
+import { Address } from "./CompanyModels";
 import { Category, Departament } from "./Ticket";
 
 export interface ApplicationUser{
     id: string;
     username: string;
     email: string;
+    phoneNumber: string;
+    jobTitle: string;
+    profilePictureUrl: string;
     organization: UserOrganization
     roles: string [];
 }
@@ -13,6 +17,11 @@ export interface Organization{
     name: string;
     cnpj: string;
     email: string;
+    profileUrl: string;
+    phoneNumber: string;
+    notes: string;
+    address: Address;
+    status: string;
     createdAt: Date;
     companyId: string;
     organizationSLAs: OrganizationSLA[];
@@ -48,6 +57,9 @@ export interface CreateAccountRequest{
     email: string;
     username: string;
     password: string;
+    phoneNumber: string,
+    jobTitle: string;
+    profilePictureUrl: File | null;
     passwordConfirm: string;
     roles: string [];
     organizationId: string | null;
@@ -87,6 +99,16 @@ export interface CreateOrganizationRequest{
     Slas: CreateSlaInOrganizationRequest[];
     CNPJ: string;
     Email: string;
+    PhoneNumber: string;
     Categories: string [];
     Departaments: string [];
+    Notes: string;
+    Street: string;
+    Number: string;
+    Neighborhood: string;
+    City: string;
+    State: string;
+    PostalCode: string;
+    Country: string;
+    ProfilePictureUrl: File | null;
 }

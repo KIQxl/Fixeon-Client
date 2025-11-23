@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <div class="container-titulo">
         <h3 style="margin-bottom: 20px;">Cadastro de usuário</h3>
         <h5>Insira corretamente as informações do usuário.</h5>
@@ -19,7 +19,22 @@
                 </label>
                 <input type="text" [(ngModel)]="novoUsuario.email">
             </div>
+        </div>
 
+        <div class="sub-container-cadastro">
+            <div class="label-input">
+                <label>
+                    Número de contato
+                </label>
+                <input type="text" [(ngModel)]="novoUsuario.phoneNumber">
+            </div>
+
+            <div class="label-input">
+                <label>
+                    Título de trabalho
+                </label>
+                <input type="text" [(ngModel)]="novoUsuario.jobTitle">
+            </div>
         </div>
 
         <div class="sub-container-cadastro">
@@ -64,4 +79,113 @@
             Cadastrar
         </button>
     </div>
+</div> -->
+
+<div class="page-container">
+  <div class="form-card">
+    
+    <div class="card-header">
+      <h2>Cadastro de Novo Usuário</h2>
+      <p>Preencha os dados para criar uma nova conta de acesso.</p>
+    </div>
+
+    <div class="card-body">
+      
+      <div class="profile-picture-section">
+        <h4>Foto de Perfil</h4>
+        
+        <div 
+          class="upload-area" 
+          (dragover)="onDragOver($event)" 
+          (dragleave)="onDragLeave($event)" 
+          (drop)="onDrop($event)"
+          [class.drag-over]="isDragging">
+          
+          <div *ngIf="imagePreview" class="image-preview-container">
+            <img [src]="imagePreview" alt="Prévia da foto de perfil" class="image-preview">
+            <button class="remove-image-btn" (click)="removerImagem()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div *ngIf="!imagePreview" class="upload-placeholder" (click)="fileInput.click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p><strong>Clique para enviar</strong> ou arraste e solte</p>
+            <span>PNG, JPG (MAX. 5MB)</span>
+          </div>
+        </div>
+        
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+      </div>
+
+      <div class="form-fields-section">
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <input type="text" id="username" [(ngModel)]="novoUsuario.username" placeholder=" " required>
+            <label for="username">Nome do usuário</label>
+          </div>
+
+          <div class="form-group">
+            <input type="email" id="email" [(ngModel)]="novoUsuario.email" placeholder=" " required>
+            <label for="email">Email</label>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" id="phone" [(ngModel)]="novoUsuario.phoneNumber" placeholder=" " maxlength="16" mask="00 00 00000-0000">
+            <label for="phone">Número de contato</label>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="jobTitle" [(ngModel)]="novoUsuario.jobTitle" placeholder=" ">
+            <label for="jobTitle">Título de trabalho</label>
+          </div>
+
+          <div class="form-group">
+            <select id="organization" [(ngModel)]="novoUsuario.organizationId" required>
+              <option [ngValue]="null" disabled selected>Selecione uma organização</option>
+              <option *ngFor="let organization of orgs" [ngValue]="organization.id">
+                {{ organization.name }}
+              </option>
+            </select>
+            <label for="organization" class="select-label">Organização</label>
+          </div>
+
+          <div class="form-group">
+            <input type="password" id="password" [(ngModel)]="novoUsuario.password" placeholder=" " required>
+            <label for="password">Senha</label>
+          </div>
+
+          <div class="form-group">
+            <input type="password" id="passwordConfirm" [(ngModel)]="novoUsuario.passwordConfirm" placeholder=" " required>
+            <label for="passwordConfirm">Confirme a senha</label>
+          </div>
+        </div>
+
+        <div class="roles-section">
+          <label class="roles-title">Perfis de Acesso</label>
+          <div class="roles-container">
+            <div *ngFor="let role of roles" class="role-item">
+              <input 
+                type="checkbox" 
+                [id]="'role-' + role" 
+                [value]="role" 
+                [checked]="novoUsuario.roles.includes(role)" 
+                (change)="onRoleChange($event, role)">
+              <label [for]="'role-' + role">{{ role }}</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn-submit" (click)="CadastrarUsuario()">
+        <i class="fa-solid fa-user-plus"></i>
+        Cadastrar Usuário
+      </button>
+    </div>
+
+  </div>
 </div>

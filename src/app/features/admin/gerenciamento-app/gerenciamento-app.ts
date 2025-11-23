@@ -21,7 +21,7 @@ export class GerenciamentoApp {
   showModalUsuarios: boolean = false;
   showModalConfigs: boolean = false;
   usersByOrg: ApplicationUser[] = [];
-  selectedUser: ApplicationUser = { id: '', username: '', email: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
+  selectedUser: ApplicationUser = { id: '', username: '', email: '', phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
   @ViewChild('dialogEditUser') dialogUser!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogEditRoles') dialogRoles!: ElementRef<HTMLDialogElement>;
   roles: string [] = [];

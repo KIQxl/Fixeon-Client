@@ -1,6 +1,6 @@
 <h3>Gerenciamento de Clientes</h3>
 
-<div class="org-info">
+<!-- <div class="org-info">
   <div class="input-group">
     <label for="org-name">Nome da Organização</label>
     <input id="org-name" type="text" [ngModel]="organization.name" readonly />
@@ -15,6 +15,85 @@
     <label for="org-cnpj">CNPJ</label>
     <input id="org-cnpj" type="text" [ngModel]="organization.cnpj" readonly />
   </div>
+</div> -->
+
+<div class="page-container">
+  <div class="details-card">
+    <div class="card-header">
+      <div class="header-logo">
+        <img [src]="organization.profileUrl.replace('https', 'http')" alt="Logo da Organização" />
+      </div>
+      <div class="header-info">
+        <h2 class="organization-name">{{ organization.name }}</h2>
+        <div class="status-badge" [ngClass]="getStatusClass(organization.status)">
+          {{ organization.status }}
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-edit">
+          <i class="fa-solid fa-pencil"></i>
+          Editar Organização
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="details-section">
+        <h3 class="section-title">Informações de Contato</h3>
+        <div class="details-grid">
+          <div class="details-grid-item">
+            <label>CNPJ</label>
+            <p>{{ organization.cnpj | mask: '00.000.000/0000-00' }}</p> <!-- Usando um pipe de máscara para formatação -->
+          </div>
+          <div class="details-grid-item">
+            <label>E-mail Principal</label>
+            <p>{{ organization.email }}</p>
+          </div>
+          <div class="details-grid-item">
+            <label>Telefone</label>
+            <p>{{ organization.phoneNumber || 'Não informado' }}</p>
+          </div>
+          <div class="details-grid-item">
+            <label>Cliente desde</label>
+            <p>{{ organization.createdAt | date: 'dd/MM/yyyy' }}</p> <!-- Usando o pipe de data do Angular -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Endereço -->
+      <div class="details-section">
+        <h3 class="section-title">Endereço</h3>
+        <div class="details-grid">
+          <div class="details-grid-item">
+            <label>CEP</label>
+            <p>{{ organization.address.postalCode | mask: '00000-000' }}</p>
+          </div>
+          <div class="details-grid-item">
+            <label>Logradouro e Número</label>
+            <p>{{ organization.address.street }}, {{ organization.address.number }}</p>
+          </div>
+          <div class="details-grid-item">
+            <label>Bairro</label>
+            <p>{{ organization.address.neighborhood }}</p>
+          </div>
+          <div class="details-grid-item">
+            <label>Cidade / Estado</label>
+            <p>{{ organization.address.city }} / {{ organization.address.state }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Notas -->
+      <div class="details-section">
+        <h3 class="section-title">Observações Internas</h3>
+        <div class="notes-content">
+          <!-- Usamos [innerHTML] para renderizar quebras de linha, mas com cuidado (ver .ts) -->
+          <p [innerHTML]="organization.notes || 'Nenhuma observação cadastrada.'"></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 
@@ -26,7 +105,7 @@
     <table >
         <thead>
             <tr>
-                <th>Nome de usuário</th>
+                <th>Usuário</th>
                 <th>Email</th>
                 <th>Organização</th>
                 <th>Perfis</th>
@@ -35,7 +114,17 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of users">
-                <td>{{ user.username }}</td>
+                <td style="display: flex; align-items: center; gap:5%; background-size: cover; background-position: center;">
+                    <div 
+                    *ngIf="user && user.profilePictureUrl" 
+                    style="width: 35px; height: 35px; border-radius: 50%; background-size: cover; background-position: center;" 
+                    [style.background-image]="'url(' + user.profilePictureUrl.replace('https', 'http' ) + ')'">
+                    </div>
+
+                    <div *ngIf="!user || !user.profilePictureUrl" class="avatar-placeholder">
+                    </div>
+                    {{ user.username }}
+                </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
                 <td>

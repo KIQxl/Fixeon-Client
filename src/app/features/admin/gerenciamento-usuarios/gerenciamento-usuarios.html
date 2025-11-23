@@ -13,7 +13,7 @@
     <table >
         <thead>
             <tr>
-                <th>Nome de usuário</th>
+                <th>Usuário</th>
                 <th>Email</th>
                 <th>Organização</th>
                 <th>Perfis</th>
@@ -22,7 +22,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of users">
-                <td>{{ user.username }}</td>
+                <td style="display: flex; align-items: center; gap:5%">
+                    <img style="width: 35px; border-radius: 50%;" src="{{user.profilePictureUrl.replace('https', 'http')}}">
+                    {{ user.username }}
+                </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
                 <td>

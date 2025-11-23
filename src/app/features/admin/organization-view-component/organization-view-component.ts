@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { Auth_Services } from '../../../core/services/auth-services';
 import { CommonModule } from '@angular/common';
 import { ApiResponse } from '../../../core/models/Response';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-organization-view-component',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, NgxMaskPipe],
   templateUrl: './organization-view-component.html',
   styleUrl: './organization-view-component.css'
 })
@@ -19,7 +20,7 @@ export class OrganizationViewComponent {
 
   organization!: Organization;
   users: ApplicationUser[] = [];
-  selectedUser: ApplicationUser = { id: '', username: '', email: '', organization: { organizationName: "", organizationId: "" }, roles: [] };
+  selectedUser: ApplicationUser = { id: '', username: '', email: '', phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: { organizationName: "", organizationId: "" }, roles: [] };
   @ViewChild('dialogEditUser') dialogUser!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogEditRoles') dialogRoles!: ElementRef<HTMLDialogElement>;
   orgs: Organization[] = [];
@@ -387,5 +388,21 @@ export class OrganizationViewComponent {
         console.log(err)
       }
     });
+  }
+
+  getStatusClass(status: string): string {
+    if (!status) return '';
+    
+    const statusLower = status.toLowerCase();
+    
+    if (statusLower === 'active' || statusLower === 'ativo') {
+      return 'active';
+    } else if (statusLower === 'inactive' || statusLower === 'inativo') {
+      return 'inactive';
+    } else if (statusLower === 'onboarding') {
+      return 'onboarding';
+    }
+    
+    return ''; // Retorna uma string vazia para status desconhecidos
   }
 }

@@ -110,7 +110,7 @@ export class Auth_Services {
     return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/associate-role`, request);
   }
 
-  CreeateAccount(request: CreateAccountRequest): Observable<ApiResponse<ApplicationUser>>{
+  CreeateAccount(request: FormData): Observable<ApiResponse<ApplicationUser>>{
     return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/create-account`, request);
   }
 
