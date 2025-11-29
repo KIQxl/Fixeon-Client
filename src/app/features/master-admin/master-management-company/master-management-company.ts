@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CompanyServices } from '../../../core/services/company-services';
 import { Notificacao } from '../../../core/services/notificacao';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Company, UpdateCompanyRequest } from '../../../core/models/CompanyModels';
 import { FormsModule } from '@angular/forms';
 import { AddressServices } from '../../../core/services/address-services';
@@ -10,7 +10,7 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-master-management-company',
-  imports: [CommonModule, FormsModule, NgxMaskDirective, NgxMaskPipe],
+  imports: [CommonModule, FormsModule, NgxMaskDirective, NgxMaskPipe, RouterLink],
   templateUrl: './master-management-company.html',
   styleUrl: './master-management-company.css'
 })

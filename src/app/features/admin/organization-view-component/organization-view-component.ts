@@ -6,8 +6,7 @@ import { ApplicationUser, AssociateRoleRequest, CreateCategory, CreateDepartamen
 import { FormsModule } from '@angular/forms';
 import { Auth_Services } from '../../../core/services/auth-services';
 import { CommonModule } from '@angular/common';
-import { ApiResponse } from '../../../core/models/Response';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import {NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-organization-view-component',
@@ -78,11 +77,13 @@ export class OrganizationViewComponent {
   }
 
   EditUser() {
+    const orgId = this.selectedUser.organization?.organizationId;
+
     let request: UpdateApplicationUser = {
       id: this.selectedUser.id,
-      username: this.selectedUser.username,
+      userName: this.selectedUser.username,
       email: this.selectedUser.email,
-      organizationId: this.selectedUser.organization?.organizationId ?? null
+      organizationId: orgId ? orgId : null 
     }
 
     this.auth_services.UpdateApplicationUser(request)

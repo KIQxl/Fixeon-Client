@@ -167,7 +167,6 @@ CadastrarUsuario(): void {
       },
       error: (err) => {
         this.notification.erro(err.error.errors);
-        console.log(err)
       }
     })
   }

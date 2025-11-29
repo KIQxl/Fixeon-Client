@@ -1,1 +1,92 @@
-<p>master-register-user works!</p>
+<div class="page-container">
+  <div class="form-card">
+    
+    <!-- CABEÇALHO CONTEXTUAL -->
+    <div class="card-header">
+      <h2>Cadastrar Administrador</h2>
+      <!-- O nome da empresa viria da rota ou de um serviço -->
+      <p>Este será o primeiro usuário com acesso total para a empresa: <strong>{{ companyName }}</strong></p>
+    </div>
+
+    <!-- CORPO DO FORMULÁRIO -->
+    <div class="card-body">
+      
+      <!-- COLUNA DA ESQUERDA: FOTO DE PERFIL -->
+      <div class="profile-picture-section">
+        <h4>Foto de Perfil</h4>
+        <div 
+          class="upload-area" 
+          (dragover)="onDragOver($event)" 
+          (dragleave)="onDragLeave($event)" 
+          (drop)="onDrop($event)"
+          [class.drag-over]="isDragging">
+          
+          <div *ngIf="imagePreview" class="image-preview-container">
+            <img [src]="imagePreview" alt="Prévia da foto de perfil" class="image-preview">
+            <button class="remove-image-btn" (click)="removerImagem()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div *ngIf="!imagePreview" class="upload-placeholder" (click)="fileInput.click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p><strong>Clique para enviar</strong> ou arraste e solte</p>
+            <span>PNG, JPG (MAX. 5MB)</span>
+          </div>
+        </div>
+        <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+      </div>
+
+      <!-- COLUNA DA DIREITA: CAMPOS DO FORMULÁRIO -->
+      <div class="form-fields-section">
+        <div class="form-grid">
+          <!-- Nome do Usuário -->
+          <div class="form-group">
+            <input type="text" id="username" [(ngModel)]="request.username" placeholder=" " required>
+            <label for="username">Nome completo do Administrador</label>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <input type="email" id="email" [(ngModel)]="request.email" placeholder=" " required>
+            <label for="email">Email de acesso</label>
+          </div>
+
+          <!-- Número de Contato -->
+          <div class="form-group">
+            <input type="tel" id="phone" [(ngModel)]="request.phoneNumber" maxlength="16" mask="00 00 00000-0000" placeholder=" ">
+            <label for="phone">Número de contato</label>
+          </div>
+
+          <!-- Título de Trabalho -->
+          <div class="form-group">
+            <input type="text" id="jobTitle" [(ngModel)]="request.jobTitle" placeholder=" ">
+            <label for="jobTitle">Cargo (Ex: Gerente de TI)</label>
+          </div>
+
+          <!-- Senha -->
+          <div class="form-group">
+            <input type="password" id="password" [(ngModel)]="request.password" placeholder=" " required>
+            <label for="password">Senha</label>
+          </div>
+
+          <!-- Confirmação de Senha -->
+          <div class="form-group">
+            <input type="password" id="passwordConfirm" [(ngModel)]="request.passwordConfirm" placeholder=" " required>
+            <label for="passwordConfirm">Confirme a senha</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ COM BOTÃO DE AÇÃO -->
+    <div class="card-footer">
+      <button type="button" class="btn-cancel" (click)="cancelar()">Cancelar</button>
+      <button class="btn-submit" (click)="onSubmit()">
+        <i class="fa-solid fa-user-plus"></i>
+        Criar Administrador
+      </button>
+    </div>
+
+  </div>
+</div>

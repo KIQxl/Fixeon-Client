@@ -137,7 +137,7 @@ export const routes: Routes = [
       }
     },
     {
-      path: 'master-register-admin',
+      path: 'master-register-admin/:id',
       component: MasterRegisterUser,
       canActivate: [authGuard],
       data: {

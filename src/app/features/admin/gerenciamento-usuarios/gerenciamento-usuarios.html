@@ -23,8 +23,16 @@
         <tbody>
             <tr *ngFor="let user of users">
                 <td style="display: flex; align-items: center; gap:5%">
-                    <img style="width: 35px; border-radius: 50%;" src="{{user.profilePictureUrl.replace('https', 'http')}}">
-                    {{ user.username }}
+                    <div class="avatar-container">
+                        <div 
+                            class="avatar-display" 
+                            [class.avatar-placeholder]="!user.profilePictureUrl"
+                            [style.background-image]="user.profilePictureUrl ? 'url(' + user.profilePictureUrl.replace('https', 'http' ) + ')' : null">
+                            
+                            <i *ngIf="!user.profilePictureUrl" class="fa-solid fa-building"></i> 
+                        </div>
+                    </div>
+                    {{user.username}}
                 </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.organization ? user.organization.organizationName : '-'  }}</td>
@@ -61,19 +69,21 @@
 
             <div class="label-input">
                 <label>Organização</label>
-                <select [(ngModel)]="selectedUser.organization.organizationId" name="organization">
-                    <option *ngIf="!selectedUser.organization" [ngValue]="null">
-                        Selecione a organização
-                    </option>
-
-                    <!-- <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
-                        {{ selectedUser.organization.organizationId }}
-                    </option> -->
-
+                
+                <!-- Envolva o select com um *ngIf -->
+                <select *ngIf="selectedUser.organization" [(ngModel)]="selectedUser.organization.organizationId" name="organization">
+                    
+                    <option [ngValue]="null" disabled>Selecione uma organização</option>
+                    
                     <option *ngFor="let organization of orgs" [ngValue]="organization.id">
-                        {{ organization.name }}
+                    {{ organization.name }}
                     </option>
                 </select>
+
+                <!-- Opcional: Mostrar algo enquanto o objeto não existe -->
+                <div *ngIf="!selectedUser.organization">
+                    Carregando organização...
+                </div>
             </div>
 
             <div class="dialog-buttons-container">

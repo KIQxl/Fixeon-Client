@@ -14,7 +14,7 @@ import { Organization_services } from '../../../core/services/organizations_serv
 })
 export class GerenciamentoUsuarios {
   users: ApplicationUser [] = [];
-  selectedUser: ApplicationUser = { id: '', username: '', email: '', phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: {organizationName: "", organizationId: ""}, roles: [] };
+  selectedUser: ApplicationUser = { id: '', username: '', email: '', phoneNumber: '', jobTitle: '', profilePictureUrl: '', organization: {organizationName: "", organizationId: null}, roles: [] };
   orgs: Organization [] = [];
   roles: string [] = [];
   orgId: string = "";
@@ -58,12 +58,16 @@ export class GerenciamentoUsuarios {
 
   EditUser() {
 
+    const orgId = this.selectedUser.organization?.organizationId;
+
     let request: UpdateApplicationUser = {
       id: this.selectedUser.id,
-      username: this.selectedUser.username,
+      userName: this.selectedUser.username,
       email: this.selectedUser.email,
-      organizationId: this.selectedUser.organization?.organizationId ?? null
+      organizationId: orgId ? orgId : null 
     }
+
+    console.log(request);
 
     this.auth_services.UpdateApplicationUser(request)
     .subscribe({

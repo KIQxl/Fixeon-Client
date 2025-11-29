@@ -37,7 +37,7 @@ export class DashboardComponent {
     .subscribe({
       next: (response) => {
         this.tickets = response.data;
-
+        console.log(this.filteredTickets)
         this.generateAnalystSummary();
         
         this.setActiveTab("meus");

@@ -117,4 +117,8 @@ export class Auth_Services {
   GetUserById(id: string): Observable<ApiResponse<ApplicationUser>>{
     return this.http.get<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/get-user-by-id/${id}`);
   }
+
+  CreeateAccountAdmin(request: FormData): Observable<ApiResponse<ApplicationUser>>{
+    return this.http.post<ApiResponse<ApplicationUser>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.AUTH}/create-account-master`, request);
+  }
 }

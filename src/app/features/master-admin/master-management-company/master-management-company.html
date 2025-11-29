@@ -1,7 +1,9 @@
 <div class="page-container">
   <div class="company-header">
     <div class="company-identity">
-      <div class="company-logo-placeholder">T</div>
+      <div class="company-logo-placeholder">
+        <img [src]="company.profilePictureUrl.replace('https', 'http')" alt="Logo da Organização" />
+      </div>
       <div class="company-info">
         <h1>{{company.name}}</h1>
         <span class="status-badge status-active">{{company.status}}</span>
@@ -158,9 +160,11 @@
     <div class="tab-content active-content" *ngIf="abaAtiva === 'usuarios'">
       <div class="table-header">
         <h3>Usuários da Empresa</h3>
-        <button class="btn btn-primary-outline">
+        <button 
+        class="btn btn-primary-outline"
+        [routerLink]="['/master-register-admin', company.id]">
           <i class="fa-solid fa-user-plus"></i>
-          Convidar Novo Usuário
+          Novo Admin
         </button>
       </div>
       <div class="table-wrapper">

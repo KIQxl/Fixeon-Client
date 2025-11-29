@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { Auth_Services } from '../../../core/services/auth-services';
 import { Notificacao } from '../../../core/services/notificacao';
 import { ApplicationUser } from '../../../core/models/AuthModels';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-gerenciamento-conta',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './gerenciamento-conta.html',
   styleUrl: './gerenciamento-conta.css'
 })
@@ -25,6 +27,7 @@ export class GerenciamentoConta {
     .subscribe({
       next: (response) => {
         this.user = response.data
+        console.log(response.data)
       },
       error: (err) => {
         this.notification.erro(err);

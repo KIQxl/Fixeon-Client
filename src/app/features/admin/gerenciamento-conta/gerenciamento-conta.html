@@ -1,49 +1,9 @@
-<!-- <div class="container-principal">
-    <div class="container-image">
-        <img src="/assets/logo-with-name.png" class="image">
-    </div>
-
-    <div class="container-infos">
-        <div class="label-input" style="width: 100%;">
-            <label>Id</label>
-            <input type="text" style="padding: .8%;" value="{{user.id}}" readonly>
-        </div>
-
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <div class="label-input">
-                <label>Nome</label>
-                <input type="text" readonly value="{{user.username}}">
-            </div>
-
-            <div class="label-input">
-                <label>Email</label>
-                <input type="text" value="{{user.email}}" readonly>
-            </div>
-
-            <div class="label-input">
-                <label>Organização</label>
-                <input type="text" value="{{user.organization.organizationName}}" readonly>
-            </div>
-        </div>
-
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <div class="label-input" style="width: 49%;">
-                <label>Perfis</label>
-                <input type="text" style="padding: 1.3%;" value="{{user.roles}}" readonly>
-            </div>
-
-            <div class="label-input">
-                <label>Criado em</label>
-                <input type="text" style="padding: 2%;" value="23/08/2025" readonly>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="user-profile">
   <div class="profile-header">
     <div class="avatar-section">
-      <img src="/assets/logo-with-name.png" alt="Foto do usuário" class="avatar" />
+      <div class="company-logo-placeholder">
+        <img [src]="user.profilePictureUrl.replace('https', 'http')" alt="Logo da Organização" />
+      </div>
       <div class="user-info">
         <h2>{{ user.username }}</h2>
         <p>{{ user.email }}</p>
@@ -57,7 +17,7 @@
       </div>
       <div class="meta-item">
         <label>Organização:</label>
-        <span>{{ user.organization.organizationName }}</span>
+        <span>{{ user.organization?.organizationName }}</span>
       </div>
       <div class="meta-item">
         <label>Criado em:</label>
@@ -72,7 +32,7 @@
       <div class="info-grid">
         <div>
           <label>Nome Completo</label>
-          <input type="text" [value]="user.username" readonly />
+          <input type="text" [(ngModel)]="user.username" readonly />
         </div>
         <div>
           <label>E-mail</label>
@@ -90,11 +50,11 @@
       <div class="info-grid">
         <div>
           <label>Nome</label>
-          <input type="text" [value]="user.organization.organizationName" readonly />
+          <input type="text" [ngModel]="user.organization?.organizationName" readonly />
         </div>
         <div>
           <label>Código</label>
-          <input type="text" [value]="user.organization.organizationId" readonly />
+          <input type="text" [value]="user.organization?.organizationId" readonly />
         </div>
         <div>
           <label>Status</label>

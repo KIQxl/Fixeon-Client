@@ -95,11 +95,44 @@
         </div>
       </div> -->
 
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fa-solid fa-image"></i>
+          Logo da Empresa
+        </h3>
+        <div class="upload-container">
+          <div 
+            class="upload-area" 
+            (dragover)="onDragOver($event)" 
+            (dragleave)="onDragLeave($event)" 
+            (drop)="onDrop($event)"
+            [class.drag-over]="isDragging">
+            
+            <!-- Pré-visualização da imagem -->
+            <div *ngIf="imagePreview" class="image-preview-container">
+              <img [src]="imagePreview" alt="Prévia da logo" class="image-preview">
+              <button type="button" class="remove-image-btn" (click)="removerImagem()">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <!-- Placeholder de upload -->
+            <div *ngIf="!imagePreview" class="upload-placeholder" (click)="fileInput.click()">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p><strong>Clique para enviar</strong> ou arraste e solte</p>
+              <span>PNG, JPG (MAX. 2MB)</span>
+            </div>
+          </div>
+          
+          <!-- Input de arquivo escondido -->
+          <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/png, image/jpeg">
+        </div>
+      </div>
+
       <div class="form-actions">
         <button routerLink="/master-list-companies" routerLinkActive="active" type="button" class="btn btn-secondary">Cancelar</button>
         <button type="submit" class="btn btn-primary">Cadastrar Empresa</button>
       </div>
-
     </form>
   </div>
 </div>

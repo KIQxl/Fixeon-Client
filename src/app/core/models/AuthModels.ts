@@ -8,7 +8,7 @@ export interface ApplicationUser{
     phoneNumber: string;
     jobTitle: string;
     profilePictureUrl: string;
-    organization: UserOrganization
+    organization: UserOrganization | null
     roles: string [];
 }
 
@@ -43,7 +43,7 @@ export interface UserOrganization{
 
 export interface UpdateApplicationUser{
     id: string | null;
-    username: string | null;
+    userName: string | null;
     email: string | null;
     organizationId: string | null;
 }

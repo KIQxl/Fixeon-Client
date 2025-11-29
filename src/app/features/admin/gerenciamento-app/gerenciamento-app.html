@@ -23,13 +23,18 @@
         <tbody>
             <tr *ngFor="let org of current_orgs">
                 <td style="display: flex; align-items: center; gap:5%; background-size: cover; background-position: center;">
-                   <div 
-                    *ngIf="org && org.profileUrl" 
-                    style="width: 35px; height: 35px; border-radius: 50%; background-size: cover; background-position: center;" 
-                    [style.background-image]="'url(' + org.profileUrl.replace('https', 'http' ) + ')'">
-                    </div>
-
-                    <div *ngIf="!org || !org.profileUrl" class="avatar-placeholder">
+                   <div class="avatar-container">
+                        <!-- Se a URL existe, o [style.background-image] será aplicado -->
+                        <!-- Se não existe, a classe .avatar-placeholder (com seu background-color) será a única a agir -->
+                        <div 
+                            class="avatar-display" 
+                            [class.avatar-placeholder]="!org.profileUrl"
+                            [style.background-image]="org.profileUrl ? 'url(' + org.profileUrl.replace('https', 'http' ) + ')' : null">
+                            
+                            <!-- O ícone só aparece se não houver imagem -->
+                            <i *ngIf="!org.profileUrl" class="fa-solid fa-building"></i> 
+                            <!-- Usei 'fa-building' para organização, mas pode ser 'fa-user' -->
+                        </div>
                     </div>
                     {{ org.name }}
                 </td>

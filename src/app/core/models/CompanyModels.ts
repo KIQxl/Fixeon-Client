@@ -10,7 +10,8 @@ export interface Company{
   status: string;
   createdAt: Date;
   tags: Tag [];
-  organizations: Organization [] 
+  organizations: Organization [];
+  profilePictureUrl: string;
 }
 
 export interface Tag{

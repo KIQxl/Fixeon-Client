@@ -178,7 +178,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let ticket of filteredTickets" (click)="goToTicketDetails(ticket.id)" >
+                <tr *ngFor="let ticket of tickets" (click)="goToTicketDetails(ticket.id)" >
                   <td class="ticket-id">{{ ticket.protocol }}</td>
                   <td class="ticket-assunto">{{ ticket.title }}</td>
                   <td class="ticket-assunto">{{ ticket.customer.userEmail}} ({{ticket.customer.organizationName}})</td>
@@ -204,7 +204,7 @@
                   </td>
                 </tr>
 
-                <tr *ngIf="filteredTickets.length < 1">
+                <tr *ngIf="tickets.length < 1">
                   <td colspan="9" style="text-align: center;" class="no-data">Sem tickets...</td>
                 </tr>
               </tbody>

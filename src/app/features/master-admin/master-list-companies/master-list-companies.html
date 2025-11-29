@@ -40,8 +40,15 @@
         <!--aqui-->
         <tr *ngFor="let company of filteredCompanies">
           <td>
-            <div class="company-cell">
-              <div class="company-logo-placeholder"></div>
+            <div class="company-cell" style="display: flex; align-items: center; gap:5%; background-size: cover; background-position: center;">
+              <div 
+                    *ngIf="company && company.profilePictureUrl" 
+                    style="width: 35px; height: 35px; border-radius: 50%; background-size: cover; background-position: center;" 
+                    [style.background-image]="'url(' + company.profilePictureUrl.replace('https', 'http' ) + ')'">
+                    </div>
+
+                    <div *ngIf="!company || !company.profilePictureUrl" class="avatar-placeholder">
+                    </div>
               <span class="company-name">{{company.name}}</span>
             </div>
           </td>

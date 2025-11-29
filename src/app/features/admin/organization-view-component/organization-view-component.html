@@ -143,19 +143,18 @@
 
             <div class="label-input">
                 <label>Organização</label>
-                <select [(ngModel)]="selectedUser.organization.organizationId" name="organization">
-                    <option *ngIf="!selectedUser.organization" [ngValue]="null">
-                        Selecione a organização
-                    </option>
-
-                    <!-- <option *ngIf="selectedUser.organization.organizationId" [ngValue]="null">
-                        {{ selectedUser.organization.organizationId }}
-                    </option> -->
-
+                <select *ngIf="selectedUser.organization" [(ngModel)]="selectedUser.organization.organizationId" name="organization">
+                    
+                    <option [ngValue]="null" disabled>Selecione uma organização</option>
+                    
                     <option *ngFor="let organization of orgs" [ngValue]="organization.id">
-                        {{ organization.name }}
+                    {{ organization.name }}
                     </option>
                 </select>
+
+                <div *ngIf="!selectedUser.organization">
+                    Carregando organização...
+                </div>
             </div>
 
             <div class="dialog-buttons-container">

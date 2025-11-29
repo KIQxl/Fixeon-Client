@@ -21,7 +21,7 @@ export class CompanyServices {
     return this.http.get<ApiResponse<Company>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.COMPANIES}/get-by-id/${id}`);
   }
 
-  CreateCompany(request: CreateCompanyRequest): Observable<ApiResponse<boolean>>{
+  CreateCompany(request: FormData): Observable<ApiResponse<boolean>>{
     return this.http.post<ApiResponse<boolean>>(`${API_CONFIG.BASE_URL}/${API_CONFIG.COMPANIES}`, request);
   }
 
